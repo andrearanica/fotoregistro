@@ -1,0 +1,40 @@
+<?php
+session_start();
+if (isset($_SESSION['admin'])) {
+    if ($_SESSION['admin'] == 0) {
+        header('Location: dashboard.php');
+    }
+}
+if (isset($_GET['class'])) {
+    if (!is_dir('images/' . $_GET['class'])) {
+        mkdir('images/' . $_GET['class']);
+    }
+}
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin dashboard</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container container my-5">
+            <h1>🚧 Admin</h1>
+            <h4>Classi registrate</h4>
+            <tr style="border: 2px solid black">
+            <?php
+            foreach (scandir('./images/') as $dir) {
+                if ($dir != '.' && $dir != '..') {
+                    echo ' ' . $dir . ' ';
+                }
+            }
+            ?>
+            </tr>
+            <br><br>Benvenuto, seleziona una classe da aggiungere
+            <form action="admin.php" method="GET">
+                <input type="text" class="form-control my-1" name="class">
+                <input type="submit" class="form-control my-1">
+            </form>
+        </div>
+    </body>
+</html>
