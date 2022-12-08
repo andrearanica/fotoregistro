@@ -31,11 +31,12 @@ if (isset($_GET['logout'])) {
                 echo '<div class="row text-center">';
                     foreach (scandir('./images/' . $_SESSION['class']) as $img) {
                         if ($img != '.' && $img != '..') {
+                            $name = str_replace('_', ' ', explode('.', $img)[0]);
                             echo '<div class="col my-2"><img height="400" src=images/' . $_SESSION['class'] . '/' . $img . '><br>';
                             if ($img == $_SESSION['name'] . '_' . $_SESSION['surname'] . '.jpg') {
-                                echo '<form class="my-3" method="GET" action="dashboard.php"><input name="delete" class="btn btn-danger" type="submit" value="' . $_SESSION['name'] . '_' . $_SESSION['surname'] . '.jpg"></form>';
+                                echo '<form class="my-3" method="GET" action="dashboard.php"><input name="delete" class="btn btn-danger" type="submit" value="' . $name .'"></form>';
                             } else {
-                                echo '<p class="my-3">' . $img . '</p>';
+                                echo '<p class="my-3">' . $name . '</p>';
                             }
                             echo '</div>';
                         }
