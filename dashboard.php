@@ -34,7 +34,7 @@ if (isset($_GET['logout'])) {
                             $name = str_replace('_', ' ', explode('.', $img)[0]);
                             echo '<div class="col my-2"><img height="400" src=images/' . $_SESSION['class'] . '/' . $img . '><br>';
                             if ($img == $_SESSION['name'] . '_' . $_SESSION['surname'] . '.jpg') {
-                                echo '<form class="my-3" method="GET" action="dashboard.php"><input name="delete" class="btn btn-danger" type="submit" value="' . $name .'"></form>';
+                                echo '<form class="my-3" method="GET" action="dashboard.php"><input name="delete" class="btn btn-danger" type="submit" value="' . $img .'"></form>';
                             } else {
                                 echo '<p class="my-3">' . $name . '</p>';
                             }
