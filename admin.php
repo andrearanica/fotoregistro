@@ -2,7 +2,7 @@
 session_start();
 if (isset($_SESSION['admin'])) {
     if ($_SESSION['admin'] == 0) {
-        header('Location: dashboard.php');
+        header('Location: index.php');
     }
 }
 if (isset($_GET['class'])) {
