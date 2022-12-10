@@ -1,15 +1,10 @@
 <?php
-echo md5("admin");
 
 $ip = '127.0.0.1';
 $username = 'root';
 $pwd = '';
 $database = 'test';
 $connection = new mysqli($ip, $username, $pwd, $database);
-
-$sql = 'DROP TABLE users;';
-
-$connection->query($sql);
 
 $sql = 'CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -24,7 +19,7 @@ $sql = 'CREATE TABLE users (
 $connection->query($sql);
 
 $sql = 'INSERT INTO users (name, surname, email, password, class, admin) VALUES
-("admin", "admin", "admin", "21232f297a57a5a743894a0e4a801fc3", "5ID", "1");';
+("admin", "admin", "admin", "21232f297a57a5a743894a0e4a801fc3", "", "1");';
 
 $connection->query($sql);
 
