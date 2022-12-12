@@ -9,7 +9,7 @@ if (isset($_SESSION['admin'])) {
         header('Location: admin.php'); 
     } else {
         if (!is_dir('images/' . $_SESSION['class'])) {
-            header('Location: index.php?error=noclass');
+            header('Location: dashboard.php?error=noclass');
         }
     }
 }
