@@ -1,6 +1,6 @@
 <?php
-session_start();
 
+session_start();
 function clear(&$data) {
     $data = htmlspecialchars($data);
     $data = stripslashes($data);
@@ -9,23 +9,48 @@ function clear(&$data) {
 
 if (isset($_SESSION['admin'])) {
     if ($_SESSION['admin'] == 0) {
-        header('Location: index.php');
+        header('Location: dashboard.php');
     }
+} else {
+    header('Location: index.php');
 }
+
 if (isset($_GET['class'])) {
     if (!is_dir('images/' . $_GET['class'])) {
         mkdir('images/' . $_GET['class']);
     }
 }
+
 if (isset($_GET['delete']) && isset($_GET['class']) && isset($_SESSION['admin'])) {
     $name = str_replace(' ', '_', $_GET['delete']) . '.jpg';
     unlink('images/' . $_GET['class'] . '/' . $name);
     header('Location: admin.php?showClass=' . $_GET['class']);
 }
+
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: index.php');
 }
+
+if (isset($_POST['password'])) {
+    $name = $_POST['name'];
+    $surname = $_POST['surname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    clear($name); clear($surname); clear($email); clear($password);
+
+    $ip = '127.0.0.1';
+    $username = 'root';
+    $pwd = '';
+    $database = 'test';
+    $connection = new mysqli($ip, $username, $pwd, $database);
+
+    $connection->query('INSERT INTO users (name, surname, email, password, admin) VALUES 
+    ("'. $name . '", "' . $surname . '", "' . $email . '", "' . md5($password) . '", "1");');
+
+    $connection->close();
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,11 +96,22 @@ if (isset($_GET['logout'])) {
             ?>
             <form action="admin.php" method="GET">
                 <input type="text" class="form-control my-1" name="class" placeholder="Inserisci una nuova classe">
-                <input type="submit" class="form-control my-1" value="Aggiungi">
+                <input type="submit" class="form-control my-1 btn btn-primary" value="Aggiungi">
             </form>
+            
+            <hr>
+            <h4>Inserisci un insegnante</h4>
+            <form action="admin.php" method="POST">
+                <input type="text"      name="name"     placeholder="Nome"      class="form-control my-1">
+                <input type="text"      name="surname"  placeholder="Cognome"   class="form-control my-1">
+                <input type="email"     name="email"    placeholder="Email"     class="form-control my-1">
+                <input type="password"  name="password" placeholder="Password"  class="form-control my-1">
+                <input type="submit" class="form-control btn btn-primary">
+            </form>
+
             <br><br>
             <form action="admin.php" method="GET" class="text-center">
-                <input type="submit" class="btn btn-primary" name="logout" value="Logout">
+                <input type="submit" class="btn btn-danger" name="logout" value="Logout">
             </form>
         </div>
     </body>
