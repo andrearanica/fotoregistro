@@ -23,8 +23,9 @@ if (isset($_SESSION['role'])) {
     <div class="container container my-5">
             <h1>🚧 Dashboard Insegnante</h1>
             Benvenuto, scegli una classe per vedere il fotoregistro
-            <form class="text-center">
+            <form class="text-center my-2">
             <?php
+            
             foreach(explode(',', $_SESSION['class']) as $class) {
                 if (is_dir('images/' . $class) && $class != '.' && $class != '..') {
                     echo '<input type="submit" class="btn mx-1" name="showClass" value="' . $class . '">';
@@ -32,9 +33,11 @@ if (isset($_SESSION['role'])) {
                     echo '<div class="alert alert-warning my-3">La tua classe <b>' . $class . '</b> non è ancora stata iscritta</div>';
                 }
             }
+
             ?>
             </form>
             <?php
+            
             if (isset($_GET['showClass'])) {
                 echo '<div class="row text-center">';
                 foreach (scandir('images/' . $_GET['showClass'] . '/') as $img) {
@@ -46,17 +49,9 @@ if (isset($_SESSION['role'])) {
                 echo '</div>';
             }
             echo '<br>';    
+            
             ?>
             <br>
-            <hr>
-            <h4>Classi registrate</h4>
-            <?php
-            foreach (scandir('./images/') as $dir) {
-                if ($dir != '.' && $dir != '..') {
-                    echo ' ' . $dir . ' ';
-                }
-            }
-            ?>
 
             <br><br>
             <form action="admin.php" method="GET" class="text-center">

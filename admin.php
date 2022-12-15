@@ -18,8 +18,11 @@ if (isset($_SESSION['role'])) {
 }
 
 if (isset($_GET['class'])) {
-    if (!is_dir('images/' . $_GET['class'])) {
+    if (!is_dir('images/' . $_GET['class']) && preg_match('/[1-5][A-Z][A-Z]/', $_GET['class'])) {
         mkdir('images/' . $_GET['class']);
+        header('Location: admin.php?classError=none');
+    } else {
+        header('Location: admin.php?classError=class');
     }
 }
 
@@ -45,16 +48,19 @@ if (isset($_GET['logout'])) {
         <div class="container container my-5">
             <h1>🚧 Dashboard Admin</h1>
             Benvenuto, scegli una classe per vedere il fotoregistro
-            <form class="text-center">
+            <form class="text-center my-2">
             <?php
+            
             foreach(scandir('images') as $class) {
                 if ($class != '.' && $class != '..') {
                     echo '<input type="submit" class="btn mx-1" name="showClass" value="' . $class . '">';
                 }
             }
+
             ?>
             </form>
             <?php
+            
             if (isset($_GET['showClass'])) {
                 echo '<div class="row text-center">';
                 foreach (scandir('images/' . $_GET['showClass'] . '/') as $img) {
@@ -65,22 +71,37 @@ if (isset($_GET['logout'])) {
                 }
                 echo '</div>';
             }
-            echo '<br>';    
+            echo '<br>';   
+
             ?>
             <br>
             <hr>
             <h4>Classi registrate</h4>
             <?php
+            
             foreach (scandir('./images/') as $dir) {
                 if ($dir != '.' && $dir != '..') {
                     echo ' ' . $dir . ' ';
                 }
             }
+            
             ?>
             <form action="admin.php" method="GET">
                 <input type="text" class="form-control my-1" name="class" placeholder="Inserisci una nuova classe">
                 <input type="submit" class="form-control my-1 btn btn-primary" value="Aggiungi">
             </form>
+
+            <?php
+
+            if (isset($_GET['classError'])) {
+                if ($_GET['classError'] == 'none') {
+                    echo '<div class="alert alert-success my-2">Classe aggiunta <b>correttamente</b></div>';
+                } else {
+                    echo '<div class="alert alert-danger my-2">Formato classe <b>non valido</b>: [A-Z][A-Z][1-5]</div>';
+                }
+            }
+
+            ?>
             
             <hr>
             <h4>Inserisci un insegnante</h4>
@@ -94,8 +115,9 @@ if (isset($_GET['logout'])) {
             </form>
 
             <?php
+            
             if (isset($_POST['teacherPassword'])) {
-                if (isset($_POST['teacherName']) && isset($_POST['teacherSurname']) && isset($_POST['teacherEmail']) && isset($_POST['teacherPassword'])) {
+                if ($_POST['teacherName'] != "" && $_POST['teacherSurname'] != "" && $_POST['teacherEmail'] != "" && $_POST['teacherPassword'] != "") {
                     $name = $_POST['teacherName'];
                     $surname = $_POST['teacherSurname'];
                     $email = $_POST['teacherEmail'];
@@ -117,8 +139,19 @@ if (isset($_GET['logout'])) {
                     ("' . $name . '", "' . $surname . '", "' . $email . '", "' . md5($password) . '", "' . $classes . '", "2");');
 
                     $connection->close();
+
+                    header('Location: admin.php?error=none');
                 } else {
-                    echo '<div class="alert alert-danger">Dati inseriti non correttamente</div>';
+                    echo '<div class="alert alert-danger my-2">Dati inseriti <b>non correttamente</b>, controlla di avere compilato tutti i campi</div>';
+                }
+            }
+
+            ?>
+            <?php
+
+            if (isset($_GET['error'])) {
+                if ($_GET['error'] == 'none') {
+                    echo '<div class="alert alert-success my-2">Dati aggiornati <b>correttamente</b></div>';
                 }
             }
 

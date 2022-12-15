@@ -31,6 +31,7 @@ if (isset($_GET['logout'])) {
             <h1>👨🏻‍🏫 Fotoregistro <?php echo $_SESSION['class'] ?></h1>
             <p>Benvenuto <?php echo $_SESSION['name'] ?>, scegli un'immagine da caricare</p>
             <?php
+
                 echo '<div class="row text-center">';
                     foreach (scandir('./images/' . $_SESSION['class']) as $img) {
                         if ($img != '.' && $img != '..') {
@@ -45,8 +46,10 @@ if (isset($_GET['logout'])) {
                         }
                     }
                 echo '</div>';
+
             ?>
             <?php
+
             if (!array_search($_SESSION['name'] . '_' . $_SESSION['surname'] . '.jpg', scandir('./images/' . $_SESSION['class'] . '/'))) {
                 echo '
                 <form class="text-center my-4" action="dashboard.php" method="post" enctype="multipart/form-data">
@@ -57,8 +60,10 @@ if (isset($_GET['logout'])) {
             } else {
                 echo '<div class="text-center alert alert-warning my-4">Hai già caricato un\'immagine: se vuoi cambiarla elimina prima quella precedente</div>';
             }
+
             ?>
             <?php
+                
                 if (isset($_GET['error'])) {
                     if ($_GET['error'] != 'null') {
                         echo '<div class="text-center alert alert-danger my-4">C\'è stato un errore</div>';
@@ -72,12 +77,14 @@ if (isset($_GET['logout'])) {
                         header('Location: dashboard.php');
                     }
                 }
+                
             ?>
             <form class="text-center" method="GET" action="dashboard.php">
                 <input type="submit" class="btn btn-danger" name="logout" value="Logout">
             </form>
         </div>
         <?php
+            
             $dir = __DIR__ . '/images/' . $_SESSION['class'];
 
             foreach ($_FILES as $file) {
@@ -89,6 +96,7 @@ if (isset($_GET['logout'])) {
                     header('Location: dashboard.php?error=error');
                 }
             }
+
         ?>
     </body>
 </html>
