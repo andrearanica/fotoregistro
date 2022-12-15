@@ -50,8 +50,8 @@ if (isset($_GET['print'])) {
     </head>
     <body>
     <div class="container container my-5">
-            <h1>🚧 Dashboard Insegnante</h1>
-            Benvenuto, scegli una classe per vedere il fotoregistro
+            <h1>🧑🏻‍🏫 Dashboard Insegnante</h1>
+            Benvenuto/a <?php echo $_SESSION['name'] ?>, scegli una classe per vedere il fotoregistro
             <form class="text-center my-2">
             <?php
             
@@ -76,7 +76,7 @@ if (isset($_GET['print'])) {
                     }
                 }
                 echo '</div>';
-                echo '<a href="teacher.php?print=' . $_GET['showClass'] . '"><button class="btn btn-primary">Stampa PDF</button></a>';
+                echo '<a href="teacher.php?print=' . $_GET['showClass'] . '"><button class="btn btn-primary my-2">Stampa PDF</button></a>';
             }
             echo '<br>';    
 

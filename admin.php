@@ -47,7 +47,7 @@ if (isset($_GET['logout'])) {
     <body>
         <div class="container container my-5">
             <h1>🚧 Dashboard Admin</h1>
-            Benvenuto, scegli una classe per vedere il fotoregistro
+            Benvenuto/a <?php echo $_SESSION['name'] ?>, scegli una classe per vedere il fotoregistro
             <form class="text-center my-2">
             <?php
             
@@ -110,7 +110,8 @@ if (isset($_GET['logout'])) {
                 <input type="text"      name="teacherSurname"  placeholder="Cognome"   class="form-control my-1">
                 <input type="email"     name="teacherEmail"    placeholder="Email"     class="form-control my-1">
                 <input type="password"  name="teacherPassword" placeholder="Password"  class="form-control my-1">
-                <input type="text"      name="teacherClasses"  placeholder="Classi"    class="form-control my-1">
+                <input type="text"      name="teacherClasses"  placeholder="Classi*"    class="form-control my-1">
+                <p class="small">* Inserisci le classi separate da una virgola (5ID,5EA...)</p>
                 <input type="submit" class="form-control btn btn-primary">
             </form>
 
