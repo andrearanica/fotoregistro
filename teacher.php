@@ -11,6 +11,35 @@ if (isset($_SESSION['role'])) {
     header('Location: index.php');
 }
 
+if (isset($_GET['print'])) {
+    require('fpdf.php');
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial','B',16);
+    $pdf->Cell(40, 10, 'Fotoregistro ' . $_GET['print']);
+    
+    $pdf->SetFont('Arial','B',10);
+    $x = 20;
+    $y = 20;
+    $n = 0;
+
+    foreach (scandir('images/' . $_GET['print'] . '/') as $img) {
+        if ($img != '.' && $img != '..') {
+            $name = str_replace('_', ' ', explode('.', $img)[0]);
+            $pdf->Image('images/' . $_GET['print'] . '/' . $img, $x, $y, 35);
+            $pdf->Text($x, $y + 55, $name);
+            $x += 65;
+            $n++;
+            if ($n % 3 == 0) {
+                $y += 70;
+                $x = 20;
+            }
+        }
+    }
+
+    $pdf->Output();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -47,9 +76,11 @@ if (isset($_SESSION['role'])) {
                     }
                 }
                 echo '</div>';
+                echo '<a href="teacher.php?print=' . $_GET['showClass'] . '"><button class="btn btn-primary">Stampa PDF</button></a>';
             }
             echo '<br>';    
-            
+
+
             ?>
             <br>
 
