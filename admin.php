@@ -7,9 +7,11 @@ function clear(&$data) {
     $data = trim($data);
 }
 
-if (isset($_SESSION['admin'])) {
-    if ($_SESSION['admin'] == 0) {
+if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] == 0) {
         header('Location: dashboard.php');
+    } else if ($_SESSION['role'] == 2) {
+        header('Location: teacher.php');
     }
 } else {
     header('Location: index.php');
@@ -21,7 +23,7 @@ if (isset($_GET['class'])) {
     }
 }
 
-if (isset($_GET['delete']) && isset($_GET['class']) && isset($_SESSION['admin'])) {
+if (isset($_GET['delete']) && isset($_GET['class']) && isset($_SESSION['role'])) {
     $name = str_replace(' ', '_', $_GET['delete']) . '.jpg';
     unlink('images/' . $_GET['class'] . '/' . $name);
     header('Location: admin.php?showClass=' . $_GET['class']);
@@ -32,35 +34,16 @@ if (isset($_GET['logout'])) {
     header('Location: index.php');
 }
 
-if (isset($_POST['password'])) {
-    $name = $_POST['name'];
-    $surname = $_POST['surname'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    clear($name); clear($surname); clear($email); clear($password);
-
-    $ip = '127.0.0.1';
-    $username = 'root';
-    $pwd = '';
-    $database = 'test';
-    $connection = new mysqli($ip, $username, $pwd, $database);
-
-    $connection->query('INSERT INTO users (name, surname, email, password, admin) VALUES 
-    ("'. $name . '", "' . $surname . '", "' . $email . '", "' . md5($password) . '", "1");');
-
-    $connection->close();
-}
-
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Admin dashboard</title>
+        <title>Dashboard admin</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </head>
     <body>
         <div class="container container my-5">
-            <h1>🚧 Admin</h1>
+            <h1>🚧 Dashboard Admin</h1>
             Benvenuto, scegli una classe per vedere il fotoregistro
             <form class="text-center">
             <?php
@@ -102,12 +85,44 @@ if (isset($_POST['password'])) {
             <hr>
             <h4>Inserisci un insegnante</h4>
             <form action="admin.php" method="POST">
-                <input type="text"      name="name"     placeholder="Nome"      class="form-control my-1">
-                <input type="text"      name="surname"  placeholder="Cognome"   class="form-control my-1">
-                <input type="email"     name="email"    placeholder="Email"     class="form-control my-1">
-                <input type="password"  name="password" placeholder="Password"  class="form-control my-1">
+                <input type="text"      name="teacherName"     placeholder="Nome"      class="form-control my-1">
+                <input type="text"      name="teacherSurname"  placeholder="Cognome"   class="form-control my-1">
+                <input type="email"     name="teacherEmail"    placeholder="Email"     class="form-control my-1">
+                <input type="password"  name="teacherPassword" placeholder="Password"  class="form-control my-1">
+                <input type="text"      name="teacherClasses"  placeholder="Classi"    class="form-control my-1">
                 <input type="submit" class="form-control btn btn-primary">
             </form>
+
+            <?php
+            if (isset($_POST['teacherPassword'])) {
+                if (isset($_POST['teacherName']) && isset($_POST['teacherSurname']) && isset($_POST['teacherEmail']) && isset($_POST['teacherPassword'])) {
+                    $name = $_POST['teacherName'];
+                    $surname = $_POST['teacherSurname'];
+                    $email = $_POST['teacherEmail'];
+                    $password = $_POST['teacherPassword'];
+                    $classes = $_POST['teacherClasses'];
+                    clear($name);
+                    clear($surname);
+                    clear($email);
+                    clear($password);
+                    clear($classes);
+
+                    $ip = '127.0.0.1';
+                    $username = 'root';
+                    $pwd = '';
+                    $database = 'test';
+                    $connection = new mysqli($ip, $username, $pwd, $database);
+
+                    $connection->query('INSERT INTO users (name, surname, email, password, class, role) VALUES 
+                    ("' . $name . '", "' . $surname . '", "' . $email . '", "' . md5($password) . '", "' . $classes . '", "2");');
+
+                    $connection->close();
+                } else {
+                    echo '<div class="alert alert-danger">Dati inseriti non correttamente</div>';
+                }
+            }
+
+            ?>
 
             <br><br>
             <form action="admin.php" method="GET" class="text-center">

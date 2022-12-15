@@ -47,8 +47,8 @@ function clear(&$data) {
                 clear($_POST['class']);
 
                 if (preg_match('/[1-5][A-Z][A-Z]/', $_POST['class'])) {
-                    $sql = 'INSERT INTO users (name, surname, email, password, class) VALUES
-                    ("' . $_POST['name'] .'", "' . $_POST['surname'] . '", "' . $_POST['email'] . '", "' . md5($_POST['password']) . '", "' . $_POST['class'] . '");';
+                    $sql = 'INSERT INTO users (name, surname, email, password, class, role) VALUES
+                    ("' . $_POST['name'] .'", "' . $_POST['surname'] . '", "' . $_POST['email'] . '", "' . md5($_POST['password']) . '", "' . $_POST['class'] . '", 0);';
                     if ($connection->query($sql)) {
                         header('Location: index.php?error=none');
                     }
@@ -66,7 +66,7 @@ function clear(&$data) {
                     $_SESSION['surname'] = $data['surname'];
                     $_SESSION['email'] = $data['email'];
                     $_SESSION['class'] = $data['class'];
-                    $_SESSION['admin'] = $data['admin'];
+                    $_SESSION['role'] = $data['role'];
                     header('Location: dashboard.php');
                 } else {
                     echo '<div class="alert alert-danger my-4">Credenziali sbagliate</div>';

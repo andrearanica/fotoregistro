@@ -4,12 +4,14 @@ session_start();
 if (!isset($_SESSION['email'])) {
     header('Location: index.php');
 }
-if (isset($_SESSION['admin'])) {
-    if ($_SESSION['admin'] == '1') {    
-        header('Location: admin.php'); 
+if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] == 1) {    
+        header('Location: admin.php');
+    } else if ($_SESSION['role'] == 2) {
+        header('Location: teacher.php');
     } else {
         if (!is_dir('images/' . $_SESSION['class'])) {
-            header('Location: dashboard.php?error=noclass');
+            header('Location: index.php?error=noclass');
         }
     }
 }
@@ -72,7 +74,7 @@ if (isset($_GET['logout'])) {
                 }
             ?>
             <form class="text-center" method="GET" action="dashboard.php">
-                <input type="submit" class="btn btn-info" name="logout" value="Logout">
+                <input type="submit" class="btn btn-danger" name="logout" value="Logout">
             </form>
         </div>
         <?php

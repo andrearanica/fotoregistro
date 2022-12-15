@@ -13,12 +13,12 @@ $sql = 'CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     class VARCHAR(255) NOT NULL,
-    admin BIT NOT NULL DEFAULT 0
+    role INT NOT NULL
 );';
 
 $connection->query($sql);
 
-$sql = 'INSERT INTO users (name, surname, email, password, class, admin) VALUES
+$sql = 'INSERT INTO users (name, surname, email, password, class, role) VALUES
 ("admin", "admin", "admin", "21232f297a57a5a743894a0e4a801fc3", "", "1");';
 
 $connection->query($sql);
