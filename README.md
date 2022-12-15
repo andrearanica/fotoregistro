@@ -22,3 +22,6 @@ To make the database, run the ```makeDB.php``` script.
 - [X] Divide students by classes
 - [X] Delete pictures
 - [X] Teacher account
+
+## ✨ Credits
+[FPDF: library for PDF in PHP](http://www.fpdf.org/)
