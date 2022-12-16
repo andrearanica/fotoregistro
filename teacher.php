@@ -40,6 +40,12 @@ if (isset($_GET['print'])) {
     $pdf->Output();
 }
 
+if (isset($_GET['delete'])) {
+    $name = str_replace(' ', '_', $_GET['delete']) . '.jpg';
+    unlink('images/' . $_GET['class'] . '/' . $name);
+    header('Location: teacher.php?showClass=' . $_GET['class']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +78,7 @@ if (isset($_GET['print'])) {
                 foreach (scandir('images/' . $_GET['showClass'] . '/') as $img) {
                     if ($img != '.' && $img != '..') {
                         $name = str_replace('_', ' ', explode('.', $img)[0]);
-                        echo '<div class="col my-2 text-center"><img height=400 src="images/' . $_GET['showClass'] . '/' . $img . '"><form action="admin.php" method="GET"><input type="submit" class="btn btn-danger my-2" name="delete" value="' . $name .'"><input name="class" value="' . $_GET['showClass'] . '" class="invisible"></form></div>';
+                        echo '<div class="col my-2 text-center"><img height=400 src="images/' . $_GET['showClass'] . '/' . $img . '"><form action="teacher.php" method="GET"><input type="submit" class="btn btn-danger my-2" name="delete" value="' . $name .'"><input name="class" value="' . $_GET['showClass'] . '" class="invisible"></form></div>';
                     }
                 }
                 echo '</div>';
