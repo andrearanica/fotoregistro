@@ -1,12 +1,11 @@
-# 👨🏻‍🏫 fotoregistro
+# 👨🏻‍🏫 Fotoregistro
 With this application you can keep under control all your student's faces... so you can't forgot them!
-Every student can signup and insert his picture, so the teacher can see all his students
 
 ### 🔎 Why should I use this?
-With this application you can give to your classes only a link and then your students can insert their photos on their own (so you don't have to take the pictures and waste you smartphone memory).
+With this application you just have to give a link to your classes and then your students can insert their photos on their own (so you don't have to take the pictures and waste you smartphone memory).
 
 ### 📗 How can the teacher see the classes?
-If a teacher wants to see the pictures he has to login with admin credentials (contact the admin to know the user and pwd).
+If a teacher wants to see his students' faces, he has to login and then he can choose one of his classes and create a PDF register.
 
 ### 💻 Technologies
 | Frontend | Backend |
@@ -24,3 +23,7 @@ If a teacher wants to see the pictures he has to login with admin credentials (c
 - [X] Divide students by classes
 - [X] Delete pictures
 - [X] Teacher account
+- [X] PDF
+
+### ✨ Credits
+[FPDF](http://www.fpdf.org/) for pdf in PHP
