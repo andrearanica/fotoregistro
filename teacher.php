@@ -69,14 +69,20 @@ if (isset($_GET['print'])) {
             
             if (isset($_GET['showClass'])) {
                 echo '<div class="row text-center">';
+                $n = 0;
                 foreach (scandir('images/' . $_GET['showClass'] . '/') as $img) {
                     if ($img != '.' && $img != '..') {
                         $name = str_replace('_', ' ', explode('.', $img)[0]);
                         echo '<div class="col my-2 text-center"><img height=400 src="images/' . $_GET['showClass'] . '/' . $img . '"><div class="text-center"><form action="admin.php" method="GET"><div class="text-center"><input type="submit" class="btn btn-danger my-2" name="delete" value="' . $name .'"></div><input name="class" value="' . $_GET['showClass'] . '" class="invisible"></div></form></div>';
+                        $n++;
                     }
                 }
                 echo '</div>';
-                echo '<a href="teacher.php?print=' . $_GET['showClass'] . '"><button class="btn btn-primary my-2">Stampa PDF</button></a>';
+                if ($n >= 1) {
+                    echo '<a href="teacher.php?print=' . $_GET['showClass'] . '"><button class="btn btn-primary my-2">Stampa PDF</button></a>';
+                } else {
+                    echo '<div class="alert alert-danger text-center"><b>Nessuno studente</b> ha ancora caricato la propria foto</div>';
+                }
             }
             echo '<br>';    
 
