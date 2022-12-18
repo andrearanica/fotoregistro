@@ -66,7 +66,7 @@ if (isset($_GET['logout'])) {
                 foreach (scandir('images/' . $_GET['showClass'] . '/') as $img) {
                     if ($img != '.' && $img != '..') {
                         $name = str_replace('_', ' ', explode('.', $img)[0]);
-                        echo '<div class="col my-2 text-center"><img height=400 src="images/' . $_GET['showClass'] . '/' . $img . '"><form action="admin.php" method="GET"><input type="submit" class="btn btn-danger my-2" name="delete" value="' . $name .'"><input name="class" value="' . $_GET['showClass'] . '" class="invisible"></form></div>';
+                        echo '<div class="col my-2 text-center"><img height=400 src="images/' . $_GET['showClass'] . '/' . $img . '"><form action="admin.php" method="GET"><div class="center"><input type="submit" class="btn btn-danger my-2" name="delete" value="' . $name .'"></div><input name="class" value="' . $_GET['showClass'] . '" class="invisible"></form></div>';
                     }
                 }
                 echo '</div>';
