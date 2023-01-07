@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 
 function SignUp () {
 
@@ -19,6 +19,7 @@ function SignUp () {
 
     return (
         <div className="container my-5">
+            { window.localStorage.getItem('token') ? <Navigate to="/dashboard" /> : null }
             <h1>🚀 Registrazione</h1>
             <form onSubmit={ handleSubmit }>
                 <input type="text"     className="form-control my-1" placeholder="Nome"     onChange={ e => setName(e.target.value) } />
