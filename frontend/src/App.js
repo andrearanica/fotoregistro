@@ -1,20 +1,29 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Login from './components/Login.js'
 import SignUp from './components/SignUp.js'
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route exact path="/"  element={ <Login /> } />
-          <Route path="/sign-in" element={ <Login /> } />
-          <Route path="/sign-up" element={ <SignUp/> } />
-        </Routes>
+      <div>
+        <nav className="navbar navbar-dark bg-dark">
+          <div className="container-fluid">
+            <a className="navbar-brand" href="/">
+              Fotoregistro
+            </a>
+          </div>
+        </nav>
+
+        <div className="App">
+          <Routes>
+            <Route exact path="/"  element={ <Login /> } />
+            <Route path="/sign-in" element={ <Login /> } />
+            <Route path="/sign-up" element={ <SignUp/> } />
+            <Route path="*" element={ <div className="container my-5"><h1>404 | Pagina non trovata</h1></div> }/>
+          </Routes>
+        </div>
       </div>      
-    </Router>
   );
 }
 

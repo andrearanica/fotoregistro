@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 function Login () {
 
@@ -8,7 +9,7 @@ function Login () {
 
     function handleSubmit (e) {
         e.preventDefault()
-        axios.post('http://localhost:5000/login', { email: email, password: password })
+        axios.post('http://localhost:8080/login', { email: email, password: password })
         .then(res => console.log(res))
     }
 
@@ -20,7 +21,7 @@ function Login () {
                 <input type="password" className="form-control my-1" placeholder="Password" onChange={ e => setPassword(e.target.value) } />
                 <input type="submit"   className="form-control my-1" value="Invia" />
             </form>
-            Non sei registrato? Clicca <a href="/sign-up">qui</a>
+            Non sei registrato? Clicca <Link to="/sign-up">qui</Link>
         </div>
     )
 
