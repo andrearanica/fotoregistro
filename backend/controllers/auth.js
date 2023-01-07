@@ -4,38 +4,39 @@ import jwt from 'jsonwebtoken'
 
 const JWT_SECRET = 'bfbnfapbnfpbnfaiibfap'
 
-export const register = async (req, res) => {
-    const { name, surname, email, password } = req.body
-    
-    if (User.findOne({ email })) {
-        res.status(400).json({ message: 'Email already used' })
-    }
-
+export const register = async (req, res) => {    
     try {
-        const hashedPassword = await bcrypt.hash(password, 15)
-        await User.create({ name: name, surname: surname, email: email, password: hashedPassword })
-        return res.status(201).json({ message: 'ok' })
+        const { name, surname, email, password } = req.body
+        try {
+            const hashedPassword = await bcrypt.hash(password, 15)
+            await User.create({ name: name, surname: surname, email: email, password: hashedPassword })
+            return res.status(201).json({ message: 'ok' })
+        } catch (error) {
+            return res.status(400).json({ message: error.message })
+        }
     } catch (error) {
         return res.status(400).json({ message: error.message })
     }
 }
 
 export const login = async (req, res) => {
-    const { email, password } = req.body
-    
-    const user = await User.findOne({ email })
+    try {
+        const { email, password } = req.body
+        const user = await User.findOne({ email })
 
-    if (!user) {
-        return res.status(404).json({ message: 'User not found' })
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' })
+        } else {
+            if (await bcrypt.compare(password, user.password)) {
+                const token = jwt.sign({
+                    id: user._id,
+                    email: user.email
+                }, JWT_SECRET)
+                return res.status(200).json({ token: token })
+            }
+        }
+        return res.status(400).json({ message: 'User not found' })
+    } catch (error) {
+        return res.status(400).json({ message: error.message })
     }
-
-    if (await bcrypt.compare(password, user.password)) {
-        const token = jwt.sign({
-            id: user._id,
-            email: user.email
-        }, JWT_SECRET)
-        return res.status(200).json({ token: token })
-    }
-
-    return res.status(400).json({ message: 'User not found' })
 }
