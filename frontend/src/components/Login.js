@@ -18,7 +18,7 @@ function Login () {
             setSuccess(1)
             window.localStorage.setItem('token', res.data.token)
             setLoading(false)
-            axios.post('http://localhost:8080/role', { token: res.data.token })
+            axios.post(`http://localhost:8080/student/${ email }`)
             .then(res => setRole(res.data.role))
         })
         .catch(() => {
