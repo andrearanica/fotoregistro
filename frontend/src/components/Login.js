@@ -8,16 +8,18 @@ function Login () {
     const [password, setPassword] = useState('')
     const [success, setSuccess] = useState(0)
     const [loading, setLoading] = useState(false)
+    const [role, setRole] = useState('')
 
     function handleSubmit (e) {
         e.preventDefault()
         setLoading(true)
         axios.post('http://localhost:8080/login', { email: email, password: password })
         .then((res) => {
-            console.log(res)
             setSuccess(1)
             window.localStorage.setItem('token', res.data.token)
             setLoading(false)
+            axios.post('http://localhost:8080/role', { token: res.data.token })
+            .then(res => setRole(res.data.role))
         })
         .catch(() => {
             setSuccess(2)
@@ -27,7 +29,6 @@ function Login () {
 
     return (
         <div className="container my-5">
-            { window.localStorage.getItem('token') ? <Navigate to="/dashboard" /> : null }
             <h1>🎉 Login</h1>
             <form onSubmit={ handleSubmit }>
                 <input type="email"    className="form-control my-1" placeholder="Email"    onChange={ e => setEmail(e.target.value) }    />
@@ -36,7 +37,8 @@ function Login () {
             </form>
             { loading ? <div className="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div> : null }
             <p>Non sei registrato? Clicca <Link to="/sign-up">qui</Link></p>
-            { success === 1 ? <Navigate to="/dashboard" /> : success === 2 ? <div className="my-2 alert alert-danger text-center">Email o password non corrette</div> : null }
+            { success === 2 ? <div className="my-2 alert alert-danger text-center">Email o password non corrette</div> : null }
+            { role === 'student' ? <Navigate to="/dashboard/student" /> : role === 'teacher' ? <Navigate to="/dashboard/teacher" /> : null }
         </div>
     )
 
