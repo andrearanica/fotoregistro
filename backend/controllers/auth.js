@@ -6,10 +6,10 @@ const JWT_SECRET = 'bfbnfapbnfpbnfaiibfap'
 
 export const register = async (req, res) => {    
     try {
-        const { name, surname, email, password } = req.body
+        const { name, surname, email, password, role, classroom } = req.body
         try {
             const hashedPassword = await bcrypt.hash(password, 15)
-            await User.create({ name: name, surname: surname, email: email, password: hashedPassword })
+            await User.create({ name: name, surname: surname, email: email, password: hashedPassword, role: role, classroom: classroom })
             return res.status(201).json({ message: 'ok' })
         } catch (error) {
             return res.status(400).json({ message: error.message })
