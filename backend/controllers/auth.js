@@ -30,8 +30,11 @@ export const login = async (req, res) => {
             if (await bcrypt.compare(password, user.password)) {
                 const token = jwt.sign({
                     id: user._id,
+                    name: user.name,
+                    surname: user.surname,
                     email: user.email,
-                    role: user.role
+                    role: user.role,
+                    classroom: user.classroom
                 }, JWT_SECRET)
                 return res.status(200).json({ token: token })
             }
@@ -42,11 +45,11 @@ export const login = async (req, res) => {
     }
 }
 
-export const getRole = async (req, res) => {
+export const getInfo = async (req, res) => {
     try {
         const { token } = req.body
         jwt.verify(token, JWT_SECRET, (error, user) => {
-            res.status(201).json({ role: user.role })
+            res.status(201).json({ name: user.name, surname: user.surname, role: user.role })
         })
     } catch (error) {
         return res.status(400).json({ message: error.message })
