@@ -35,7 +35,7 @@ function Login () {
                 <input type="password" className="form-control my-1" placeholder="Password" onChange={ e => setPassword(e.target.value) } />
                 <input type="submit"   className="form-control my-1" value="Invia" />
             </form>
-            { loading ? <div className="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div> : null }
+            { loading ? <div className="spinner-border text-primary" role="status"><span className="visually-hidden">Loading...</span></div> : null }
             <p>Non sei registrato? Clicca <Link to="/sign-up">qui</Link></p>
             { success === 2 ? <div className="my-2 alert alert-danger text-center">Email o password non corrette</div> : null }
             { role === 'student' ? <Navigate to="/dashboard/student" /> : role === 'teacher' ? <Navigate to="/dashboard/teacher" /> : null }
