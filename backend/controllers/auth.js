@@ -30,12 +30,24 @@ export const login = async (req, res) => {
             if (await bcrypt.compare(password, user.password)) {
                 const token = jwt.sign({
                     id: user._id,
-                    email: user.email
+                    email: user.email,
+                    role: user.role
                 }, JWT_SECRET)
                 return res.status(200).json({ token: token })
             }
         }
         return res.status(400).json({ message: 'User not found' })
+    } catch (error) {
+        return res.status(400).json({ message: error.message })
+    }
+}
+
+export const getRole = async (req, res) => {
+    try {
+        const { token } = req.body
+        jwt.verify(token, JWT_SECRET, (error, user) => {
+            res.status(201).json({ role: user.role })
+        })
     } catch (error) {
         return res.status(400).json({ message: error.message })
     }
