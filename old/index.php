@@ -36,7 +36,7 @@ function clear(&$data) {
             $ip = '127.0.0.1';
             $username = 'root';
             $pwd = '';
-            $database = 'test';
+            $database = 'my_andrearanica';
             $connection = new mysqli($ip, $username, $pwd, $database);
             if (isset($_POST['class'])) {
                 // Signup

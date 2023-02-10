@@ -134,7 +134,7 @@ if (isset($_GET['logout'])) {
                     $ip = '127.0.0.1';
                     $username = 'root';
                     $pwd = '';
-                    $database = 'test';
+                    $database = 'my_andrearanica';
                     $connection = new mysqli($ip, $username, $pwd, $database);
 
                     $connection->query('INSERT INTO users (name, surname, email, password, class, role) VALUES 
