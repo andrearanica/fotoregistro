@@ -25,8 +25,14 @@ $cleanPassword = clean($password);
 $query = "SELECT * FROM students WHERE email='$cleanEmail' AND password='$cleanPassword';";
 $result = $connection->query($query);
 if ($result->num_rows > 0) {
-    $response['message'] = 'ok';
-    echo json_encode($response);
+    while ($row = $result->fetch_assoc()) {
+        if ($row['enabled'] == true) {
+            echo json_encode($row);
+        } else {
+            $return['message'] = 'user not enabled';
+            echo json_encode($return);
+        }
+    }
 } else {
     $response['message'] = 'user not found';
     echo json_encode($response);

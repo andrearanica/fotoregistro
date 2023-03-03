@@ -5,6 +5,8 @@ let showPassword = false
 
 loginForm.addEventListener('submit', (event) => {
     event.preventDefault()
+    document.getElementById('loginAlert').className = ''
+    document.getElementById('loginAlert').innerHTML = ''
     $.ajax({
         url: '../php/login.php',
         type: 'POST',
@@ -15,6 +17,9 @@ loginForm.addEventListener('submit', (event) => {
         },
         success: (data) => {
             console.log(data)
+            if (data.message == 'ok') {
+                console.log(data)
+            }
         }
     })
 })
@@ -22,6 +27,7 @@ loginForm.addEventListener('submit', (event) => {
 signupForm.addEventListener('submit', (event) => {
     event.preventDefault()
     document.getElementById('signupAlert').className = ''
+    document.getElementById('signupAlert').innerHTML = ''
     if (document.getElementById('signupPassword').value !== document.getElementById('signupConfirmPassword').value) {
         document.getElementById('signupAlert').className = 'alert alert-danger text-center'
         document.getElementById('signupAlert').innerHTML = '<b>Le password non combaciano</b>'
@@ -30,6 +36,7 @@ signupForm.addEventListener('submit', (event) => {
     $.ajax({
         url: '../php/signup.php',
         type: 'POST',
+        dataType: 'json',
         data: {
             name: document.getElementById('signupName').value,
             surname: document.getElementById('signupSurname').value,
@@ -38,6 +45,10 @@ signupForm.addEventListener('submit', (event) => {
         },
         success: (data) => {
             console.log(data)
+            if (data.message == 'ok') {
+                document.getElementById('signupAlert').className = 'alert my-2 alert-success text-center'
+                document.getElementById('signupAlert').innerHTML = '<b>Registrazione effettuata correttamente, effettua il login</b>'
+            }
         }
     })
 })
