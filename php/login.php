@@ -17,8 +17,9 @@ $password = $_POST['password'];
 $cleanEmail = clean($email);
 $cleanPassword = clean($password);
 
-$query = "SELECT * FROM students WHERE email='$cleanEmail' AND password='$cleanPassword';";
-$result = $connection->query($query);
+$stmt = $connection->prepare("SELECT * FROM students WHERE email='$cleanEmail' AND password='$cleanPassword';");
+$stmt->execute();
+$result = $stmt->get_result();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         if ($row['enabled'] == true) {

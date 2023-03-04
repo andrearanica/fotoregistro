@@ -26,6 +26,9 @@ loginForm.addEventListener('submit', (event) => {
                 document.getElementById('loginAlert').className = 'alert alert-danger text-center'
                 document.getElementById('loginAlert').innerHTML = '<b>Username e/o password errati</b>'
             }
+        },
+        error: (data) => {
+            console.log(data)
         }
     })
 })
@@ -55,6 +58,10 @@ signupForm.addEventListener('submit', (event) => {
                 document.getElementById('signupAlert').className = 'alert my-2 alert-success text-center'
                 document.getElementById('signupAlert').innerHTML = '<b>Registrazione effettuata correttamente, effettua il login</b>'
             }
+        },
+        error: (data) => {
+            document.getElementById('signupAlert').className = 'alert alert-danger my-2 text-center'
+            document.getElementById('signupAlert').innerHTML = '<b>Questa email è già in uso</b>'
         }
     })
 })

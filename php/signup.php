@@ -30,8 +30,13 @@ $query = "INSERT INTO students (student_id, name, surname, email, password) VALU
 
 $result = $connection->query($query);
 
-$response['message'] = 'ok';
-
-echo json_encode($response);
+if ($result) {
+    $response['message'] = 'ok';
+    echo json_encode($response);
+} else {
+    $response['message'] = 'errore';
+    $message = json_encode($response);
+    die;
+}
 
 ?>
