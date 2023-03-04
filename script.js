@@ -19,6 +19,12 @@ loginForm.addEventListener('submit', (event) => {
             console.log(data)
             if (data.message == 'ok') {
                 console.log(data)
+            } else if (data.message == 'user not enabled') {
+                document.getElementById('loginAlert').className = 'alert alert-warning text-center'
+                document.getElementById('loginAlert').innerHTML = '<b>Devi abilitare l\'account</b> seguendo la mail che ti è stata inviata'
+            } else {
+                document.getElementById('loginAlert').className = 'alert alert-danger text-center'
+                document.getElementById('loginAlert').innerHTML = '<b>Username e/o password errati</b>'
             }
         }
     })
