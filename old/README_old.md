@@ -1,6 +1,6 @@
 # 👨🏻‍🏫 Fotoregistro
 With this application you can keep under control all your student's faces... so you can't forgot them!
-<br>Next version soon
+
 ### 🔎 Why should I use this?
 With this application you just have to give a link to your classes and then your students can insert their photos on their own (so you don't have to take the pictures and waste you smartphone memory).
 
