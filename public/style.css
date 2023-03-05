@@ -1,0 +1,29 @@
+.homePanel {
+    color: darkblue;
+    border-radius: 25px;
+    border: 1px solid white;
+    padding: 100px;
+    background-color: white;
+}
+
+.panelTitle {
+    font-size: 200%;
+    font-weight: bold;
+}
+
+body {
+    color: white;
+    background-color: rgb(4, 46, 212);
+}
+
+#loginButton, #signupButton {
+    color: darkblue;
+}
+
+#teacherDiv {
+    font-size: 100%;
+}
+
+.modal {
+    color: darkblue;
+}
