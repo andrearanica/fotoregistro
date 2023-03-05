@@ -23,7 +23,8 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         if ($row['enabled'] == true) {
-            echo json_encode($row);
+            $message['message'] = 'ok';
+            echo json_encode($message);
         } else {
             $return['message'] = 'user not enabled';
             echo json_encode($return);
