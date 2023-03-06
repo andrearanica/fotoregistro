@@ -20,13 +20,24 @@ $surname = $_POST['surname'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-$id = uniqid('st_');
+$id = '0';
+
 $cleanName = clean($name);
 $cleanSurname = clean($surname);
 $cleanEmail = clean($email);
 $cleanPassword = clean($password);
 
-$query = "INSERT INTO students (student_id, name, surname, email, password) VALUES ('$id', '$cleanName', '$cleanSurname', '$cleanEmail', '$cleanPassword');";
+if ($_GET['type'] == 'students') {
+    $id = uniqid('st_');
+    $table = 'students';
+    $query = "INSERT INTO $table (student_id, name, surname, email, password) VALUES ('$id', '$cleanName', '$cleanSurname', '$cleanEmail', '$cleanPassword');";
+} else {
+    $id = uniqid('tc_');
+    $table = 'teachers';
+    $query = "INSERT INTO $table (teacher_id, name, surname, email, password) VALUES ('$id', '$cleanName', '$cleanSurname', '$cleanEmail', '$cleanPassword');";
+}
+
+// $query = "INSERT INTO $table (student_id, name, surname, email, password) VALUES ('$id', '$cleanName', '$cleanSurname', '$cleanEmail', '$cleanPassword');";
 
 $result = $connection->query($query);
 

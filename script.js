@@ -1,30 +1,34 @@
-var loginForm = document.getElementById('loginForm')
-var signupForm = document.getElementById('signupForm')
+var loginFormStudent = document.getElementById('loginFormStudent')
+var signupFormStudent = document.getElementById('signupFormStudent')
+var loginFormTeacher = document.getElementById('loginFormTeacher')
+var signupFormTeacher = document.getElementById('signupFormTeacher')
 
-let showPassword = false
+let showPasswordStudent = false
+let showPasswordTeacher = false
 
-loginForm.addEventListener('submit', (event) => {
+loginFormStudent.addEventListener('submit', (event) => {
     event.preventDefault()
-    document.getElementById('loginAlert').className = ''
-    document.getElementById('loginAlert').innerHTML = ''
+    document.getElementById('loginAlertStudent').className = ''
+    document.getElementById('loginAlertStudent').innerHTML = ''
     $.ajax({
-        url: '../php/login.php',
+        url: '../php/login.php?type=students',
         type: 'POST',
         dataType: 'json',
         data: {
-            email: document.getElementById('loginEmail').value,
-            password: document.getElementById('loginPassword').value
+            email: document.getElementById('loginEmailStudent').value,
+            password: document.getElementById('loginPasswordStudent').value
         },
         success: (data) => {
             console.log(data)
-            if (data.message == 'ok') {
-                console.log(data)
-            } else if (data.message == 'user not enabled') {
-                document.getElementById('loginAlert').className = 'alert alert-warning text-center'
-                document.getElementById('loginAlert').innerHTML = '<b>Devi abilitare l\'account</b> seguendo la mail che ti è stata inviata'
+            if (data.message == 'user not enabled') {
+                document.getElementById('loginAlertStudent').className = 'alert alert-warning text-center'
+                document.getElementById('loginAlertStudent').innerHTML = '<b>Devi abilitare l\'account</b> seguendo la mail che ti è stata inviata'
+            } else if (data.message == 'user not found') {
+                document.getElementById('loginAlertStudent').className = 'alert alert-danger text-center'
+                document.getElementById('loginAlertStudent').innerHTML = '<b>Username e/o password errati</b>'
             } else {
-                document.getElementById('loginAlert').className = 'alert alert-danger text-center'
-                document.getElementById('loginAlert').innerHTML = '<b>Username e/o password errati</b>'
+                window.localStorage.setItem('token', data.message)
+                window.location.href = './students'
             }
         },
         error: (data) => {
@@ -33,35 +37,35 @@ loginForm.addEventListener('submit', (event) => {
     })
 })
 
-signupForm.addEventListener('submit', (event) => {
+signupFormStudent.addEventListener('submit', (event) => {
     event.preventDefault()
-    document.getElementById('signupAlert').className = ''
-    document.getElementById('signupAlert').innerHTML = ''
-    if (document.getElementById('signupPassword').value !== document.getElementById('signupConfirmPassword').value) {
-        document.getElementById('signupAlert').className = 'alert alert-danger text-center'
-        document.getElementById('signupAlert').innerHTML = '<b>Le password non combaciano</b>'
+    document.getElementById('signupAlertStudent').className = ''
+    document.getElementById('signupAlertStudent').innerHTML = ''
+    if (document.getElementById('signupPasswordStudent').value !== document.getElementById('signupConfirmPasswordStudent').value) {
+        document.getElementById('signupAlertStudent').className = 'alert alert-danger text-center'
+        document.getElementById('signupAlertStudent').innerHTML = '<b>Le password non combaciano</b>'
         return
     }
     $.ajax({
-        url: '../php/signup.php',
+        url: '../php/signup.php?type=students ',
         type: 'POST',
         dataType: 'json',
         data: {
-            name: document.getElementById('signupName').value,
-            surname: document.getElementById('signupSurname').value,
-            email: document.getElementById('signupEmail').value,
-            password: document.getElementById('signupPassword').value
+            name: document.getElementById('signupNameStudent').value,
+            surname: document.getElementById('signupSurnameStudent').value,
+            email: document.getElementById('signupEmailStudent').value,
+            password: document.getElementById('signupPasswordStudent').value
         },
         success: (data) => {
             console.log(data)
             if (data.message == 'ok') {
-                document.getElementById('signupAlert').className = 'alert my-2 alert-success text-center'
-                document.getElementById('signupAlert').innerHTML = '<b>Registrazione effettuata correttamente, effettua il login</b>'
+                document.getElementById('signupAlertStudent').className = 'alert my-2 alert-success text-center'
+                document.getElementById('signupAlertStudent').innerHTML = '<b>Registrazione effettuata correttamente, effettua il login</b>'
             }
         },
         error: (data) => {
-            document.getElementById('signupAlert').className = 'alert alert-danger my-2 text-center'
-            document.getElementById('signupAlert').innerHTML = '<b>Questa email è già in uso</b>'
+            document.getElementById('signupAlertStudent').className = 'alert alert-danger my-2 text-center'
+            document.getElementById('signupAlertStudent').innerHTML = '<b>Questa email è già in uso</b>'
         }
     })
 })
@@ -69,3 +73,67 @@ signupForm.addEventListener('submit', (event) => {
 document.getElementById('showPassword').onchange = () => {
     
 }
+
+loginFormTeacher.addEventListener('submit', (event) => {
+    event.preventDefault()
+    document.getElementById('loginAlertTeacher').className = ''
+    document.getElementById('loginAlertTeacher').innerHTML = ''
+    $.ajax({
+        url: '../php/login.php?type=teachers',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            email: document.getElementById('loginEmailTeacher').value,
+            password: document.getElementById('loginPasswordTeacher').value
+        },
+        success: (data) => {
+            console.log(data)
+            if (data.message == 'ok') {
+                console.log(data)
+            } else if (data.message == 'user not enabled') {
+                document.getElementById('loginAlertTeacher').className = 'alert alert-warning text-center'
+                document.getElementById('loginAlertTeacher').innerHTML = '<b>Devi abilitare l\'account</b> seguendo la mail che ti è stata inviata'
+            } else {
+                document.getElementById('loginAlertTeacher').className = 'alert alert-danger text-center'
+                document.getElementById('loginAlertTeacher').innerHTML = '<b>Username e/o password errati</b>'
+            }
+        },
+        error: (data) => {
+            console.log(data)
+        }
+    })
+})
+
+signupFormTeacher.addEventListener('submit', (event) => {
+    event.preventDefault()
+    document.getElementById('signupAlertTeacher').className = ''
+    document.getElementById('signupAlertTeacher').innerHTML = ''
+    if (document.getElementById('signupPasswordTeacher').value !== document.getElementById('signupConfirmPasswordTeacher').value) {
+        document.getElementById('signupAlertTeacher').className = 'alert alert-danger text-center'
+        document.getElementById('signupAlertTeacher').innerHTML = '<b>Le password non combaciano</b>'
+        return
+    }
+    $.ajax({
+        url: '../php/signup.php?type=teachers ',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            name: document.getElementById('signupNameTeacher').value,
+            surname: document.getElementById('signupSurnameTeacher').value,
+            email: document.getElementById('signupEmailTeacher').value,
+            password: document.getElementById('signupPasswordTeacher').value
+        },
+        success: (data) => {
+            console.log(data)
+            if (data.message == 'ok') {
+                document.getElementById('signupAlertTeacher').className = 'alert my-2 alert-success text-center'
+                document.getElementById('signupAlertTeacher').innerHTML = '<b>Registrazione effettuata correttamente, effettua il login</b>'
+            }
+        },
+        error: (data) => {
+            console.log(data)
+            document.getElementById('signupAlertTeacher').className = 'alert alert-danger my-2 text-center'
+            document.getElementById('signupAlertTeacher').innerHTML = '<b>Questa email è già in uso</b>'
+        }
+    })
+})

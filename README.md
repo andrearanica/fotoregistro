@@ -10,3 +10,8 @@ The teacher that wants to make a photo register has to make an account as a prof
     - [X] Signup with clean data
     - [X] Enable account with link
     - [ ] Send email for signup
+    - [ ] Send JWT login
+    - [ ] Check JWT
+- [ ] Dashboard
+    - [ ] Subscribe classroom
+    - [ ] Print class PDF

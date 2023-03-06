@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 require('./clearInput.php');
 
 require('connection.php');
+require('jwt.php');
 
 if ($connection) {
     
@@ -17,13 +18,24 @@ $password = $_POST['password'];
 $cleanEmail = clean($email);
 $cleanPassword = clean($password);
 
-$stmt = $connection->prepare("SELECT * FROM students WHERE email='$cleanEmail' AND password='$cleanPassword';");
+if ($_GET['type'] == 'students') {
+    $table = 'students';    
+} else {
+    $table = 'teachers';
+}
+
+$query = "SELECT * FROM $table WHERE email='$cleanEmail' AND password='$cleanPassword';";
+
+$stmt = $connection->prepare($query);
 $stmt->execute();
+
 $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         if ($row['enabled'] == true) {
-            $message['message'] = 'ok';
+            $headers = array('alg' => 'HS256', 'typ' => 'JWT');
+            $payload = array('email' => $row['email']);
+            $message['message'] = jwt($headers, $payload);
             echo json_encode($message);
         } else {
             $return['message'] = 'user not enabled';
