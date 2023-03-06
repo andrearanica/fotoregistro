@@ -1,19 +1,7 @@
 let userInfo = {}
-let html5QrcodeScanner = new Html5QrcodeScanner("reader", {
-    fps: 10,
-    qrbox: {
-        width: 250,
-        height: 250
-    },
-}, false)
-html5QrcodeScanner.render(onScanSuccess)
-
-function onScanSuccess(decodedText, decodedResult) {
-    console.log(`Code match = ${ decodedText } ${ decodedResult }`)
-}
 
 $.ajax({
-    url: '../../php/jwt.php?type=students',
+    url: '../../php/jwt.php?type=teachers',
     type: 'POST',
     dataType: 'json',
     data: {
