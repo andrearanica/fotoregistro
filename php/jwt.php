@@ -16,10 +16,10 @@ function base64url_encode ($str) {
     return rtrim(strtr(base64_encode($str), '+/', '-'), '=');
 }
 
-$headers = array('alg' => 'HS256', 'typ' => 'JWT');
-$payload = array('sub' => '1234567890', 'name' => 'Andrea', 'surname' => 'Ranica');
+// $headers = array('alg' => 'HS256', 'typ' => 'JWT');
+// $payload = array('sub' => '1234567890', 'name' => 'Andrea', 'surname' => 'Ranica');
 
-$jwt = jwt($headers, $payload);
+//$jwt = jwt($headers, $payload);
 
 if (isset($_GET['check'])) {
     check($_GET['check']);
@@ -58,7 +58,7 @@ function getInfo ($token, $type) {
     $payload = $tokenParts[1];
     $payload = json_encode(base64_decode($payload));
 
-    echo $payload;
+    echo json_decode($payload);
     
     /*$email = explode(':', $payload);
     $email = $email[1];
