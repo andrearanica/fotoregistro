@@ -1,6 +1,7 @@
 <?php
 
 ini_set('display_errors', true);
+require('connection.php');
 
 function jwt($headers, $payload, $secret = 'tia') {
     $headers_encoded = base64url_encode(json_encode($headers));
@@ -22,6 +23,8 @@ $jwt = jwt($headers, $payload);
 
 if (isset($_GET['check'])) {
     check($_GET['check']);
+} else if (isset($_POST['token']) && isset($_GET['type']))  {
+    getInfo($_POST['token'], $_GET['type']);
 }
 
 function check ($jwt, $secret = 'tia') {
@@ -41,6 +44,36 @@ function check ($jwt, $secret = 'tia') {
     } else {
         echo json_encode(array('valid' => false));
     }
+}
+
+function getInfo ($token, $type) {
+    $host = '127.0.0.1';
+    $user = 'root';
+    $password = '';
+    $db = 'my_andrearanica';
+    
+    $connection = new mysqli($host, $user, $password, $db);
+
+    $tokenParts = explode('.', $token);
+    $payload = $tokenParts[1];
+    $payload = json_encode(base64_decode($payload));
+
+    echo $payload;
+    
+    /*$email = explode(':', $payload);
+    $email = $email[1];
+    echo $email;
+    $query = "SELECT * FROM $type WHERE email='$email'";
+    $stmt = $connection->prepare($query);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()){
+            // echo json_encode($row);
+        }
+    } else {
+        // echo json_encode(array('message' => 'user not found'));
+    }*/
 }
 
 ?>
