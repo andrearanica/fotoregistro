@@ -9,6 +9,7 @@ $.ajax({
     },
     success: (data) => {
         console.log(data)
+        userInfo.id = data.id
         userInfo.name = data.name
         userInfo.surname = data.surname
         userInfo.email = data.email
@@ -25,6 +26,30 @@ $.ajax({
     }
 })
 
+$.ajax({
+    url: '../../php/getAllClasses.php',
+    type: 'GET',
+    dataType: 'json',
+    success: data => {
+        console.log(data)
+        for (let i = 0; i < data.length; i++) {
+            document.getElementById('newClassSchoolId').innerHTML += `<option value=${ data[i].school_id }>${ data[i].name }</option>`
+        }
+    },
+    error: data => {
+        console.error(data)
+    }
+})
+
+$.ajax({
+    url: `../../php/getClasses.php?teacher_id=${ userInfo.teacherId }`,
+    type: 'GET',
+    dataType: 'json',
+    success: data => {
+        console.log(data)
+    }
+})
+
 document.getElementById('newClassForm').addEventListener('submit', event => {
     event.preventDefault()
     $.ajax({
@@ -35,7 +60,9 @@ document.getElementById('newClassForm').addEventListener('submit', event => {
             token: window.localStorage.getItem('token'),
             className: document.getElementById('newClassName').value,
             classDescription: document.getElementById('newClassDescription').value,
-            classAccessType: document.getElementById('newClassAccessType').value
+            classAccessType: document.getElementById('newClassAccessType').value,
+            classSchoolId: document.getElementById('newClassSchoolId').value,
+            teacherId: userInfo.id
         },
         success: data => {
             console.log(data)

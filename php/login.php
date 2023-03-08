@@ -35,9 +35,9 @@ if ($result->num_rows > 0) {
         if ($row['enabled'] == true) {
             $headers = array('alg' => 'HS256', 'typ' => 'JWT');
             if ($_GET['type'] == 'students') {
-                $payload = array('name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email'], 'photo' => $row['photo']);
+                $payload = array('id' => $row['student_id'], 'name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email'], 'photo' => $row['photo']);
             } else {
-                $payload = array('name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email']);
+                $payload = array('id' => $row['teacher_id'], 'name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email']);
             }
             $message['message'] = jwt($headers, $payload);
             echo json_encode($message);
