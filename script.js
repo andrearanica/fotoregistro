@@ -88,14 +88,15 @@ loginFormTeacher.addEventListener('submit', (event) => {
         },
         success: (data) => {
             console.log(data)
-            if (data.message == 'ok') {
-                console.log(data)
-            } else if (data.message == 'user not enabled') {
+            if (data.message == 'user not enabled') {
                 document.getElementById('loginAlertTeacher').className = 'alert alert-warning text-center'
                 document.getElementById('loginAlertTeacher').innerHTML = '<b>Devi abilitare l\'account</b> seguendo la mail che ti è stata inviata'
-            } else {
+            } else if (data.message == 'user not found') {
                 document.getElementById('loginAlertTeacher').className = 'alert alert-danger text-center'
                 document.getElementById('loginAlertTeacher').innerHTML = '<b>Username e/o password errati</b>'
+            } else {
+                window.localStorage.setItem('token', data.message)
+                window.location.href= './teachers'
             }
         },
         error: (data) => {

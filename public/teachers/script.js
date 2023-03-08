@@ -8,6 +8,7 @@ $.ajax({
         token: window.localStorage.getItem('token')
     },
     success: (data) => {
+        console.log(data)
         userInfo.name = data.name
         userInfo.surname = data.surname
         userInfo.email = data.email
@@ -22,4 +23,25 @@ $.ajax({
     error: (data) => {
         console.log(data)
     }
+})
+
+document.getElementById('newClassForm').addEventListener('submit', event => {
+    event.preventDefault()
+    $.ajax({
+        url: '../../php/addNewClass.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            token: window.localStorage.getItem('token'),
+            className: document.getElementById('newClassName').value,
+            classDescription: document.getElementById('newClassDescription').value,
+            classAccessType: document.getElementById('newClassAccessType').value
+        },
+        success: data => {
+            console.log(data)
+        },
+        error: data => {
+            console.log(data)
+        }
+    })
 })
