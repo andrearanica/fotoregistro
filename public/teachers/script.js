@@ -25,13 +25,13 @@ $.ajax({
                 // console.log(`Classi di questo insegnante: ${ data }`)
                 document.getElementById('classes').innerHTML = '<div class="row">'
                 data.map(c => document.getElementById('classes').innerHTML += `<div class="col">
-                <div class='card my-2' style='width: 18rem; margin: auto;'>
+                <center><div class='card my-2' style='width: 18rem; margin: auto; '>
                     <div class='card-body'>
                         <h5 class='card-title'>Classe ${ c.name }</h5>
                         <p class='card-text'>${ c.description }</p>
                         <button class='btn btn-success  ' id='showClassButton'>Visualizza classe</button>
                     </div>
-                </div></div>
+                </div></center></div>
                 `)
                 document.getElementById('classes').innerHTML += '</div>'
             }
