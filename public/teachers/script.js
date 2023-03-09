@@ -1,4 +1,5 @@
 let userInfo = {}
+let classes = []
 
 $.ajax({
     url: '../../php/jwt.php?type=teachers',
@@ -16,10 +17,25 @@ $.ajax({
         userInfo.photo = data.photo
 
         document.getElementById('title').innerHTML = 'Benvenuto ' + userInfo.name
-        if (userInfo.photo == 0) {
-            document.getElementById('user-alert').className = 'alert alert-warning'
-            document.getElementById('user-alert').innerHTML = '<b>Non hai ancora caricato la tua foto</b>'
-        }
+        $.ajax({
+            url: `../../php/getClasses.php?teacher_id=${ userInfo.id }`,
+            type: 'GET',
+            dataType: 'json',
+            success: data => {
+                // console.log(`Classi di questo insegnante: ${ data }`)
+                document.getElementById('classes').innerHTML = '<div class="row">'
+                data.map(c => document.getElementById('classes').innerHTML += `<div class="col">
+                <div class='card my-2' style='width: 18rem; margin: auto;'>
+                    <div class='card-body'>
+                        <h5 class='card-title'>Classe ${ c.name }</h5>
+                        <p class='card-text'>${ c.description }</p>
+                        <button class='btn btn-success  ' id='showClassButton'>Visualizza classe</button>
+                    </div>
+                </div></div>
+                `)
+                document.getElementById('classes').innerHTML += '</div>'
+            }
+        })
     },
     error: (data) => {
         console.log(data)
@@ -38,15 +54,6 @@ $.ajax({
     },
     error: data => {
         console.error(data)
-    }
-})
-
-$.ajax({
-    url: `../../php/getClasses.php?teacher_id=${ userInfo.teacherId }`,
-    type: 'GET',
-    dataType: 'json',
-    success: data => {
-        console.log(data)
     }
 })
 
