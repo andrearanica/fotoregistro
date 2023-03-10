@@ -1,6 +1,12 @@
 let userInfo = {}
 let classes = []
 
+document.onload = () => {
+    $.ajax({
+        
+    })
+}
+
 $.ajax({
     url: '../../php/jwt.php?type=teachers',
     type: 'POST',
@@ -29,7 +35,7 @@ $.ajax({
                     <div class='card-body'>
                         <h5 class='card-title'>Classe ${ c.name }</h5>
                         <p class='card-text'>${ c.description }</p>
-                        <button class='btn btn-success  ' id='showClassButton'>Visualizza classe</button>
+                        <button onclick="showClass('${ c.class_id }')" class='btn btn-success  ' id='showClassButton'>Visualizza classe</button>
                     </div>
                 </div></center></div>
                 `)
@@ -73,9 +79,21 @@ document.getElementById('newClassForm').addEventListener('submit', event => {
         },
         success: data => {
             console.log(data)
+            document.getElementById('newClassAlert').className = 'alert alert-success my-2'
+            document.getElementById('newClassAlert').innerHTML = '<b>Classe creata con successo</b>'
         },
         error: data => {
             console.log(data)
         }
     })
 })
+
+document.getElementById('logoutButton').addEventListener('click', () => {
+    window.localStorage.clear()
+    window.location.href = '../'
+})
+
+function showClass (classId) {
+    window.location.href = `./classes.html?id=${ classId }` 
+
+}
