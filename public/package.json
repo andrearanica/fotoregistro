@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "html5-qrcode": "^2.3.7"
+    "html5-qrcode": "^2.3.7",
+    "qrcode": "^1.5.1"
   },
   "type": "module"
 }
