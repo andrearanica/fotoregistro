@@ -49,7 +49,7 @@ $.ajax({
 })
 
 $.ajax({
-    url: '../../php/getAllClasses.php',
+    url: '../../php/getSchools.php',
     type: 'GET',
     dataType: 'json',
     success: data => {

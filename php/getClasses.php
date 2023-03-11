@@ -17,7 +17,9 @@ if (isset($_GET['teacher_id'])) {
 } else {
     $query = "SELECT * FROM classes";
 }
-$result = $connection->query($query);
+$stmt = $connection->prepare($query);
+$stmt->execute();
+$result = $stmt->get_result();
 
 // var_dump($result);
 

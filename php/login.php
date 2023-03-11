@@ -35,7 +35,7 @@ if ($result->num_rows > 0) {
         if ($row['enabled'] == true) {
             $headers = array('alg' => 'HS256', 'typ' => 'JWT');
             if ($_GET['type'] == 'students') {
-                $payload = array('id' => $row['student_id'], 'name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email'], 'photo' => $row['photo']);
+                $payload = array('id' => $row['student_id'], 'name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email'], 'photo' => $row['photo'], 'class_id' => $row['class_id']);
             } else {
                 $payload = array('id' => $row['teacher_id'], 'name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email']);
             }

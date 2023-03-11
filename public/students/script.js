@@ -8,10 +8,12 @@ $.ajax({
         token: window.localStorage.getItem('token')
     },
     success: (data) => {
-        userInfo.name = data.name
+        userInfo = data
+        /*
         userInfo.surname = data.surname
+        userInfo.student_id = data.student_id
         userInfo.email = data.email
-        userInfo.photo = data.photo
+        userInfo.photo = data.photo*/
 
         document.getElementById('title').innerHTML = 'Benvenuto ' + userInfo.name
         if (userInfo.class_id == null) {
@@ -25,7 +27,6 @@ $.ajax({
                 },
             }, false)
             html5QrcodeScanner.render(onScanSuccess)
-            
             function onScanSuccess(decodedText, decodedResult) {
                 if (decodedText.includes('cl')) {
                     $.ajax({
@@ -33,11 +34,14 @@ $.ajax({
                         type: 'POST',
                         data: {
                             classId: decodedText,
-                            studentId: userInfo.student_id
+                            studentId: userInfo.id
                         },
                         dataType: 'json',
                         success: (data) => {
                             console.log('Iscritto')
+                            userInfo.classId = decodedText
+                            document.getElementById('user-alert').className = 'alert alert-success my-2'
+                            document.getElementById('user-alert').innerHTML = '<b>Sei stato iscritto</b>'
                         },
                         error: (error) => {
                             console.log(error)
@@ -45,6 +49,14 @@ $.ajax({
                     })
                 }
             }
+        } else {
+            $.ajax({
+                url: '../../php/getClasses.php',
+                type: 'GET',
+                data: {
+                    classId: userInfo.class
+                }
+            })
         }
     },
     error: (data) => {
