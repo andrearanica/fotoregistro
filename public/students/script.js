@@ -53,10 +53,21 @@ $.ajax({
             $.ajax({
                 url: '../../php/getClasses.php',
                 type: 'GET',
+                dataType: 'json',
                 data: {
-                    classId: userInfo.class
+                    classId: userInfo.class_id
+                },
+                success: (data) => {
+                    console.log(data)
+                    document.getElementById('user-alert').innerHTML = `<h1>Sei iscritto alla classe ${ data[0].name }</h1>`
                 }
             })
+            if (userInfo.photo == 1) {
+                document.getElementById('user-alert').className = 'alert alert-success'
+            } else {
+                document.getElementById('user-alert').className = 'alert alert-warning'
+                
+            }
         }
     },
     error: (data) => {
