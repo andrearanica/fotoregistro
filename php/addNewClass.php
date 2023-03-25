@@ -7,11 +7,10 @@ require('connection.php');
 $teacherId = $_POST['teacherId'];
 $classId = uniqid('cl_');
 $className = $_POST['className'];
-$classDescription = $_POST['classDescription'];
 $classAccessType = $_POST['classAccessType'];
 $classSchoolId = $_POST['classSchoolId'];
 
-$query = "INSERT INTO classes (class_id, name, access_type, description, school_id) VALUES ('$classId', '$className', $classAccessType, '$classDescription', $classSchoolId);";
+$query = "INSERT INTO classes (class_id, name, access_type, school_id) VALUES ('$classId', '$className', $classAccessType, $classSchoolId);";
 $stmt = $connection->prepare($query);
 
 $stmt->execute();

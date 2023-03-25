@@ -72,7 +72,6 @@ document.getElementById('newClassForm').addEventListener('submit', event => {
         data: {
             token: window.localStorage.getItem('token'),
             className: document.getElementById('newClassName').value,
-            classDescription: document.getElementById('newClassDescription').value,
             classAccessType: document.getElementById('newClassAccessType').value,
             classSchoolId: document.getElementById('newClassSchoolId').value,
             teacherId: userInfo.id
