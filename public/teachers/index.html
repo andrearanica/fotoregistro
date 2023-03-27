@@ -11,6 +11,31 @@
     </head>
     <body>
         <div class='container my-5 text-center'>
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#accountInfoModal">
+                Il mio account
+            </button>
+            <div class="modal fade" id="accountInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Il mio account</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>              
+                    <div class="modal-body">
+                        <form id='accountInfoForm'>
+                            <input class='form-control my-2' id='accountName' placeholder='Nome'>
+                            <input class='form-control my-2' id='accountSurname' placeholder='Cognome'>
+                            <input class='form-control my-2' id='accountEmail' type='email' placeholder='Email'>
+                            <input class='form-control my-2' id='accountPassword' type='password' placeholder='Password'>
+                            <input class='btn btn-success' type='submit' value='Aggiorna'>
+                            <div id='accountInfoAlert'>
+
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
             <button class='btn' id='logoutButton'>Logout</button>
             <h1 id='title'></h1>
             <div id='classes' class='container text-center my-5 row'>

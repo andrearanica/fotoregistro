@@ -96,3 +96,25 @@ function showClass (classId) {
     window.location.href = `./classes.html?id=${ classId }` 
 
 }
+
+document.getElementById('accountInfoForm').addEventListener('submit', event => {
+    event.preventDefault()
+    $.ajax({
+        url: '../../php/updateAccount.php?type=teachers',
+        type: 'POST',
+        data: {
+            name: document.getElementById('accountName').value,
+            surname: document.getElementById('accountSurname').value,
+            email: document.getElementById('accountEmail'),
+            password: document.getElementById('accountPassword')
+        },
+        success: () => {
+            document.getElementById('accountInfoAlert').className = 'alert alert-success'
+            document.getElementById('accountInfoAlert').innerHTML = '<b>Credenziali aggiornate correttamente</b>'
+        },
+        error: () => {
+            document.getElementById('accountInfoAlert').className = 'alert alert-danger'
+            document.getElementById('accountInfoAlert').innerHTML = '<b>C\'è stato un errore, riprova più tardi'
+        }
+    })
+})
