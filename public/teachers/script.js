@@ -1,11 +1,7 @@
 let userInfo = {}
 let classes = []
 
-document.onload = () => {
-    $.ajax({
-        
-    })
-}
+
 
 $.ajax({
     url: '../../php/jwt.php?type=teachers',
@@ -15,12 +11,7 @@ $.ajax({
         token: window.localStorage.getItem('token')
     },
     success: (data) => {
-        console.log(data)
-        userInfo.id = data.id
-        userInfo.name = data.name
-        userInfo.surname = data.surname
-        userInfo.email = data.email
-        userInfo.photo = data.photo
+        userInfo = data
 
         document.getElementById('title').innerHTML = 'Benvenuto ' + userInfo.name
         $.ajax({

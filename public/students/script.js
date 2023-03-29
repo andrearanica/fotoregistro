@@ -1,4 +1,5 @@
 let userInfo = {}
+let classInfo = {}
 
 $.ajax({
     url: '../../php/jwt.php?type=students',
@@ -8,6 +9,7 @@ $.ajax({
         token: window.localStorage.getItem('token')
     },
     success: (data) => {
+        console.log(data)
         userInfo = data
         /*
         userInfo.surname = data.surname
@@ -58,8 +60,9 @@ $.ajax({
                     classId: userInfo.class_id
                 },
                 success: (data) => {
-                    console.log(data)
-                    document.getElementById('user-alert').innerHTML = `<h1>Sei iscritto alla classe ${ data[0].name }</h1>`
+                    classInfo = data
+                    document.getElementById('user-alert').className = 'alert'
+                    document.getElementById('user-alert').innerHTML = `<p>Classe ${ classInfo[0].name }</h1>`
                 }
             })
             if (userInfo.photo == 1) {
@@ -73,4 +76,18 @@ $.ajax({
     error: (data) => {
         console.log(data)
     }
+})
+
+let video = document.getElementById('video')
+
+document.getElementById('start-camera').addEventListener('click', async () => {
+    let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    video.srcObject = stream
+})
+
+document.getElementById('click-photo').addEventListener('click', () => {
+    let canvas = document.getElementById('canvas')
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
+    let image_data_url = canvas.toDataURL('image/jpeg')
+    
 })
