@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 16, 2023 alle 09:03
+-- Creato il: Mar 30, 2023 alle 21:55
 -- Versione del server: 10.4.27-MariaDB
 -- Versione PHP: 8.2.0
 
@@ -52,9 +52,9 @@ INSERT INTO `angulardisplacement` (`displacement`, `factor`) VALUES
 --
 
 CREATE TABLE `classes` (
-  `class_id` int(11) NOT NULL,
+  `class_id` varchar(255) NOT NULL,
   `class_key` varchar(5) NOT NULL,
-  `name` varchar(5) NOT NULL,
+  `class_name` varchar(5) NOT NULL,
   `access_type` bit(1) NOT NULL,
   `school_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -63,8 +63,14 @@ CREATE TABLE `classes` (
 -- Dump dei dati per la tabella `classes`
 --
 
-INSERT INTO `classes` (`class_id`, `class_key`, `name`, `access_type`, `school_id`) VALUES
-(1, '', '5ID', b'0', 1);
+INSERT INTO `classes` (`class_id`, `class_key`, `class_name`, `access_type`, `school_id`) VALUES
+('1', '', '5ID', b'0', 1),
+('2', '', '5IA', b'0', 1),
+('3', '', '5IA', b'0', 1),
+('4', '', '5EA', b'0', 1),
+('5', '', '5EA', b'0', 1),
+('6', '', '5EB', b'0', 1),
+('cl_6425d7bd508a0', '', '5IB', b'0', 1);
 
 -- --------------------------------------------------------
 
@@ -248,7 +254,7 @@ CREATE TABLE `students` (
   `name` varchar(255) NOT NULL,
   `surname` varchar(255) NOT NULL,
   `photo` bit(50) DEFAULT b'0',
-  `class_id` int(11) DEFAULT NULL,
+  `class_id` varchar(255) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(50) NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT 0
@@ -259,11 +265,12 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `name`, `surname`, `photo`, `class_id`, `email`, `password`, `enabled`) VALUES
-('0', 'Carlo', 'Riva', NULL, NULL, 'wolf@gmail.com', 'carlo', 0),
+('0', 'Carlo', 'Riva', NULL, 'cl_6425d7bd508a0', 'wolf@gmail.com', 'carlo', 1),
 ('1', 'Mario', 'Rossi', NULL, NULL, 'mariorossi@gmail.com', 'mariorossi', 1),
 ('10', 'Alberto', 'Fagioli', NULL, NULL, 'alberto@gmail.com', 'fagioli', 0),
 ('st_64034ada04103', 'Edoardo', 'Rebussi', b'00000000000000000000000000000000000000000000000000', NULL, 'edo@gmail.com', 'edo', 1),
-('st_6406191ec90e1', 'Riccardo', 'Nasatti', b'00000000000000000000000000000000000000000000000000', NULL, 'riccardonasatti@gmail.com', 'riccardonasatti', 1);
+('st_6406191ec90e1', 'Riccardo', 'Nasatti', b'00000000000000000000000000000000000000000000000000', NULL, 'riccardonasatti@gmail.com', 'riccardonasatti', 1),
+('st_6425de16f115a', 'Riccardo', 'Ranica', b'00000000000000000000000000000000000000000000000000', NULL, 'riccardoranica@gmail.com', 'riccardoranica', 1);
 
 -- --------------------------------------------------------
 
@@ -290,6 +297,29 @@ INSERT INTO `teachers` (`teacher_id`, `name`, `surname`, `email`, `password`, `e
 ('2', '', '', '', '', 0),
 ('3', '', '', '', '', 0),
 ('tc_64061fe1d18ed', 'Mirko', 'Togni', 'mirko.togni@itispaleocapa.it', 'mirkotogni', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `teaches`
+--
+
+CREATE TABLE `teaches` (
+  `class_id` varchar(255) NOT NULL,
+  `teacher_id` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `teaches`
+--
+
+INSERT INTO `teaches` (`class_id`, `teacher_id`) VALUES
+('cl_641dff52d7a1c', 'tc_64061fe1d18ed'),
+('cl_641f43d3db7d5', 'tc_64061fe1d18ed'),
+('cl_6420576a8536c', 'tc_64061fe1d18ed'),
+('cl_6420586d73dbf', 'tc_64061fe1d18ed'),
+('cl_642058a05b231', 'tc_64061fe1d18ed'),
+('cl_6425d7bd508a0', '1');
 
 -- --------------------------------------------------------
 
@@ -408,6 +438,12 @@ ALTER TABLE `teachers`
   ADD PRIMARY KEY (`teacher_id`);
 
 --
+-- Indici per le tabelle `teaches`
+--
+ALTER TABLE `teaches`
+  ADD KEY `teacher_id` (`teacher_id`);
+
+--
 -- Indici per le tabelle `users`
 --
 ALTER TABLE `users`
@@ -422,12 +458,6 @@ ALTER TABLE `verticaldistance`
 --
 -- AUTO_INCREMENT per le tabelle scaricate
 --
-
---
--- AUTO_INCREMENT per la tabella `classes`
---
-ALTER TABLE `classes`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `companies`
@@ -468,6 +498,12 @@ ALTER TABLE `classes`
 --
 ALTER TABLE `students`
   ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`);
+
+--
+-- Limiti per la tabella `teaches`
+--
+ALTER TABLE `teaches`
+  ADD CONSTRAINT `teaches_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`teacher_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
