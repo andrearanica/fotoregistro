@@ -1,4 +1,4 @@
-let userInfo = {}
+let user = {}
 let classInfo = {}
 
 $.ajax({
@@ -10,15 +10,15 @@ $.ajax({
     },
     success: (data) => {
         console.log(data)
-        userInfo = data
+        user = data
         /*
-        userInfo.surname = data.surname
-        userInfo.student_id = data.student_id
-        userInfo.email = data.email
-        userInfo.photo = data.photo*/
+        user.surname = data.surname
+        user.student_id = data.student_id
+        user.email = data.email
+        user.photo = data.photo*/
 
-        document.getElementById('title').innerHTML = 'Benvenuto ' + userInfo.name
-        if (userInfo.class_id == null) {
+        document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
+        if (user.class_id == null) {
             document.getElementById('user-alert').className = 'alert alert-warning'
             document.getElementById('user-alert').innerHTML = '<b>Non sei ancora iscritto alla tua classe</b>'
             let html5QrcodeScanner = new Html5QrcodeScanner("reader", {
@@ -36,12 +36,12 @@ $.ajax({
                         type: 'POST',
                         data: {
                             classId: decodedText,
-                            studentId: userInfo.id
+                            studentId: user.id
                         },
                         dataType: 'json',
                         success: (data) => {
                             console.log('Iscritto')
-                            userInfo.classId = decodedText
+                            user.classId = decodedText
                             document.getElementById('user-alert').className = 'alert alert-success my-2'
                             document.getElementById('user-alert').innerHTML = '<b>Sei stato iscritto</b>'
                         },
@@ -57,15 +57,16 @@ $.ajax({
                 type: 'GET',
                 dataType: 'json',
                 data: {
-                    classId: userInfo.class_id
+                    class_id: user.class_id
                 },
                 success: (data) => {
                     classInfo = data
+                    console.log(classInfo)
                     document.getElementById('user-alert').className = 'alert'
-                    document.getElementById('user-alert').innerHTML = `<p>Classe ${ classInfo[0].name }</h1>`
+                    document.getElementById('user-alert').innerHTML = `<p>Sei iscritto alla classe ${ classInfo[0].class_name }</h1>`
                 }
             })
-            if (userInfo.photo == 1) {
+            if (user.photo == 1) {
                 document.getElementById('user-alert').className = 'alert alert-success'
             } else {
                 document.getElementById('user-alert').className = 'alert alert-warning'

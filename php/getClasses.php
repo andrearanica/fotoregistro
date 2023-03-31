@@ -11,8 +11,8 @@ if ($connection) {
 if (isset($_GET['teacher_id'])) {  
     $teacherId = $_GET['teacher_id'];
     $query = "SELECT * FROM teaches INNER JOIN classes ON classes.class_id=teaches.class_id WHERE teacher_id='$teacherId'";
-} else if (isset($_GET['classId'])) {
-    $classId = $_GET['classId'];
+} else if (isset($_GET['class_id'])) {
+    $classId = $_GET['class_id'];
     $query = "SELECT * FROM classes WHERE class_id='$classId'";  
 } else {
     $query = "SELECT * FROM classes";

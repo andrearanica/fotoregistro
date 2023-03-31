@@ -3,6 +3,8 @@ let id = ''
 
 if (window.location.href.includes('?id')) {
     id = window.location.href.split('=')[1]
+} else {
+    window.location.href = '../teachers'
 }
 
 $.ajax({
@@ -16,7 +18,7 @@ $.ajax({
     success: (data) => {
         classInfo = data[0]
         console.log(classInfo)
-        document.getElementById('title').innerHTML = classInfo.name
+        document.getElementById('title').innerHTML = `Classe ${ classInfo.class_name }`
         let canvas = document.getElementById('canvas')
         QRCode.toCanvas(canvas, id, (error) => {
             if (error) {

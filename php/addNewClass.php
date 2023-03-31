@@ -10,7 +10,7 @@ $className = $_POST['className'];
 $classAccessType = $_POST['classAccessType'];
 $classSchoolId = $_POST['classSchoolId'];
 
-$query = "INSERT INTO classes (class_id, name, access_type, school_id) VALUES ('$classId', '$className', $classAccessType, $classSchoolId);";
+$query = "INSERT INTO classes (class_id, class_name, access_type, school_id) VALUES ('$classId', '$className', $classAccessType, $classSchoolId);";
 $stmt = $connection->prepare($query);
 
 $stmt->execute();

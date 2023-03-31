@@ -1,7 +1,53 @@
 let userInfo = {}
 let classes = []
 
+function getClasses () {
+    $.ajax({
+        url: `../../php/getClasses.php?teacher_id=${ userInfo.id }`,
+        type: 'GET',
+        dataType: 'json',
+        success: data => {
+            console.log(data)
+            // console.log(`Classi di questo insegnante: ${ data }`)
+            document.getElementById('classes').innerHTML = '<div class="row">'
+            data.map(c => document.getElementById('classes').innerHTML += `
+            <div class="col">
+                <center><div class='card my-2' style='width: 18rem; margin: auto; '>
+                    <div class='card-body'>
+                        <h5 class='card-title'>Classe ${ c.class_name }</h5>
+                        <button onclick="showClass('${ c.class_id }')" class='btn btn-success  ' id='showClassButton'>Visualizza classe</button>
+                    </div>
+                </div></center>
+            </div>
+            `)
+            document.getElementById('classes').innerHTML += '</div>'
+        }
+    })
+}
 
+function createClass (token, className, classAccessType, classSchoolId, teacherId) {
+    $.ajax({
+        url: '../../php/addNewClass.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            token: token,
+            className: className,
+            classAccessType: classAccessType,
+            classSchoolId: classSchoolId,
+            teacherId: teacherId
+        },
+        success: data => {
+            console.log(data)
+            document.getElementById('newClassAlert').className = 'alert alert-success my-2'
+            document.getElementById('newClassAlert').innerHTML = '<b>Classe creata con successo</b>'
+            getClasses()
+        },
+        error: data => {
+            console.log(data)
+        }
+    })
+}
 
 $.ajax({
     url: '../../php/jwt.php?type=teachers',
@@ -14,25 +60,7 @@ $.ajax({
         userInfo = data
 
         document.getElementById('title').innerHTML = 'Benvenuto ' + userInfo.name
-        $.ajax({
-            url: `../../php/getClasses.php?teacher_id=${ userInfo.id }`,
-            type: 'GET',
-            dataType: 'json',
-            success: data => {
-                // console.log(`Classi di questo insegnante: ${ data }`)
-                document.getElementById('classes').innerHTML = '<div class="row">'
-                data.map(c => document.getElementById('classes').innerHTML += `<div class="col">
-                <center><div class='card my-2' style='width: 18rem; margin: auto; '>
-                    <div class='card-body'>
-                        <h5 class='card-title'>Classe ${ c.name }</h5>
-                        <p class='card-text'>${ c.description }</p>
-                        <button onclick="showClass('${ c.class_id }')" class='btn btn-success  ' id='showClassButton'>Visualizza classe</button>
-                    </div>
-                </div></center></div>
-                `)
-                document.getElementById('classes').innerHTML += '</div>'
-            }
-        })
+        getClasses()
     },
     error: (data) => {
         console.log(data)
@@ -56,26 +84,7 @@ $.ajax({
 
 document.getElementById('newClassForm').addEventListener('submit', event => {
     event.preventDefault()
-    $.ajax({
-        url: '../../php/addNewClass.php',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            token: window.localStorage.getItem('token'),
-            className: document.getElementById('newClassName').value,
-            classAccessType: document.getElementById('newClassAccessType').value,
-            classSchoolId: document.getElementById('newClassSchoolId').value,
-            teacherId: userInfo.id
-        },
-        success: data => {
-            console.log(data)
-            document.getElementById('newClassAlert').className = 'alert alert-success my-2'
-            document.getElementById('newClassAlert').innerHTML = '<b>Classe creata con successo</b>'
-        },
-        error: data => {
-            console.log(data)
-        }
-    })
+    createClass(window.localStorage.getItem('token'), document.getElementById('newClassName').value, document.getElementById('newClassAccessType').value, document.getElementById('newClassSchoolId').value, userInfo.id)
 })
 
 document.getElementById('logoutButton').addEventListener('click', () => {
