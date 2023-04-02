@@ -67,9 +67,11 @@ function showStudentInfo (id) {
         data: {
             student_id: id
         },
-        success: data => {
-            document.getElementById('student-name').innerHTML = `${ data.name } ${ data.surname }`
-            document.getElementById('student-image').src = `${ data.student_id }.jpeg`
+        success: student => {
+            document.getElementById('student-name').innerHTML = `${ student.name } ${ student.surname }`
+            if (student.photo) {
+                document.getElementById('student-image').src = `../../photos/${ student.student_id }.jpeg`
+            }
         },
         error: data => {
             console.log(data)
