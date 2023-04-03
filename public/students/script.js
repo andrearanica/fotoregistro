@@ -19,6 +19,7 @@ $.ajax({
 
         document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
         document.getElementById('student-id').value = user.id
+
         if (user.class_id == null) {
             document.getElementById('user-alert').className = 'alert alert-warning'
             document.getElementById('user-alert').innerHTML = '<b>Non sei ancora iscritto alla tua classe</b>'
@@ -63,16 +64,22 @@ $.ajax({
                 success: (data) => {
                     classInfo = data
                     console.log(classInfo)
-                    document.getElementById('user-alert').className = 'alert'
-                    document.getElementById('user-alert').innerHTML = `<p>Sei iscritto alla classe ${ classInfo[0].class_name }</h1>`
+                    document.getElementById('user-alert').className = 'alert alert-success'
+                    document.getElementById('user-alert').innerHTML = `<b>Sei iscritto alla classe ${ classInfo[0].class_name }</b>`
                 }
             })
-            if (user.photo == 1) {
-                document.getElementById('user-alert').className = 'alert alert-success'
-            } else {
-                document.getElementById('user-alert').className = 'alert alert-warning'
-                
-            }
+        }
+
+        if (user.photo) {
+            document.getElementById('start-camera').style = 'display: none';
+            document.getElementById('student-photo').src = `../../photos/${ user.id }.jpg`
+            document.getElementById('messages').innerHTML = 'Questa è la tua foto. Se non ti piace, puoi <a id="remove-photo">ricaricarla</a>'
+            document.getElementById('remove-photo').addEventListener('click', () => {
+                removePhoto(user.id)
+            })
+        } else {
+            document.getElementById('start-camera').style = '';
+            document.getElementById('messages').innerHTML += 'Non hai ancora caricato la foto: è il momento giusto per farlo!'
         }
     },
     error: (data) => {
@@ -87,19 +94,47 @@ document.getElementById('start-camera').addEventListener('click', async () => {
     video.srcObject = stream
 })
 
+document.getElementById('try-again-photo').addEventListener('click', () => {
+    document.getElementById('video').style = ''
+    document.getElementById('try-again-photo').style = 'display: none'
+    document.getElementById('save-photo').style = 'display: none'
+    document.getElementById('click-photo').style = ''
+    document.getElementById('canvas').style = 'display: none'
+})
+
 document.getElementById('click-photo').addEventListener('click', () => {
     let canvas = document.getElementById('canvas')
     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
     let image_data_url = canvas.toDataURL('image/jpeg')
+    document.getElementById('video').style = 'display: none'
+    document.getElementById('try-again-photo').style = ''
+    document.getElementById('save-photo').style = ''
+    document.getElementById('click-photo').style = 'display: none'
+    document.getElementById('canvas').style = ''
+})
 
-    let formData = new FormData()
-    formData.append('file', fileupload.files[0])
+function removePhoto (id) {
     $.ajax({
-        url: '../../php/upload.php',
+        url: '../../php/upload.php?remove',
         type: 'POST',
-        dataType: 'json',
         data: {
+            student_id: id
+        }
+    })
+}
 
+document.getElementById('save-photo').addEventListener('click', () => {
+    $.ajax({
+        url: '../../upload.php',
+        type: 'POST',
+        data: {
+            form: document.getElementById('photo-form')
+        },
+        success: data => {
+            console.log(data)
+        },
+        error: data => {
+            console.log(data)
         }
     })
 })

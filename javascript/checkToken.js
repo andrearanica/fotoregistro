@@ -11,6 +11,9 @@ if (window.localStorage.getItem('token') == '') {
             if (!data.valid) {
                 window.location.href = '../'
             }
+        },
+        error: () => {
+            window.location.href = '../'
         }
     })
 }
