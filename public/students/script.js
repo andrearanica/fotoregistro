@@ -18,6 +18,7 @@ $.ajax({
         user.photo = data.photo*/
 
         document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
+        document.getElementById('student-id').value = user.id
         if (user.class_id == null) {
             document.getElementById('user-alert').className = 'alert alert-warning'
             document.getElementById('user-alert').innerHTML = '<b>Non sei ancora iscritto alla tua classe</b>'
@@ -90,5 +91,15 @@ document.getElementById('click-photo').addEventListener('click', () => {
     let canvas = document.getElementById('canvas')
     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
     let image_data_url = canvas.toDataURL('image/jpeg')
-    
+
+    let formData = new FormData()
+    formData.append('file', fileupload.files[0])
+    $.ajax({
+        url: '../../php/upload.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+
+        }
+    })
 })

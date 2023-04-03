@@ -34,10 +34,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <video id='video' width='320' height='240' autoplay></video>
+                        <form id='photo-form' action='../../php/upload.php' method='post' enctype='multipart/form-data'>
+                            <!--<video id='video' width='320' height='240' autoplay></video>
                         
-                        <div class='text-center'>Risultato</div>
-                        <canvas id='canvas' width='320' height='240'>Scatta la foto...</canvas>
+                            <div class='text-center'>Risultato</div>
+                            <canvas id='canvas' width='320' height='240'>Scatta la foto...</canvas>-->
+                            <input id='student-id' style='display: none' name='student_id'>
+                            <input id='file-upload' type='file' name='file'>
+                            <input class='btn' name='upload' type='submit'>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button id='click-photo' class='btn btn-success'>Scatta</button>
