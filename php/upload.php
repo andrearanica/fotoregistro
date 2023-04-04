@@ -10,18 +10,13 @@ if (isset($_GET['remove'])) {
     $stmt = $connection->prepare($query);
     $stmt->execute();
 } else {
-    $dir = '../photos/';
-    foreach ($_FILES as $file) {
-        if (UPLOAD_ERR_OK === $file['error']) {
-            $extension = explode('.', $file['name'])[1];
-            $fileName = basename("$student_id.jpg");
-            move_uploaded_file($file['tmp_name'], $dir.DIRECTORY_SEPARATOR.$fileName);
-            
-            // header('Location: ../public/students/index.html');
-        } else {
-            header('Location: ');
-        }
-    }
+    define('UPLOAD_DIR', '../photos/');
+    $image_parts = explode(';base64,', $_POST['photo']);
+    $image_type_aux = explode('image/', $image_parts[0]);
+    $image_type = $image_type_aux[1];
+    $image_base64 = base64_decode($image_parts[1]);
+    $file = UPLOAD_DIR . "$student_id.png";
+    file_put_contents($file, $image_base64);
     
     $query = "UPDATE students SET photo=1 WHERE student_id='$student_id';";
     $stmt = $connection->prepare($query);

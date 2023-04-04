@@ -72,7 +72,7 @@ $.ajax({
 
         if (user.photo) {
             document.getElementById('start-camera').style = 'display: none';
-            document.getElementById('student-photo').src = `../../photos/${ user.id }.jpg`
+            document.getElementById('student-photo').src = `../../photos/${ user.id }.png`
             document.getElementById('messages').innerHTML = 'Questa è la tua foto. Se non ti piace, puoi <a id="remove-photo">ricaricarla</a>'
             document.getElementById('remove-photo').addEventListener('click', () => {
                 removePhoto(user.id)
@@ -125,10 +125,11 @@ function removePhoto (id) {
 
 document.getElementById('save-photo').addEventListener('click', () => {
     $.ajax({
-        url: '../../upload.php',
+        url: '../../php/upload.php',
         type: 'POST',
         data: {
-            form: document.getElementById('photo-form')
+            student_id: user.id,
+            photo: document.getElementById('canvas').toDataURL('image/png')
         },
         success: data => {
             console.log(data)
