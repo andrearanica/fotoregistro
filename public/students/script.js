@@ -18,7 +18,7 @@ $.ajax({
         user.photo = data.photo*/
 
         document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
-        document.getElementById('student-id').value = user.id
+        document.getElementById('student-id').value = user.student_id
 
         if (user.class_id == null) {
             document.getElementById('user-alert').className = 'alert alert-warning'
@@ -38,7 +38,7 @@ $.ajax({
                         type: 'POST',
                         data: {
                             classId: decodedText,
-                            studentId: user.id
+                            studentId: user.student_id
                         },
                         dataType: 'json',
                         success: (data) => {
@@ -72,10 +72,10 @@ $.ajax({
 
         if (user.photo) {
             document.getElementById('start-camera').style = 'display: none';
-            document.getElementById('student-photo').src = `../../photos/${ user.id }.png`
+            document.getElementById('student-photo').src = `../../photos/${ user.student_id }.png`
             document.getElementById('messages').innerHTML = 'Questa è la tua foto. Se non ti piace, puoi <a id="remove-photo">ricaricarla</a>'
             document.getElementById('remove-photo').addEventListener('click', () => {
-                removePhoto(user.id)
+                removePhoto(user.student_id)
             })
         } else {
             document.getElementById('start-camera').style = '';
@@ -128,7 +128,7 @@ document.getElementById('save-photo').addEventListener('click', () => {
         url: '../../php/upload.php',
         type: 'POST',
         data: {
-            student_id: user.id,
+            student_id: user.student_id,
             photo: document.getElementById('canvas').toDataURL('image/png')
         },
         success: data => {

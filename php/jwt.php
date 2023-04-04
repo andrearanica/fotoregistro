@@ -58,8 +58,21 @@ function getInfo ($token, $type) {
     $payload = $tokenParts[1];
     $payload = json_encode(base64_decode($payload));
 
-    echo json_decode($payload);
+    $id = str_replace("\\", "", explode('"', explode('_', $payload)[1])[0]);
     
+    if ($type == 'students') {
+        $query = "SELECT * FROM students WHERE student_id='st_$id'";
+    } else if ($type == 'teachers') {
+        $query = "SELECT * FROM teachers WHERE teacher_id='tc_$id'";
+    }
+
+    $stmt = $connection->prepare($query);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $row = $result->fetch_assoc();
+    echo json_encode($row);
+
     /*$email = explode(':', $payload);
     $email = $email[1];
     echo $email;

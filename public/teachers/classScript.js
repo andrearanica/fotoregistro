@@ -70,7 +70,7 @@ function showStudentInfo (id) {
         success: student => {
             document.getElementById('student-name').innerHTML = `${ student.name } ${ student.surname }`
             if (student.photo) {
-                document.getElementById('student-image').src = `../../photos/${ student.student_id }.jpeg`
+                document.getElementById('student-image').src = `../../photos/${ student.student_id }.png`
             }
         },
         error: data => {

@@ -38,3 +38,7 @@ body {
     padding: 20px;
     top: 105%;
 }
+
+img {
+    border-radius: 25px;
+}

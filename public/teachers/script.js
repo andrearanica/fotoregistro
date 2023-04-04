@@ -3,7 +3,7 @@ let classes = []
 
 function getClasses () {
     $.ajax({
-        url: `../../php/getClasses.php?teacher_id=${ userInfo.id }`,
+        url: `../../php/getClasses.php?teacher_id=${ userInfo.teacher_id }`,
         type: 'GET',
         dataType: 'json',
         success: data => {
@@ -84,7 +84,7 @@ $.ajax({
 
 document.getElementById('newClassForm').addEventListener('submit', event => {
     event.preventDefault()
-    createClass(window.localStorage.getItem('token'), document.getElementById('newClassName').value, document.getElementById('newClassAccessType').value, document.getElementById('newClassSchoolId').value, userInfo.id)
+    createClass(window.localStorage.getItem('token'), document.getElementById('newClassName').value, document.getElementById('newClassAccessType').value, document.getElementById('newClassSchoolId').value, userInfo.teacher_id)
 })
 
 document.getElementById('logoutButton').addEventListener('click', () => {
