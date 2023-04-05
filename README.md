@@ -14,12 +14,18 @@ The frontend calls the scripts on the backend to obtain data and write on the da
     - [X] Signup with clean data
     - [X] Enable account with link
     - [ ] Send email for signup
-    - [ ] Send JWT login
-    - [ ] Check JWT
+    - [X] Send JWT login
+    - [X] Check JWT
 - [ ] Dashboard
-    - [X] Subscribe classroom
-    - [ ] Print class PDF
-    - [X] Read QR
+    - [ ] Teacher
+        - [X] Create a class
+        - [ ] Print class PDF
+        - [X] Create QR QR
+    - [ ] Student
+        - [X] Subscribe to a class with QR
+        - [ ] Subscribe to a class with code
+        - [X] Send photo 
+        - [X] Delete photo
 
 ### ❤️ Credits
 HTML5-QRCODE, the library for the qr-reading function: <a href="https://github.com/mebjas/html5-qrcode">https://github.com/mebjas/html5-qrcode</a>
