@@ -35,8 +35,8 @@
                 <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Scatta una foto</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Scatta la foto</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id='photo-form' action='../../php/upload.php' method='post' enctype='multipart/form-data'>
@@ -53,6 +53,26 @@
                         <button id='try-again-photo' class='btn' style='display: none'>Riprova</button>
                         <button id='click-photo' class='btn btn-success'>Scatta</button>
                         <button id='save-photo' class='btn' style='display: none'>Salva</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <button id='start-camera' class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload-modal">Carica la foto da file</button>
+            <div class="modal fade" id="upload-modal" tabindex="-1" aria-labelledby="photo-modal" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Carica la foto</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action='../../php/upload.php?file' method='POST'>
+                            <input name='photo-file' type='file'>
+                            <input id='student-id' style='display: none' name='student_id'>
+                    </div>
+                    <div class="modal-footer">
+                        <input type='submit'>
+                        </form>    
                     </div>
                 </div>
                 </div>

@@ -121,6 +121,7 @@ function removePhoto (id) {
             student_id: id
         }
     })
+    location.reload()
 }
 
 document.getElementById('save-photo').addEventListener('click', () => {
@@ -138,4 +139,5 @@ document.getElementById('save-photo').addEventListener('click', () => {
             console.log(data)
         }
     })
+    location.reload()
 })
