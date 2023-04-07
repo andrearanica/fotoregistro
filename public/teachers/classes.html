@@ -22,7 +22,10 @@
         <div class='container my-5 text-center'>
             <h1 id='title'></h1>
         
-            <h4>Ecco il QR code da mostrare</h4><canvas id='canvas'></canvas>
+            <p class='my-1'>Per iscriverti a questa classe</p>
+            <h4>Scansiona questo QR code</h4><canvas id='canvas'></canvas>
+            <p id='class-id'></p>
+            <hr>
             <div id='show-students'>
                 
             </div>
@@ -32,16 +35,16 @@
                 <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
+                        <h4 class="modal-title fs-5" id='student-name'></h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
                     <div class="modal-body">
-                        <h4 id='student-name'></h4>
                         <img id='student-image' width='400'>
+                        <p id='student-messages'></p>
                     </div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                        <button id='delete-photo' class='btn btn-warning' style='color: white;'>Cancella questa foto</button>
+                        <button id='ban-student' class='btn btn-danger'>Espelli questo studente</button>
                     </div>
                 </div>
                 </div>

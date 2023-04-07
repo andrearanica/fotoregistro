@@ -5,10 +5,25 @@ require('connection.php');
 
 $student_id = $_POST['student_id'];
 
-if (isset($_GET['remove'])) {
+if (isset($_GET['file'])) {
+    echo 'Stai caricando';
+    foreach ($_FILES as $file) {
+        if (UPLOAD_ERR_OK === $file['error']) {
+            $fileName = "$student_id.png";
+            move_uploaded_file($file['tmp_name'], "../photos/$fileName");
+        }
+    }
+    $query = "UPDATE students SET photo=1 WHERE student_id='$student_id';";
+    $stmt = $connection->prepare($query);
+    $stmt->execute();
+
+    header('Location: ../public/students/');
+
+} else if (isset($_GET['remove'])) {
     $query = "UPDATE students SET photo=0 WHERE student_id='$student_id';";
     $stmt = $connection->prepare($query);
     $stmt->execute();
+    unlink("../photos/$student_id.png");
 } else {
     define('UPLOAD_DIR', '../photos/');
     $image_parts = explode(';base64,', $_POST['photo']);

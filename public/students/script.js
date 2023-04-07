@@ -18,7 +18,8 @@ $.ajax({
         user.photo = data.photo*/
 
         document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
-        document.getElementById('student-id').value = user.student_id
+        document.getElementById('student-id-1').value = user.student_id
+        document.getElementById('student-id-2').value = user.student_id
 
         if (user.class_id == null) {
             document.getElementById('user-alert').className = 'alert alert-warning'
@@ -140,4 +141,20 @@ document.getElementById('save-photo').addEventListener('click', () => {
         }
     })
     location.reload()
+})
+
+document.getElementById('unsubscribe').addEventListener('click', () => {
+    $.ajax({
+        url: '../../php/unsubscribe.php',
+        type: 'POST',
+        data: {
+            student_id: user.student_id
+        },
+        success: data => {
+            location.reload()
+        },
+        error: data => {
+            console.log(data)
+        }
+    })
 })

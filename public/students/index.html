@@ -44,7 +44,7 @@
                         
                             <!--<div class='text-center'>Risultato</div>-->
                             <canvas id='canvas' width='320' height='240' style='display: none'>Scatta la foto...</canvas>
-                            <input id='student-id' style='display: none' name='student_id'>
+                            <input id='student-id-1' style='display: none' name='student_id'>
                             <!--<input id='file-upload' type='file' name='file'>
                             <input class='btn' name='upload' type='submit'>-->
                         </form>
@@ -66,17 +66,20 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action='../../php/upload.php?file' method='POST'>
-                            <input name='photo-file' type='file'>
-                            <input id='student-id' style='display: none' name='student_id'>
+                        <form action='../../php/upload.php?file' method='POST' enctype='multipart/form-data'>
+                            <input name='file' type='file'>
+                            <input id='student-id-2' style='display: none' name='student_id'>
+                            <input type='submit' class='btn btn-success'>
+                        </form>  
                     </div>
                     <div class="modal-footer">
-                        <input type='submit'>
-                        </form>    
+                          
                     </div>
                 </div>
                 </div>
-            </div>
+            </div><br>
+
+            <button id='unsubscribe' class='btn btn-danger'>Disiscriviti dalla classe</button>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
