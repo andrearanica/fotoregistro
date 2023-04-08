@@ -6,7 +6,7 @@ require('connection.php');
 $student_id = $_POST['student_id'];
 
 if (isset($_GET['file'])) {
-    echo 'Stai caricando';
+    unlink("../photos/$student_id.png");
     foreach ($_FILES as $file) {
         if (UPLOAD_ERR_OK === $file['error']) {
             $fileName = "$student_id.png";

@@ -55,7 +55,8 @@ function showStudents (students) {
     }
     students.map(student => {
         studentsDiv.innerHTML += `
-        <button class='btn' student-info-button' onclick="showStudentInfo('${ student.student_id }')" data-bs-toggle='modal' data-bs-target='#student-info'>${ student.name } ${ student.surname }</button> <br />
+        <button class='btn' student-info-button' onclick="showStudentInfo('${ student.student_id }')" data-bs-toggle='modal' data-bs-target='#student-info'>${ student.name } ${ student.surname }</button>
+        <button class='btn btn-danger'>🗑️</button> <br />
         `
     })
 }

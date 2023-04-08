@@ -67,12 +67,14 @@ $.ajax({
                     console.log(classInfo)
                     document.getElementById('user-alert').className = 'alert alert-success'
                     document.getElementById('user-alert').innerHTML = `<b>Sei iscritto alla classe ${ classInfo[0].class_name }</b>`
+                    document.getElementById('unsubscribe').style = '';
                 }
             })
         }
 
         if (user.photo) {
             document.getElementById('start-camera').style = 'display: none';
+            document.getElementById('upload-photo').style = 'display: none';
             document.getElementById('student-photo').src = `../../photos/${ user.student_id }.png`
             document.getElementById('messages').innerHTML = 'Questa è la tua foto. Se non ti piace, puoi <a id="remove-photo">ricaricarla</a>'
             document.getElementById('remove-photo').addEventListener('click', () => {
@@ -155,6 +157,28 @@ document.getElementById('unsubscribe').addEventListener('click', () => {
         },
         error: data => {
             console.log(data)
+        }
+    })
+})
+
+document.getElementById('subscribe-to-class').addEventListener('submit', (e) => {
+    e.preventDefault()
+    $.ajax({
+        url: '../../php/subscribeToClass.php',
+        type: 'POST',
+        data: {
+            classId: document.getElementById('class-id'),
+            studentId: user.student_id
+        },
+        dataType: 'json',
+        success: (data) => {
+            console.log('Iscritto')
+            user.classId = decodedText
+            document.getElementById('user-alert').className = 'alert alert-success my-2'
+            document.getElementById('user-alert').innerHTML = '<b>Sei stato iscritto</b>'
+        },
+        error: (error) => {
+            console.log(error)
         }
     })
 })

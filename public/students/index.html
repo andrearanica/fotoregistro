@@ -21,10 +21,19 @@
             <div id='user-alert'>
                 
             </div>
+            <button id='unsubscribe' class='btn btn-danger' style='display: none;'>Disiscriviti dalla classe</button>
                 
-            <div id='reader' width='600px'>
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#reader" role="button" aria-expanded="false" aria-controls="collapseExample">Scansiona QR code</a>
+            <div class='collapse' id='reader' width='600px'>
 
             </div>
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#subscribe-to-class" role="button" aria-expanded="false" aria-controls="collapseExample">Iscriviti con codice</a>
+            <form id='subscribe-to-class' class='collapse'>
+                <input id='class-id' class='form-control my-2'>
+                <input type='submit' class='btn' value='Iscriviti'>
+            </form>
+
+            <hr class='my-4'>
             
             <img id='student-photo' width='400'>
             <div id='messages' class='my-4'>
@@ -57,7 +66,7 @@
                 </div>
                 </div>
             </div>
-            <button id='start-camera' class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload-modal">Carica la foto da file</button>
+            <button id='upload-photo' class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload-modal">Carica la foto da file</button>
             <div class="modal fade" id="upload-modal" tabindex="-1" aria-labelledby="photo-modal" aria-hidden="true">
                 <div class="modal-dialog">
                 <div class="modal-content">
@@ -78,8 +87,6 @@
                 </div>
                 </div>
             </div><br>
-
-            <button id='unsubscribe' class='btn btn-danger'>Disiscriviti dalla classe</button>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
