@@ -24,6 +24,7 @@ $.ajax({
         if (user.class_id == null) {
             document.getElementById('user-alert').className = 'alert alert-warning'
             document.getElementById('user-alert').innerHTML = '<b>Non sei ancora iscritto alla tua classe</b>'
+            document.getElementById('subscribe-form').style = ''
             let html5QrcodeScanner = new Html5QrcodeScanner("reader", {
                 fps: 10,
                 qrbox: {
@@ -55,6 +56,7 @@ $.ajax({
                 }
             }
         } else {
+            document.getElementById('subscribe-form').style = 'display: none;'
             $.ajax({
                 url: '../../php/getClasses.php',
                 type: 'GET',
@@ -172,7 +174,7 @@ document.getElementById('subscribe-to-class').addEventListener('submit', (e) => 
         },
         dataType: 'json',
         success: (data) => {
-            console.log('Iscritto')
+            console.log(data)
             user.classId = decodedText
             document.getElementById('user-alert').className = 'alert alert-success my-2'
             document.getElementById('user-alert').innerHTML = '<b>Sei stato iscritto</b>'

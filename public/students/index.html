@@ -22,16 +22,18 @@
                 
             </div>
             <button id='unsubscribe' class='btn btn-danger' style='display: none;'>Disiscriviti dalla classe</button>
-                
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#reader" role="button" aria-expanded="false" aria-controls="collapseExample">Scansiona QR code</a>
-            <div class='collapse' id='reader' width='600px'>
+            
+            <div id='subscribe-form'>
+                <a class="btn btn-primary" data-bs-toggle="collapse" href="#reader" role="button" aria-expanded="false" aria-controls="collapseExample">Scansiona QR code</a>
+                <div class='collapse' id='reader' width='600px'>
 
+                </div>
+                <a class="btn btn-primary" data-bs-toggle="collapse" href="#subscribe-to-class" role="button" aria-expanded="false" aria-controls="collapseExample">Iscriviti con codice</a>
+                <form id='subscribe-to-class' class='collapse'>
+                    <input id='class-id' class='form-control my-2'>
+                    <input type='submit' class='btn' value='Iscriviti'>
+                </form>
             </div>
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#subscribe-to-class" role="button" aria-expanded="false" aria-controls="collapseExample">Iscriviti con codice</a>
-            <form id='subscribe-to-class' class='collapse'>
-                <input id='class-id' class='form-control my-2'>
-                <input type='submit' class='btn' value='Iscriviti'>
-            </form>
 
             <hr class='my-4'>
             
