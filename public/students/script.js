@@ -25,8 +25,8 @@ $.ajax({
             document.getElementById('user-alert').className = 'alert alert-warning'
             document.getElementById('user-alert').innerHTML = '<b>Non sei ancora iscritto alla tua classe</b>'
             document.getElementById('subscribe-form').style = ''
-            let html5QrcodeScanner = new Html5QrcodeScanner("reader", {
-                fps: 10,
+            let html5QrcodeScanner = new Html5QrcodeScanner('reader', {
+                fps: 24,
                 qrbox: {
                     width: 250,
                     height: 250
@@ -169,18 +169,15 @@ document.getElementById('subscribe-to-class').addEventListener('submit', (e) => 
         url: '../../php/subscribeToClass.php',
         type: 'POST',
         data: {
-            classId: document.getElementById('class-id'),
+            classId: document.getElementById('class-id').value,
             studentId: user.student_id
         },
         dataType: 'json',
-        success: (data) => {
-            console.log(data)
-            user.classId = decodedText
-            document.getElementById('user-alert').className = 'alert alert-success my-2'
-            document.getElementById('user-alert').innerHTML = '<b>Sei stato iscritto</b>'
+        success: data => {
+            location.reload()
         },
-        error: (error) => {
-            console.log(error)
+        error: data => {
+            console.log(data)
         }
     })
 })

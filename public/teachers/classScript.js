@@ -21,7 +21,7 @@ $.ajax({
         classInfo = data[0]
         console.log(classInfo)
         document.getElementById('title').innerHTML = `Classe ${ classInfo.class_name }`
-        document.getElementById('class-id').innerHTML = `Oppure inserisci questo codice: ${ classInfo.class_id.replace('cl_', '') }`
+        document.getElementById('class-id').innerHTML = `Oppure inserisci questo codice: ${ classInfo.class_id }`
         let canvas = document.getElementById('canvas')
         QRCode.toCanvas(canvas, id, (error) => {
             if (error) {
