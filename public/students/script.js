@@ -168,6 +168,9 @@ document.getElementById('subscribe-to-class').addEventListener('submit', (e) => 
     $.ajax({
         url: '../../php/subscribeToClass.php',
         type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
         data: {
             classId: document.getElementById('class-id').value,
             studentId: user.student_id

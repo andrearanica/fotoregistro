@@ -41,8 +41,10 @@ function check ($jwt, $secret = 'tia') {
 
     if ($check) {
         echo json_encode(array('valid' => true));
+        return true;
     } else {
         echo json_encode(array('valid' => false));
+        return false;
     }
 }
 
