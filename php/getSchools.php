@@ -1,6 +1,8 @@
 <?php
 
 require('connection.php');
+require('checkToken.php');
+
 $query = 'SELECT * FROM schools';
 
 $stmt = $connection->prepare($query);

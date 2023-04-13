@@ -22,7 +22,11 @@ function base64url_encode ($str) {
 //$jwt = jwt($headers, $payload);
 
 if (isset($_GET['check'])) {
-    check($_GET['check']);
+    if (check($_GET['check'])) {
+        echo json_encode(array('valid' => true));
+    } else {
+        echo json_encode(array('valid' => false));
+    }
 } else if (isset($_POST['token']) && isset($_GET['type']))  {
     getInfo($_POST['token'], $_GET['type']);
 }
@@ -40,10 +44,8 @@ function check ($jwt, $secret = 'tia') {
     $check = ($base64_url_signature === $signature_provided);
 
     if ($check) {
-        echo json_encode(array('valid' => true));
         return true;
     } else {
-        echo json_encode(array('valid' => false));
         return false;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 require('connection.php');
+require('checkToken.php');
 
 $student_id = $_POST['student_id'];
 

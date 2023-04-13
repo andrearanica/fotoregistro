@@ -3,6 +3,7 @@
 $student_id = $_GET['student_id'];
 
 require('connection.php');
+require('checkToken.php');
 
 $query = "SELECT * FROM students WHERE student_id='$student_id'";
 $stmt = $connection->prepare($query);
