@@ -13,6 +13,9 @@ $.ajax({
     // document.getElementById('title').innerHTML = 'ciao'
     url: '../../php/getClasses.php',
     type: 'GET',
+    headers: {
+        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+    },
     dataType: 'json',
     data: {
         class_id: id
@@ -35,6 +38,9 @@ $.ajax({
     // document.getElementById('title').innerHTML = 'ciao'
     url: '../../php/getClasses.php?students',
     type: 'GET',
+    headers: {
+        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+    },
     dataType: 'json',
     data: {
         class_id: id
@@ -65,6 +71,9 @@ function showStudentInfo (id) {
     $.ajax({
         url: '../../php/getStudentInfo.php',
         type: 'GET',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
         dataType: 'json',
         data: {
             student_id: id
@@ -84,6 +93,9 @@ function showStudentInfo (id) {
                 $.ajax({
                     url: '../../php/unsubscribe.php',
                     type: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+                    },
                     data: {
                         student_id: student.student_id
                     },
@@ -96,6 +108,9 @@ function showStudentInfo (id) {
                 $.ajax({
                     url: '../../php/upload.php?remove',
                     type: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+                    },
                     data: {
                         student_id: student.student_id
                     },

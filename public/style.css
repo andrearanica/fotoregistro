@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap');
+
+body {
+    font-family: 'Fira Sans', sans-serif;
+}
+
 .homePanel {
     color: darkblue;
     border-radius: 25px;

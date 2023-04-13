@@ -1,10 +1,13 @@
-let userInfo = {}
+let user = {}
 let classes = []
 
 function getClasses () {
     $.ajax({
-        url: `../../php/getClasses.php?teacher_id=${ userInfo.teacher_id }`,
+        url: `../../php/getClasses.php?teacher_id=${ user.teacher_id }`,
         type: 'GET',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
         dataType: 'json',
         success: data => {
             console.log(data)
@@ -29,6 +32,9 @@ function createClass (token, className, classAccessType, classSchoolId, teacherI
     $.ajax({
         url: '../../php/addNewClass.php',
         type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
         dataType: 'json',
         data: {
             token: token,
@@ -52,14 +58,22 @@ function createClass (token, className, classAccessType, classSchoolId, teacherI
 $.ajax({
     url: '../../php/jwt.php?type=teachers',
     type: 'POST',
+    headers: {
+        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+    },
     dataType: 'json',
     data: {
         token: window.localStorage.getItem('token')
     },
     success: (data) => {
-        userInfo = data
+        user = data
 
-        document.getElementById('title').innerHTML = 'Benvenuto ' + userInfo.name
+        document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
+        document.getElementById('account-name').value = user.name
+        document.getElementById('account-surname').value = user.surname
+        document.getElementById('account-email').value = user.email
+        document.getElementById('account-password').value = user.password
+        document.getElementById('account-password-confirm').value = user.password
         getClasses()
     },
     error: (data) => {
@@ -70,6 +84,9 @@ $.ajax({
 $.ajax({
     url: '../../php/getSchools.php',
     type: 'GET',
+    headers: {
+        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+    },
     dataType: 'json',
     success: data => {
         console.log(data)
@@ -84,10 +101,10 @@ $.ajax({
 
 document.getElementById('newClassForm').addEventListener('submit', event => {
     event.preventDefault()
-    createClass(window.localStorage.getItem('token'), document.getElementById('newClassName').value, document.getElementById('newClassAccessType').value, document.getElementById('newClassSchoolId').value, userInfo.teacher_id)
+    createClass(window.localStorage.getItem('token'), document.getElementById('newClassName').value, document.getElementById('newClassAccessType').value, document.getElementById('newClassSchoolId').value, user.teacher_id)
 })
 
-document.getElementById('logoutButton').addEventListener('click', () => {
+document.getElementById('logout').addEventListener('click', () => {
     window.localStorage.clear()
     window.location.href = '../'
 })
@@ -97,24 +114,45 @@ function showClass (classId) {
 
 }
 
-document.getElementById('accountInfoForm').addEventListener('submit', event => {
-    event.preventDefault()
+document.getElementById('account-info-form').addEventListener('submit', (e) => {
+    e.preventDefault()
+    document.getElementById('account-alert').className = ''
+    document.getElementById('account-alert').innerHTML = ''
+    if (document.getElementById('account-password').value != document.getElementById('account-password-confirm').value) {
+        document.getElementById('account-alert').className = 'alert alert-danger my-2'
+        document.getElementById('account-alert').innerHTML = '<b>Le password non corrispondono</b>'
+        return
+    }
     $.ajax({
-        url: '../../php/updateAccount.php?type=teachers',
+        url: '../../php/updateAccount.php',
         type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
+        dataType: 'json',
         data: {
-            name: document.getElementById('accountName').value,
-            surname: document.getElementById('accountSurname').value,
-            email: document.getElementById('accountEmail'),
-            password: document.getElementById('accountPassword')
+            type: 'teachers',
+            name: document.getElementById('account-name').value,
+            surname: document.getElementById('account-surname').value,
+            email: document.getElementById('account-email').value,
+            password: document.getElementById('account-password').value
         },
-        success: () => {
-            document.getElementById('accountInfoAlert').className = 'alert alert-success'
-            document.getElementById('accountInfoAlert').innerHTML = '<b>Credenziali aggiornate correttamente</b>'
-        },
-        error: () => {
-            document.getElementById('accountInfoAlert').className = 'alert alert-danger'
-            document.getElementById('accountInfoAlert').innerHTML = '<b>C\'è stato un errore, riprova più tardi'
+        success: data => {
+            if (data.message == 'ok') {
+                document.getElementById('account-alert').className = 'alert alert-success my-2'
+                document.getElementById('account-alert').innerHTML = '<b>Account modificato</b>'
+            } else {
+                document.getElementById('account-alert').className = 'alert alert-danger my-2'
+                document.getElementById('account-alert').innerHTML = '<b>Qualcosa è andato storto</b>'
+            }
         }
     })
+})
+
+document.getElementById('reset-account-info').addEventListener('click', () => {
+    document.getElementById('account-name').value = user.name
+    document.getElementById('account-surname').value = user.surname
+    document.getElementById('account-email').value = user.email
+    document.getElementById('account-password').value = user.password
+    document.getElementById('account-password-confirm').value = user.password
 })

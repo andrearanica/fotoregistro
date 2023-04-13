@@ -13,9 +13,15 @@
             #canvas {
                 border: 2px solid black;
             }
+            @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&display=swap');
+
+            body {
+                font-family: 'Fira Sans', sans-serif;
+            }
         </style>
     </head>
     <body>
+        <div id='navbar'></div>
         <div class='container my-5 text-center'>
             <h1 id='title'></h1>
             <div id='user-alert'>
@@ -33,6 +39,9 @@
                     <input id='class-id' class='form-control my-2 text-center'>
                     <input type='submit' class='btn' value='Iscriviti'>
                 </form>
+                <div id='subscribe-errors'>
+
+                </div>
             </div>
 
             <hr class='my-4'>
@@ -71,24 +80,54 @@
             <button id='upload-photo' class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload-modal">Carica la foto da file</button>
             <div class="modal fade" id="upload-modal" tabindex="-1" aria-labelledby="photo-modal" aria-hidden="true">
                 <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Carica la foto</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Carica la foto</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action='../../php/upload.php?file' method='POST' enctype='multipart/form-data'>
+                                <input name='file' type='file'>
+                                <input id='student-id-2' style='display: none' name='student_id'>
+                                <input type='submit' class='btn btn-success'>
+                            </form>  
+                        </div>
+                        <div class="modal-footer">
+                            
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <form action='../../php/upload.php?file' method='POST' enctype='multipart/form-data'>
-                            <input name='file' type='file'>
-                            <input id='student-id-2' style='display: none' name='student_id'>
-                            <input type='submit' class='btn btn-success'>
-                        </form>  
-                    </div>
-                    <div class="modal-footer">
-                          
-                    </div>
-                </div>
                 </div>
             </div><br>
+            
+            <div class="modal fade" id="accountInfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Il tuo account</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id='account-info-form'>
+                                <label for='account-name'>Nome</label>
+                                <input id='account-name' class='form-control my-2 text-center'>
+                                <label for='account-surname'>Cognome</label>
+                                <input id='account-surname' class='form-control my-2 text-center'>
+                                <label for='account-email'>Email</label>
+                                <input id='account-email' class='form-control my-2 text-center' readonly>
+                                <label for='account-password'>Password</label>
+                                <input id='account-password' class='form-control my-2 text-center' type='password'>
+                                <label for='account-password-confirm'>Conferma password</label>
+                                <input id='account-password-confirm' class='form-control my-2 text-center' type='password'>
+                                <input type='button' id='reset-account-info' class='btn btn-secondary' value='Reset'>
+                                <input type='submit' value='Modifica' class='btn btn-success'>
+                            </form>
+                            <div id='account-alert'>
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
@@ -97,5 +136,6 @@
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js'></script>
         <script src='script.js' type='module'></script>
         <script src='../../javascript/checkToken.js'></script>
+        <script src='../components/navbar.js'></script>
     </body>
 </html>

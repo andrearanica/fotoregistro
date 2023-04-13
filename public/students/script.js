@@ -4,6 +4,9 @@ let classInfo = {}
 $.ajax({
     url: '../../php/jwt.php?type=students',
     type: 'POST',
+    headers: {
+        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+    },
     dataType: 'json',
     data: {
         token: window.localStorage.getItem('token')
@@ -20,6 +23,13 @@ $.ajax({
         document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
         document.getElementById('student-id-1').value = user.student_id
         document.getElementById('student-id-2').value = user.student_id
+        
+        // Fill account form
+        document.getElementById('account-name').value = user.name
+        document.getElementById('account-surname').value = user.surname
+        document.getElementById('account-email').value = user.email
+        document.getElementById('account-password').value = user.password
+        document.getElementById('account-password-confirm').value = user.password
 
         if (user.class_id == null) {
             document.getElementById('user-alert').className = 'alert alert-warning'
@@ -38,6 +48,9 @@ $.ajax({
                     $.ajax({
                         url: '../../php/subscribeToClass.php',
                         type: 'POST',
+                        headers: {
+                            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+                        },
                         data: {
                             classId: decodedText,
                             studentId: user.student_id
@@ -45,9 +58,7 @@ $.ajax({
                         dataType: 'json',
                         success: (data) => {
                             console.log('Iscritto')
-                            user.classId = decodedText
-                            document.getElementById('user-alert').className = 'alert alert-success my-2'
-                            document.getElementById('user-alert').innerHTML = '<b>Sei stato iscritto</b>'
+                            location.reload()
                         },
                         error: (error) => {
                             console.log(error)
@@ -60,6 +71,9 @@ $.ajax({
             $.ajax({
                 url: '../../php/getClasses.php',
                 type: 'GET',
+                headers: {
+                    Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+                },
                 dataType: 'json',
                 data: {
                     class_id: user.class_id
@@ -122,6 +136,9 @@ function removePhoto (id) {
     $.ajax({
         url: '../../php/upload.php?remove',
         type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
         data: {
             student_id: id
         }
@@ -133,6 +150,9 @@ document.getElementById('save-photo').addEventListener('click', () => {
     $.ajax({
         url: '../../php/upload.php',
         type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
         data: {
             student_id: user.student_id,
             photo: document.getElementById('canvas').toDataURL('image/png')
@@ -151,6 +171,9 @@ document.getElementById('unsubscribe').addEventListener('click', () => {
     $.ajax({
         url: '../../php/unsubscribe.php',
         type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
         data: {
             student_id: user.student_id
         },
@@ -165,6 +188,8 @@ document.getElementById('unsubscribe').addEventListener('click', () => {
 
 document.getElementById('subscribe-to-class').addEventListener('submit', (e) => {
     e.preventDefault()
+    document.getElementById('subscribe-errors').className = ''            
+    document.getElementById('subscribe-errors').innerHTML = ''
     $.ajax({
         url: '../../php/subscribeToClass.php',
         type: 'POST',
@@ -181,6 +206,56 @@ document.getElementById('subscribe-to-class').addEventListener('submit', (e) => 
         },
         error: data => {
             console.log(data)
+            document.getElementById('subscribe-errors').className = 'alert alert-danger text-center my-4'            
+            document.getElementById('subscribe-errors').innerHTML = '<b>Classe non trovata</b>'            
         }
     })
+})
+
+document.getElementById('logout').addEventListener('click', () => {
+    window.localStorage.setItem('token', '')
+    window.location.href = '../'
+})
+
+document.getElementById('account-info-form').addEventListener('submit', (e) => {
+    e.preventDefault()
+    document.getElementById('account-alert').className = ''
+    document.getElementById('account-alert').innerHTML = ''
+    if (document.getElementById('account-password').value != document.getElementById('account-password-confirm').value) {
+        document.getElementById('account-alert').className = 'alert alert-danger my-2'
+        document.getElementById('account-alert').innerHTML = '<b>Le password non corrispondono</b>'
+        return
+    }
+    $.ajax({
+        url: '../../php/updateAccount.php',
+        type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
+        dataType: 'json',
+        data: {
+            type: 'students',
+            name: document.getElementById('account-name').value,
+            surname: document.getElementById('account-surname').value,
+            email: document.getElementById('account-email').value,
+            password: document.getElementById('account-password').value
+        },
+        success: data => {
+            if (data.message == 'ok') {
+                document.getElementById('account-alert').className = 'alert alert-success my-2'
+                document.getElementById('account-alert').innerHTML = '<b>Account modificato</b>'
+            } else {
+                document.getElementById('account-alert').className = 'alert alert-danger my-2'
+                document.getElementById('account-alert').innerHTML = '<b>Qualcosa è andato storto</b>'
+            }
+        }
+    })
+})
+
+document.getElementById('reset-account-info').addEventListener('click', () => {
+    document.getElementById('account-name').value = user.name
+    document.getElementById('account-surname').value = user.surname
+    document.getElementById('account-email').value = user.email
+    document.getElementById('account-password').value = user.password
+    document.getElementById('account-password-confirm').value = user.password
 })
