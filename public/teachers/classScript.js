@@ -31,6 +31,9 @@ $.ajax({
                 console.log(error)
             }
         })
+    },
+    error: data => {
+        console.log(data)
     }
 })
 

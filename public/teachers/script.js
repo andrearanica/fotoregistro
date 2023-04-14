@@ -156,3 +156,23 @@ document.getElementById('reset-account-info').addEventListener('click', () => {
     document.getElementById('account-password').value = user.password
     document.getElementById('account-password-confirm').value = user.password
 })
+
+document.getElementById('subscribe-form').addEventListener('submit', (e) => {
+    e.preventDefault()
+    $.ajax({
+        url: '../../php/addTeacherToClass.php',
+        type: 'POST',
+        data: {
+            teacher_id: user.teacher_id,
+            class_id: document.getElementById('subscribe-class-id').value
+        },
+        dataType: 'json',
+        success: data => {
+            getClasses()
+        },
+        error: data => {
+            document.getElementById('subscribe-alert').className = 'alert alert-danger'
+            document.getElementById('subscribe-alert').innerHTML = '<b>Classe non trovata</b>'
+        }
+    })
+})
