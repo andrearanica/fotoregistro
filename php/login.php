@@ -40,11 +40,10 @@ if ($result->num_rows > 0) {
                 $payload = array('id' => $row['teacher_id'], 'name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email']);
             }
             $message['message'] = jwt($headers, $payload);
-            echo json_encode($message);
         } else {
-            $return['message'] = 'user not enabled';
-            echo json_encode($return);
+            $message['message'] = 'user not enabled';   
         }
+        echo json_encode($message);
     }
 } else {
     $response['message'] = 'user not found';

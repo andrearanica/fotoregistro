@@ -64,8 +64,7 @@ function showStudents (students) {
     }
     students.map(student => {
         studentsDiv.innerHTML += `
-        <button class='btn' student-info-button' onclick="showStudentInfo('${ student.student_id }')" data-bs-toggle='modal' data-bs-target='#student-info'>${ student.name } ${ student.surname }</button>
-        <button class='btn btn-danger'>🗑️</button> <br />
+        <button class='btn' student-info-button my-2' onclick="showStudentInfo('${ student.student_id }')" data-bs-toggle='modal' data-bs-target='#student-info'>${ student.name } ${ student.surname }</button><br>
         `
     })
 }
@@ -85,12 +84,19 @@ function showStudentInfo (id) {
             const student_id = student.student_id
             document.getElementById('student-name').innerHTML = `${ student.name } ${ student.surname }`
             document.getElementById('student-messages').innerHTML = ''
+            document.getElementById('student-complete-info').innerHTML = `
+            Nome: ${ student.name }<br>
+            Cognome: ${ student.surname }<br>
+            Email: <a href='mailto:${ student.email }'>${ student.email }</a><br>
+            `
             if (student.photo) {
                 document.getElementById('student-image').src = `../../photos/${ student.student_id }.png`
+                document.getElementById('delete-photo').style = 'color: white;';
             } else {
                 document.getElementById('student-image').src = ``
                 document.getElementById('student-image').src = ``
                 document.getElementById('student-messages').innerHTML = `${ student.name } non ha ancora caricato la sua foto`
+                document.getElementById('delete-photo').style = 'display: none;';
             }
             document.getElementById('ban-student').onclick = () => {
                 $.ajax({
@@ -118,7 +124,9 @@ function showStudentInfo (id) {
                         student_id: student.student_id
                     },
                     success: () => {
-                        location.reload()
+                        document.getElementById('student-image').src = ''
+                        document.getElementById('student-messages').innerHTML = 'Foto eliminata'
+                        document.getElementById('delete-photo').style = 'display: none;';
                     }
                 })
             }

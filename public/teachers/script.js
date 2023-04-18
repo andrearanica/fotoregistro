@@ -67,6 +67,7 @@ $.ajax({
     },
     success: (data) => {
         user = data
+        console.log(user)
 
         document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
         document.getElementById('account-name').value = user.name

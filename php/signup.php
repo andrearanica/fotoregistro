@@ -3,10 +3,6 @@
 ini_set('display_errors', 1);
 require('./clearInput.php');
 
-require './vendor/phpmailer/phpmailer/src/Exception.php';
-require './vendor/phpmailer/phpmailer/src/PHPMailer.php';
-require './vendor/phpmailer/phpmailer/src/SMTP.php';
-
 require('connection.php');
 
 if ($connection) {
@@ -37,9 +33,15 @@ if ($_GET['type'] == 'students') {
     $query = "INSERT INTO $table (teacher_id, name, surname, email, password) VALUES ('$id', '$cleanName', '$cleanSurname', '$cleanEmail', '$cleanPassword');";
 }
 
+
+
 // $query = "INSERT INTO $table (student_id, name, surname, email, password) VALUES ('$id', '$cleanName', '$cleanSurname', '$cleanEmail', '$cleanPassword');";
 
 $result = $connection->query($query);
+
+$headers = "MIME-Version: 1.0" . "\r\n"; 
+$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
+mail($email, 'Benvenuto su fotoregistro', "Ciao $name! Per confermare il tuo account clicca <a href='andrearanica.altervista.org/fotoregistro/php/enableAccount.php?id=$id'>questo link</a>", $headers);
 
 if ($result) {
     $response['message'] = 'ok';
