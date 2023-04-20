@@ -24,7 +24,7 @@ if ($_GET['type'] == 'students') {
     $table = 'teachers';
 }
 
-$query = "SELECT * FROM $table WHERE email='$cleanEmail' AND password='$cleanPassword';";
+$query = "SELECT * FROM $table WHERE email='$cleanEmail';";
 
 $stmt = $connection->prepare($query);
 $stmt->execute();
@@ -32,18 +32,23 @@ $stmt->execute();
 $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        if ($row['enabled'] == true) {
-            $headers = array('alg' => 'HS256', 'typ' => 'JWT');
-            if ($_GET['type'] == 'students') {
-                $payload = array('id' => $row['student_id'], 'name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email'], 'photo' => $row['photo'], 'class_id' => $row['class_id']);
+        if (password_verify($cleanPassword, $row['password'])) {
+            if ($row['enabled'] == true) {
+                $headers = array('alg' => 'HS256', 'typ' => 'JWT');
+                if ($_GET['type'] == 'students') {
+                    $payload = array('id' => $row['student_id'], 'name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email'], 'photo' => $row['photo'], 'class_id' => $row['class_id']);
+                } else {
+                    $payload = array('id' => $row['teacher_id'], 'name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email']);
+                }
+                $message['message'] = jwt($headers, $payload);
             } else {
-                $payload = array('id' => $row['teacher_id'], 'name' => $row['name'], 'surname' => $row['surname'], 'email' => $row['email']);
+                $message['message'] = 'user not enabled';   
             }
-            $message['message'] = jwt($headers, $payload);
+            echo json_encode($message);
         } else {
-            $message['message'] = 'user not enabled';   
+            $message['message'] = 'user not found'; 
+            echo json_encode($message); 
         }
-        echo json_encode($message);
     }
 } else {
     $response['message'] = 'user not found';
