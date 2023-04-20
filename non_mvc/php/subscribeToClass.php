@@ -17,6 +17,6 @@ $stmt->execute();
 
 $result = $stmt->get_result();
 
-echo json_encode(array('message' => 'ok', 'info' => $result->fetch_assoc()))
+echo json_encode(array('message' => 'ok', 'info' => $result->fetch_assoc()));
 
 ?>

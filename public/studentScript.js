@@ -2,7 +2,7 @@ let user = {}
 let classInfo = {}
 
 $.ajax({
-    url: '../../php/jwt.php?type=students',
+    url: 'ajax?request=infoFromJwt&type=students',
     type: 'POST',
     headers: {
         Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -46,7 +46,7 @@ $.ajax({
             function onScanSuccess(decodedText, decodedResult) {
                 if (decodedText.includes('cl')) {
                     $.ajax({
-                        url: '../../php/subscribeToClass.php',
+                        url: 'ajax?request=subscribe',
                         type: 'POST',
                         headers: {
                             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -69,21 +69,24 @@ $.ajax({
         } else {
             document.getElementById('subscribe-form').style = 'display: none;'
             $.ajax({
-                url: '../../php/getClasses.php',
+                url: `ajax?request=class&class_id=${ user.class_id }`,
                 type: 'GET',
                 headers: {
                     Authorization: `Bearer ${ window.localStorage.getItem('token') }`
                 },
                 dataType: 'json',
-                data: {
+                /*data: {
                     class_id: user.class_id
-                },
+                },*/
                 success: (data) => {
                     classInfo = data
                     console.log(classInfo)
                     document.getElementById('user-alert').className = 'alert alert-success'
                     document.getElementById('user-alert').innerHTML = `<b>Sei iscritto alla classe ${ classInfo[0].class_name }</b>`
                     document.getElementById('unsubscribe').style = '';
+                },
+                error: data => {
+                    console.log(data)
                 }
             })
         }
@@ -91,7 +94,7 @@ $.ajax({
         if (user.photo) {
             document.getElementById('start-camera').style = 'display: none';
             document.getElementById('upload-photo').style = 'display: none';
-            document.getElementById('student-photo').src = `../../photos/${ user.student_id }.png`
+            document.getElementById('student-photo').src = `../app/photos/${ user.student_id }.png`
             document.getElementById('messages').innerHTML = 'Questa è la tua foto. Se non ti piace, puoi <a id="remove-photo">ricaricarla</a>'
             document.getElementById('remove-photo').addEventListener('click', () => {
                 removePhoto(user.student_id)
@@ -134,7 +137,7 @@ document.getElementById('click-photo').addEventListener('click', () => {
 
 function removePhoto (id) {
     $.ajax({
-        url: '../../php/upload.php?remove',
+        url: 'ajax?request=remove-image',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -148,7 +151,7 @@ function removePhoto (id) {
 
 document.getElementById('save-photo').addEventListener('click', () => {
     $.ajax({
-        url: '../../php/upload.php',
+        url: 'ajax?request=save-photo',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -169,7 +172,7 @@ document.getElementById('save-photo').addEventListener('click', () => {
 
 document.getElementById('unsubscribe').addEventListener('click', () => {
     $.ajax({
-        url: '../../php/unsubscribe.php',
+        url: 'ajax?request=unsubscribe',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -191,7 +194,7 @@ document.getElementById('subscribe-to-class').addEventListener('submit', (e) => 
     document.getElementById('subscribe-errors').className = ''            
     document.getElementById('subscribe-errors').innerHTML = ''
     $.ajax({
-        url: '../../php/subscribeToClass.php',
+        url: 'ajax?request=subscribe',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -214,7 +217,7 @@ document.getElementById('subscribe-to-class').addEventListener('submit', (e) => 
 
 document.getElementById('logout').addEventListener('click', () => {
     window.localStorage.setItem('token', '')
-    window.location.href = '../'
+    window.location.href = '../public'
 })
 
 document.getElementById('account-info-form').addEventListener('submit', (e) => {

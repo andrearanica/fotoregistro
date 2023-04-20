@@ -21,7 +21,7 @@
         </style>
     </head>
     <body>
-        <div id='navbar'></div>
+        <?php require('../app/views/components/navbar.php'); ?>
         <div class='container my-5 text-center'>
             <h1 id='title'></h1>
             <div id='user-alert'>
@@ -86,7 +86,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action='../../php/upload.php?file' method='POST' enctype='multipart/form-data'>
+                            <form action='upload-photo' method='POST' enctype='multipart/form-data'>
                                 <input name='file' type='file'>
                                 <input id='student-id-2' style='display: none' name='student_id'>
                                 <input type='submit' class='btn btn-success'>
@@ -132,10 +132,9 @@
 
         <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
-        <script src='../node_modules/html5-qrcode/html5-qrcode.min.js'></script>
+        <script src='./node_modules/html5-qrcode/html5-qrcode.min.js'></script>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js'></script>
-        <script src='script.js' type='module'></script>
+        <script src='studentScript.js' type='module'></script>
         <script src='../../javascript/checkToken.js'></script>
-        <script src='../components/navbar.js'></script>
     </body>
 </html>
