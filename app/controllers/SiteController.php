@@ -14,8 +14,11 @@ class SiteController {
     public function TeacherDashboard () {
         require_once '../app/views/teacher.php';
     }
+    public function Class () {
+        require_once '../app/views/class.php';
+    }
     public function NotFound () {
-        echo 'Notfound';
+        require_once '../app/views/404.php';
     }
     public function UploadPhoto () {
         require('connection.php');

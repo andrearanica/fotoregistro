@@ -93,7 +93,7 @@ document.getElementById('logout').addEventListener('click', () => {
 })
 
 function showClass (classId) {
-    window.location.href = `./classes.html?id=${ classId }` 
+    window.location.href = `./class?id=${ classId }` 
 
 }
 

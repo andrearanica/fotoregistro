@@ -1,23 +1,24 @@
-<?php return array(
-    'root' => array(
-        'name' => '__root__',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '158579490d38241afd4730ebb906cf035b3d08bb',
-        'type' => 'library',
-        'install_path' => __DIR__ . '/../../',
-        'aliases' => array(),
-        'dev' => true,
+<?php return array (
+  'root' => 
+  array (
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
+    'aliases' => 
+    array (
     ),
-    'versions' => array(
-        '__root__' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '158579490d38241afd4730ebb906cf035b3d08bb',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../../',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
+    'reference' => '8496fb00f5e55d257920205af35ceb600a9b3200',
+    'name' => '__root__',
+  ),
+  'versions' => 
+  array (
+    '__root__' => 
+    array (
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '8496fb00f5e55d257920205af35ceb600a9b3200',
     ),
+  ),
 );

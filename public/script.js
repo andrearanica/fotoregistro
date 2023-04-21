@@ -64,6 +64,7 @@ signupFormStudent.addEventListener('submit', (event) => {
             }
         },
         error: (data) => {
+            console.log(data)
             document.getElementById('signupAlertStudent').className = 'alert alert-danger my-2 text-center'
             document.getElementById('signupAlertStudent').innerHTML = '<b>Questa email è già in uso</b>'
         }

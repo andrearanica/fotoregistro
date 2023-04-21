@@ -30,6 +30,9 @@ switch ($request) {
     case 'enable-account':
         $siteController->EnableAccount();
         break;
+    case 'class':
+        $siteController->Class();
+        break;
     default: 
         $siteController->NotFound();
 }
