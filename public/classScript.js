@@ -91,7 +91,7 @@ function showStudentInfo (id) {
             Email: <a href='mailto:${ student.email }'>${ student.email }</a><br>
             `
             if (student.photo) {
-                document.getElementById('student-image').src = `../../photos/${ student.student_id }.png`
+                document.getElementById('student-image').src = `../app/photos/${ student.student_id }.png`
                 document.getElementById('delete-photo').style = 'color: white;';
             } else {
                 document.getElementById('student-image').src = ``
