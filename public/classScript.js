@@ -6,12 +6,12 @@ let studentsDiv = document.getElementById('show-students')
 if (window.location.href.includes('?id')) {
     id = window.location.href.split('=')[1]
 } else {
-    window.location.href = '../teachers'
+    window.location.href = '/teachers'
 }
 
 $.ajax({
     // document.getElementById('title').innerHTML = 'ciao'
-    url: '../../php/getClasses.php',
+    url: 'ajax?request=class',
     type: 'GET',
     headers: {
         Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -39,14 +39,15 @@ $.ajax({
 
 $.ajax({
     // document.getElementById('title').innerHTML = 'ciao'
-    url: '../../php/getClasses.php?students',
+    url: 'ajax?request=class',
     type: 'GET',
     headers: {
         Authorization: `Bearer ${ window.localStorage.getItem('token') }`
     },
     dataType: 'json',
     data: {
-        class_id: id
+        class_id: id,
+        students: true
     },
     success: data => {
         showStudents(data)
@@ -71,7 +72,7 @@ function showStudents (students) {
 
 function showStudentInfo (id) {
     $.ajax({
-        url: '../../php/getStudentInfo.php',
+        url: 'ajax?request=student',
         type: 'GET',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -100,7 +101,7 @@ function showStudentInfo (id) {
             }
             document.getElementById('ban-student').onclick = () => {
                 $.ajax({
-                    url: '../../php/unsubscribe.php',
+                    url: 'ajax?request=unsubscribe',
                     type: 'POST',
                     headers: {
                         Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -115,7 +116,7 @@ function showStudentInfo (id) {
             }
             document.getElementById('delete-photo').onclick = () => {
                 $.ajax({
-                    url: '../../php/upload.php?remove',
+                    url: 'ajax?request=remove-image',
                     type: 'POST',
                     headers: {
                         Authorization: `Bearer ${ window.localStorage.getItem('token') }`

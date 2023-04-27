@@ -3,7 +3,7 @@ let classes = []
 
 function getClasses () {
     $.ajax({
-        url: `../../php/getClasses.php?teacher_id=${ user.teacher_id }`,
+        url: `ajax?request=class&teacher_id=${ user.teacher_id }`,
         type: 'GET',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -24,13 +24,16 @@ function getClasses () {
             </div>
             `)
             document.getElementById('classes').innerHTML += '</div>'
+        },
+        error: data => {
+            console.log(data)
         }
     })
 }
 
 function createClass (token, className, classAccessType, classSchoolId, teacherId) {
     $.ajax({
-        url: '../../php/addNewClass.php',
+        url: 'ajax?request=new-class',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -40,7 +43,6 @@ function createClass (token, className, classAccessType, classSchoolId, teacherI
             token: token,
             className: className,
             classAccessType: classAccessType,
-            classSchoolId: classSchoolId,
             teacherId: teacherId
         },
         success: data => {
@@ -56,7 +58,7 @@ function createClass (token, className, classAccessType, classSchoolId, teacherI
 }
 
 $.ajax({
-    url: '../../php/jwt.php?type=teachers',
+    url: 'ajax?request=infoFromJwt&type=teachers',
     type: 'POST',
     headers: {
         Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -73,30 +75,10 @@ $.ajax({
         document.getElementById('account-name').value = user.name
         document.getElementById('account-surname').value = user.surname
         document.getElementById('account-email').value = user.email
-        document.getElementById('account-password').value = user.password
-        document.getElementById('account-password-confirm').value = user.password
         getClasses()
     },
     error: (data) => {
         console.log(data)
-    }
-})
-
-$.ajax({
-    url: '../../php/getSchools.php',
-    type: 'GET',
-    headers: {
-        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
-    },
-    dataType: 'json',
-    success: data => {
-        console.log(data)
-        for (let i = 0; i < data.length; i++) {
-            document.getElementById('newClassSchoolId').innerHTML += `<option value=${ data[i].school_id }>${ data[i].name }</option>`
-        }
-    },
-    error: data => {
-        console.error(data)
     }
 })
 
@@ -111,7 +93,7 @@ document.getElementById('logout').addEventListener('click', () => {
 })
 
 function showClass (classId) {
-    window.location.href = `./classes.html?id=${ classId }` 
+    window.location.href = `./class?id=${ classId }` 
 
 }
 
@@ -125,7 +107,7 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
         return
     }
     $.ajax({
-        url: '../../php/updateAccount.php',
+        url: 'ajax?request=update-account',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -146,6 +128,9 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
                 document.getElementById('account-alert').className = 'alert alert-danger my-2'
                 document.getElementById('account-alert').innerHTML = '<b>Qualcosa è andato storto</b>'
             }
+        },
+        error: data => {
+            console.log(data)
         }
     })
 })
@@ -161,7 +146,7 @@ document.getElementById('reset-account-info').addEventListener('click', () => {
 document.getElementById('subscribe-form').addEventListener('submit', (e) => {
     e.preventDefault()
     $.ajax({
-        url: '../../php/addTeacherToClass.php',
+        url: 'ajax?request=add-teacher-to-class',
         type: 'POST',
         data: {
             teacher_id: user.teacher_id,
@@ -170,8 +155,11 @@ document.getElementById('subscribe-form').addEventListener('submit', (e) => {
         dataType: 'json',
         success: data => {
             getClasses()
+            document.getElementById('subscribe-alert').className = 'alert alert-success my-2'
+            document.getElementById('subscribe-alert').innerHTML = '<b>Iscrizione avvenuta con successo</b>'
         },
         error: data => {
+            console.log(data)
             document.getElementById('subscribe-alert').className = 'alert alert-danger'
             document.getElementById('subscribe-alert').innerHTML = '<b>Classe non trovata</b>'
         }

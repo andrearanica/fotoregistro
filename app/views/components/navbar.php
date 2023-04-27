@@ -1,4 +1,3 @@
-const navbar = `
 <nav class='navbar navbar-expand-lg bg-body-dark bg-dark navbar-dark'>
   <div class='container-fluid'>
     <a class='navbar-brand'>Dashboard</a>
@@ -20,6 +19,3 @@ const navbar = `
     </div>
   </div>
 </nav>
-`
-
-document.getElementById('navbar').innerHTML = navbar

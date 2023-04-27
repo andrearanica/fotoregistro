@@ -17,7 +17,7 @@
         </style>
     </head>
     <body>
-        <div id='navbar'></div>
+        <?php require('../app/views/components/navbar.php'); ?>
         <div class='container my-5 text-center'>
             <!--<button type='button' class='btn' data-bs-toggle='modal' data-bs-target='#accountInfoModal'>
                 Il mio account
@@ -78,9 +78,6 @@
                     <div class='modal-body'>
                         <form id='newClassForm'>
                             <input id='newClassName'        class='form-control my-2' name='newClassName'        placeholder='Nome (es. 5ID)' required>
-                            <select id='newClassSchoolId'   class='form-control my-2'>
-                                <option selected disabled>Seleziona la scuola di appartenenza</option>
-                            </select>
                             <select id='newClassAccessType' class='form-control my-2' placeholder='Modalità di accesso' required>
                                 <option selected disabled>Modalità di accesso</option>
                                 <option value='0'>Libera</option>
@@ -127,7 +124,6 @@
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js'></script>
         <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js' integrity='sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN' crossorigin='anonymous'></script>
         <script src='../../javascript/checkToken.js'></script>
-        <script src='../components/navbar.js'></script>
-        <script src='script.js'></script>
+        <script src='teacherScript.js'></script>
     </body>
 </html>

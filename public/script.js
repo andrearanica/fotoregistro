@@ -11,7 +11,7 @@ loginFormStudent.addEventListener('submit', (event) => {
     document.getElementById('loginAlertStudent').className = ''
     document.getElementById('loginAlertStudent').innerHTML = ''
     $.ajax({
-        url: '../php/login.php?type=students',
+        url: 'ajax?request=login&type=students',
         type: 'POST',
         dataType: 'json',
         data: {
@@ -28,7 +28,7 @@ loginFormStudent.addEventListener('submit', (event) => {
                 document.getElementById('loginAlertStudent').innerHTML = '<b>Username e/o password errati</b>'
             } else {
                 window.localStorage.setItem('token', data.message)
-                window.location.href = './students'
+                window.location.href = './student'
             }
         },
         error: (data) => {
@@ -47,7 +47,7 @@ signupFormStudent.addEventListener('submit', (event) => {
         return
     }
     $.ajax({
-        url: '../php/signup.php?type=students ',
+        url: 'ajax?request=signup&type=students ',
         type: 'POST',
         dataType: 'json',
         data: {
@@ -64,6 +64,7 @@ signupFormStudent.addEventListener('submit', (event) => {
             }
         },
         error: (data) => {
+            console.log(data)
             document.getElementById('signupAlertStudent').className = 'alert alert-danger my-2 text-center'
             document.getElementById('signupAlertStudent').innerHTML = '<b>Questa email è già in uso</b>'
         }
@@ -79,7 +80,7 @@ loginFormTeacher.addEventListener('submit', (event) => {
     document.getElementById('loginAlertTeacher').className = ''
     document.getElementById('loginAlertTeacher').innerHTML = ''
     $.ajax({
-        url: '../php/login.php?type=teachers',
+        url: 'ajax?request=login&type=teachers',
         type: 'POST',
         dataType: 'json',
         data: {
@@ -96,7 +97,7 @@ loginFormTeacher.addEventListener('submit', (event) => {
                 document.getElementById('loginAlertTeacher').innerHTML = '<b>Username e/o password errati</b>'
             } else {
                 window.localStorage.setItem('token', data.message)
-                window.location.href= './teachers'
+                window.location.href= './teacher'
             }
         },
         error: (data) => {
@@ -115,7 +116,7 @@ signupFormTeacher.addEventListener('submit', (event) => {
         return
     }
     $.ajax({
-        url: '../php/signup.php?type=teachers ',
+        url: 'ajax?request=signup&type=teachers ',
         type: 'POST',
         dataType: 'json',
         data: {
