@@ -105,7 +105,7 @@ class AjaxController {
 
                 $headers = "MIME-Version: 1.0" . "\r\n"; 
                 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
-                // mail($email, 'Benvenuto su fotoregistro', "Ciao $name! Per confermare il tuo account clicca <a href='andrearanica.altervista.org/fotoregistro/php/enableAccount.php?id=$id'>questo link</a>", $headers);
+                mail($email, 'Benvenuto su fotoregistro', "Ciao $name! Per confermare il tuo account clicca <a href='andrearanica.altervista.org/fotoregistro/public/enableAccount?id=$id'>questo link</a>", $headers);
 
                 if ($result) {
                     $response['message'] = 'ok';
