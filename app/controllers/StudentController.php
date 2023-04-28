@@ -20,28 +20,32 @@ class StudentController {
         $password = $_POST['password'];
 
         $password = password_hash($password, PASSWORD_BCRYPT);
-
-        $this->studentModel->updateInfo($name, $surname, $email, $password);
+        $this->studentModel->setEmail($email);
+        $this->studentModel->updateInfo($name, $surname, $password);
 
         echo json_encode(array('message' => 'ok'));
     }
 
     public function Signup () {
-        ini_set('display_errors', 1);
-
         $id = uniqid('st_');
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $email = $_POST['email'];
         $password = $_POST['password'];
+        $password = password_hash($password, PASSWORD_BCRYPT);
 
         // $query = "INSERT INTO $table (student_id, name, surname, email, password) VALUES ('$id', '$cleanName', '$cleanSurname', '$cleanEmail', '$cleanPassword');";
 
-        $result = $this->studentModel->AddStudent($id, $name, $surname, $email, $password);
+        $this->studentModel->setId($id);
+        $this->studentModel->setName($name);
+        $this->studentModel->setSurname($surname);
+        $this->studentModel->setEmail($email);
+        $this->studentModel->setPassword($password);
+        $result = $this->studentModel->AddStudent();
 
         $headers = "MIME-Version: 1.0" . "\r\n"; 
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
-        mail($email, 'Benvenuto su fotoregistro', "Ciao $name! Per confermare il tuo account clicca <a href='andrearanica.altervista.org/fotoregistro/public/enable-account-student?id=$id'>questo link</a>", $headers);
+        // mail($email, 'Benvenuto su fotoregistro', "Ciao $name! Per confermare il tuo account clicca <a href='andrearanica.altervista.org/fotoregistro/public/enable-account-student?id=$id'>questo link</a>", $headers);
 
         if ($result) {
             $response['message'] = 'ok';
@@ -61,10 +65,13 @@ class StudentController {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        if ($this->studentModel->GetStudentByEmailAndPassword($email, $password)) {
-            if ($this->studentModel->enabled) {
+        $this->studentModel->setEmail($email);
+        $this->studentModel->setPassword($password);
+
+        if ($this->studentModel->GetStudentByEmailAndPassword()) {
+            if ($this->studentModel->getEnabled()) {
                 $headers = array('alg' => 'HS256', 'typ' => 'JWT');
-                $payload = array('id' => $this->studentModel->student_id, 'name' => $this->studentModel->name, 'surname' => $this->studentModel->surname, 'email' => $this->studentModel->email, 'photo' => $this->studentModel->photo, 'class_id' => $this->studentModel->class_id);
+                $payload = array('id' => $this->studentModel->getId(), 'name' => $this->studentModel->getName(), 'surname' => $this->studentModel->getSurname(), 'email' => $this->studentModel->getEmail(), 'photo' => $this->studentModel->getPhoto(), 'class_id' => $this->studentModel->getClassId());
                 $message['message'] = jwt($headers, $payload);
             } else {
                 $message['message'] = 'user not enabled';   
@@ -82,14 +89,16 @@ class StudentController {
         $class_id = $_POST['class_id'];
         $student_id = $_POST['student_id'];
 
-        $this->studentModel->subscribeToClass($student_id, $class_id);
+        $this->studentModel->setId($student_id);
+        $this->studentModel->subscribeToClass($class_id);
         
         echo json_encode(array('message' => 'ok'));
     }
 
     public function unsubscribeFromClass () {
         $student_id = $_POST['student_id'];
-        $this->studentModel->unsubscribeFromClass($student_id);
+        $this->studentModel->setId($student_id);
+        $this->studentModel->unsubscribeFromClass();
     }
 
     public function UploadPhoto () {
@@ -102,7 +111,8 @@ class StudentController {
             }
         }
         
-        $this->studentModel->uploadPhoto($student_id);
+        $this->studentModel->setId($student_id);
+        $this->studentModel->uploadPhoto();
     
         header('Location: student');
     }
@@ -115,19 +125,21 @@ class StudentController {
         $file = UPLOAD_DIR . "$student_id.png";
         file_put_contents($file, $image_base64);
         
-        $this->studentModel->uploadPhoto($student_id);
+        $this->studentModel->setId($student_id);
+        $this->studentModel->uploadPhoto();
     }
 
     public function removePhoto () {
-        require('connection.php');
         $student_id = $_POST['student_id'];
         unlink("..app/photos/$student_id.png");
-        $this->studentModel->removePhoto($student_id);
+        $this->studentModel->setId($student_id);
+        $this->studentModel->removePhoto();
     }
 
     public function enableAccount () {
         $id = $_GET['id'];
-        $this->studentModel->enableAccount($id);
+        $this->studentModel->setId($id);
+        $this->studentModel->enableAccount();
         echo 'Account correttamente abilitato. Torna alla pagina <a href="../public/index.html">Login</a>';
     }
 }
