@@ -2,28 +2,75 @@
 
 namespace App\models;
 
-class StudentModel {
+class Teacher {
     private $connection;
 
-    public $teacher_id;
-    public $name;
-    public $surname;
-    public $email;
-    public $enabled;
+    private $teacher_id;
+    private $name;
+    private $surname;
+    private $email;
+    private $password;
+    private $enabled;
 
     public function __construct () {
         $this->connection = new \mysqli('127.0.0.1', 'root', '', 'my_andrearanica');
     }
 
-    public function updateInfo ($name, $surname, $email, $password) {
-        $query = "UPDATE students SET name='$name', surname='$surname', password='$password' WHERE email='$email';";
+    public function getId () {
+        return $this->teacher_id;
+    }
+
+    public function getName () {
+        return $this->name;
+    }
+
+    public function getSurname () {
+        return $this->surname;
+    }
+
+    public function getEmail () {
+        return $this->email;
+    }
+
+    public function getPassword () {
+        return $this->password;
+    }
+
+    public function getEnabled () {
+        return $this->enabled;
+    }
+
+    public function setName ($name) {
+        $this->name = $name;
+    }
+
+    public function setSurname ($surname) {
+        $this->surname = $surname;
+    }
+
+    public function setEmail ($email) {
+        $this->email = $email;
+    }
+
+    public function setPassword ($password) {
+        $this->password = $password;
+    }
+
+    public function setEnabled ($enabled) {
+        $this->enabled = $enabled;
+    }
+
+    public function updateInfo ($name, $surname, $password) {
+        $password = password_hash($password, PASSWORD_BCRYPT);
+        $query = "UPDATE teachers SET name='$name', surname='$surname', password='$password' WHERE email='$this->email';";
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
     }
 
-    public function AddStudent ($id, $name, $surname, $email, $password): bool {
-        $password = password_hash($password, PASSWORD_BCRYPT);
-        $query = "INSERT INTO students (student_id, name, surname, email, password) VALUES ('$id', '$name', '$surname', '$email', '$password');";
+    public function AddTeacher (): bool {
+        $id = uniqid('st_');
+        $password = password_hash($this->password, PASSWORD_BCRYPT);
+        $query = "INSERT INTO teachers (teacher_id, name, surname, email, password) VALUES ('$this->teacher_id', '$this->name', '$this->surname', '$this->email', '$this->password');";
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
         if ($stmt->error) {
@@ -33,16 +80,16 @@ class StudentModel {
         }
     }
 
-    public function GetStudentByEmailAndPassword ($email, $password): bool {
-        $query = "SELECT * FROM students WHERE email='$email';";
+    public function GetTeacherByEmailAndPassword (): bool {
+        $query = "SELECT * FROM teachers WHERE email='$this->email';";
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
         
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                if (password_verify($password, $row['password'])) {
-                    $this->student_id = $row['student_id'];
+                if (password_verify($this->password, $row['password'])) {
+                    $this->teacher_id = $row['teacher_id'];
                     $this->name = $row['name'];
                     $this->surname = $row['surname'];
                     $this->email = $row['email'];
@@ -56,34 +103,8 @@ class StudentModel {
         return 0;
     }
 
-    public function subscribeToClass ($student_id, $class_id) {
-        $query = "UPDATE students SET class_id='$class_id' WHERE student_id='$student_id'";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
-    }
-
-    public function unsubscribeFromClass ($student_id) {
-        $query = "UPDATE students SET class_id=null WHERE student_id='$student_id';";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
-    }
-
-    public function uploadPhoto ($student_id) {
-        $query = "UPDATE students SET photo=1 WHERE student_id='$student_id';";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
-    }
-
-    public function removePhoto ($student_id) {
-        $query = "UPDATE students SET photo=0 WHERE student_id='$student_id';";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
-    }
-
-    public function enableAccount ($student_id) {
-        $query = "UPDATE students SET enabled=1 WHERE student_id='$student_id'";
-        $this->connection->query($query);
-        $query = "UPDATE teachers SET enabled=1 WHERE teacher_id='$student_id'";
+    public function enableAccount () {
+        $query = "UPDATE teachers SET enabled=1 WHERE teacher_id='$this->teacher_id'";
         $this->connection->query($query);
     }
 }
