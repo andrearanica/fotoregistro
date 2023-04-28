@@ -11,7 +11,7 @@ loginFormStudent.addEventListener('submit', (event) => {
     document.getElementById('loginAlertStudent').className = ''
     document.getElementById('loginAlertStudent').innerHTML = ''
     $.ajax({
-        url: 'ajax?request=login&type=students',
+        url: 'student-login',
         type: 'POST',
         dataType: 'json',
         data: {
@@ -47,7 +47,7 @@ signupFormStudent.addEventListener('submit', (event) => {
         return
     }
     $.ajax({
-        url: 'ajax?request=signup&type=students ',
+        url: 'student-signup ',
         type: 'POST',
         dataType: 'json',
         data: {

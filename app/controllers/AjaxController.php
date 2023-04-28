@@ -77,6 +77,7 @@ class AjaxController {
                 $surname = $_POST['surname'];
                 $email = $_POST['email'];
                 $password = $_POST['password'];
+                $response = $this->studentModel();
 
                 $id = '0';
 
@@ -88,7 +89,6 @@ class AjaxController {
                 $cleanPassword = password_hash($cleanPassword, PASSWORD_BCRYPT);
 
                 if ($_GET['type'] == 'students') {
-                    $id = uniqid('st_');
                     $table = 'students';
                     $query = "INSERT INTO $table (student_id, name, surname, email, password) VALUES ('$id', '$cleanName', '$cleanSurname', '$cleanEmail', '$cleanPassword');";
                 } else {
