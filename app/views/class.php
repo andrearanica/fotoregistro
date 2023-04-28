@@ -18,12 +18,14 @@
             }
             @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&display=swap');
 
-body {
-    font-family: 'Fira Sans', sans-serif;
-}
+            body {
+                font-family: 'Fira Sans', sans-serif;
+            }
         </style>
     </head>
     <body>
+        <?php require('../app/views/components/navbar.php'); ?>
+        <?php require('../app/views/components/account-info.php'); ?>
         <div class='container my-5 text-center'>
             <h1 id='title'></h1>
         
@@ -60,6 +62,6 @@ body {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src='../node_modules/qrcode/build/qrcode.js'></script>
-        <script src="classScript.js"></script>
+        <script src="./javascript/classScript.js"></script>
     </body>
 </html>

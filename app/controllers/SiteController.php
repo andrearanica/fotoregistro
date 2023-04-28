@@ -34,7 +34,7 @@ class SiteController {
         $stmt = $connection->prepare($query);
         $stmt->execute();
     
-        header('Location: student');
+        // header('Location: student');
     }
     public function EnableAccount () {
         ini_set('display_errors', 1);
