@@ -44,14 +44,14 @@ $.ajax({
             function onScanSuccess(decodedText, decodedResult) {
                 if (decodedText.includes('cl')) {
                     $.ajax({
-                        url: 'ajax?request=subscribe',
+                        url: 'subscribe-student',
                         type: 'POST',
                         headers: {
                             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
                         },
                         data: {
-                            classId: decodedText,
-                            studentId: user.student_id
+                            class_id: decodedText,
+                            student_id: user.student_id
                         },
                         dataType: 'json',
                         success: (data) => {
@@ -67,20 +67,20 @@ $.ajax({
         } else {
             document.getElementById('subscribe-form').style = 'display: none;'
             $.ajax({
-                url: `ajax?request=class&class_id=${ user.class_id }`,
+                url: `ajax?request=class`,
                 type: 'GET',
                 headers: {
                     Authorization: `Bearer ${ window.localStorage.getItem('token') }`
                 },
                 dataType: 'json',
-                /*data: {
+                data: {
                     class_id: user.class_id
-                },*/
+                },
                 success: (data) => {
-                    classInfo = data
+                    classInfo = data[0]
                     console.log(classInfo)
                     document.getElementById('user-alert').className = 'alert alert-success'
-                    document.getElementById('user-alert').innerHTML = `<b>Sei iscritto alla classe ${ classInfo[0].class_name }</b>`
+                    document.getElementById('user-alert').innerHTML = `<b>Sei iscritto alla classe ${ classInfo.class_name }</b>`
                     document.getElementById('unsubscribe').style = '';
                 },
                 error: data => {
@@ -135,7 +135,7 @@ document.getElementById('click-photo').addEventListener('click', () => {
 
 function removePhoto (id) {
     $.ajax({
-        url: 'ajax?request=remove-image',
+        url: 'remove-photo',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -149,7 +149,7 @@ function removePhoto (id) {
 
 document.getElementById('save-photo').addEventListener('click', () => {
     $.ajax({
-        url: 'ajax?request=save-photo',
+        url: 'save-photo',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -170,7 +170,7 @@ document.getElementById('save-photo').addEventListener('click', () => {
 
 document.getElementById('unsubscribe').addEventListener('click', () => {
     $.ajax({
-        url: 'ajax?request=unsubscribe',
+        url: 'unsubscribe',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -192,14 +192,14 @@ document.getElementById('subscribe-to-class').addEventListener('submit', (e) => 
     document.getElementById('subscribe-errors').className = ''            
     document.getElementById('subscribe-errors').innerHTML = ''
     $.ajax({
-        url: 'ajax?request=subscribe',
+        url: 'subscribe-student',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
         },
         data: {
-            classId: document.getElementById('class-id').value,
-            studentId: user.student_id
+            class_id: document.getElementById('class-id').value,
+            student_id: user.student_id
         },
         dataType: 'json',
         success: data => {
@@ -228,7 +228,7 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
         return
     }
     $.ajax({
-        url: '../../php/updateAccount.php',
+        url: 'update-student',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -257,6 +257,4 @@ document.getElementById('reset-account-info').addEventListener('click', () => {
     document.getElementById('account-name').value = user.name
     document.getElementById('account-surname').value = user.surname
     document.getElementById('account-email').value = user.email
-    document.getElementById('account-password').value = user.password
-    document.getElementById('account-password-confirm').value = user.password
 })

@@ -27,19 +27,34 @@ switch ($request) {
         $ajaxController->HandleRequest();
         break;
     case 'upload-photo':
-        $siteController->UploadPhoto();
+        $studentController->UploadPhoto();
         break;
-    case 'enable-account':
-        $siteController->EnableAccount();
+    case 'save-photo':
+        $studentController->savePhoto();
+        break;
+    case 'remove-photo':
+        $studentController->removePhoto();
+        break;
+    case 'enable-account-student':
+        $studentController->EnableAccount();
         break;
     case 'class':
         $siteController->Class();
+        break;
+    case 'subscribe-student':
+        $studentController->subscribeToClass();
+        break;
+    case 'unsubscribe':
+        $studentController->unsubscribeFromClass();
         break;
     case 'student-signup':
         $studentController->Signup();
         break;
     case 'student-login':
         $studentController->Login();
+        break;
+    case 'update-student':
+        $studentController->updateStudent();
         break;
     default: 
         $siteController->NotFound();
