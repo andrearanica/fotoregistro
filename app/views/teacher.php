@@ -79,11 +79,6 @@
                     <div class='modal-body'>
                         <form id='newClassForm'>
                             <input id='newClassName'        class='form-control my-2' name='newClassName'        placeholder='Nome (es. 5ID)' required>
-                            <select id='newClassAccessType' class='form-control my-2' placeholder='Modalità di accesso' required>
-                                <option selected disabled>Modalità di accesso</option>
-                                <option value='0'>Libera</option>
-                                <option value='1'>Con limitazioni</option>
-                            </select>
                             <input class='btn' type='submit' value='Crea classe'>
                             <div id='newClassAlert'></div>
                         </form>

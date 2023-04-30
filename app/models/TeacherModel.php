@@ -113,13 +113,30 @@ class TeacherModel {
         $stmt->execute();
     }
 
-    public function subscribeToClass ($class_id) {
-        $query = "INSERT INTO teaches (teacher_id, class_id) VALUES ('$this->teacher_id', '$class_id');";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
-        if ($stmt->error) {
+    public function subscribeToClass ($class_id): bool {
+        $this->connection->begin_transaction();
+        try {
+            $query = "INSERT INTO teaches (teacher_id, class_id) VALUES ('$this->teacher_id', '$class_id');";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
             return 1;
-        } else {
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
+        }
+    }
+
+    public function unsubscribeFromClass ($class_id): bool {
+        $this->connection->begin_transaction();
+        try {
+            $query = "DELETE FROM teaches WHERE teacher_id='$this->teacher_id' AND class_id='$class_id';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
             return 0;
         }
     }

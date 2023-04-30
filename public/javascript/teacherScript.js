@@ -18,7 +18,9 @@ function getClasses () {
                 <center><div class='card my-2' style='width: 18rem; margin: auto; '>
                     <div class='card-body'>
                         <h5 class='card-title'>Classe ${ c.class_name }</h5>
-                        <button onclick="showClass('${ c.class_id }')" class='btn btn-success  ' id='showClassButton'>Visualizza classe</button>
+                        <button onclick="showClass('${ c.class_id }')" class='btn btn-success my-1  ' id='showClassButton'>Visualizza classe</button><br>
+                        <button onclick="unsubscribeFromClass('${ c.class_id }')" class='btn btn-warning my-1'>Disiscriviti</button><br>
+                        <button onclick="removeClass('${ c.class_id }')" class='btn btn-danger my-1'>Rimuovi</button>
                     </div>
                 </div></center>
             </div>
@@ -31,9 +33,9 @@ function getClasses () {
     })
 }
 
-function createClass (token, className, classAccessType, classSchoolId, teacherId) {
+function createClass (token, className, classAccessType, teacher_id) {
     $.ajax({
-        url: 'ajax?request=new-class',
+        url: 'new-class',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -41,15 +43,50 @@ function createClass (token, className, classAccessType, classSchoolId, teacherI
         dataType: 'json',
         data: {
             token: token,
-            className: className,
-            classAccessType: classAccessType,
-            teacherId: teacherId
+            class_name: className,
+            teacher_id: user.teacher_id
         },
         success: data => {
             console.log(data)
             document.getElementById('newClassAlert').className = 'alert alert-success my-2'
             document.getElementById('newClassAlert').innerHTML = '<b>Classe creata con successo</b>'
             getClasses()
+        },
+        error: data => {
+            console.log(data)
+        }
+    })
+}
+
+function removeClass (class_id) {
+    $.ajax({
+        url: 'remove-class',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            class_id: class_id
+        },
+        success: data => {
+            console.log(data)
+            getClasses()
+        },
+        error: data => {
+            console.log(data)
+        }
+    })
+}
+
+function unsubscribeFromClass (class_id) {
+    $.ajax({
+        url: 'unsubscribe-teacher',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            teacher_id: user.teacher_id,
+            class_id: class_id
+        },
+        success: data => {
+            console.log(data)
         },
         error: data => {
             console.log(data)
@@ -76,7 +113,6 @@ $.ajax({
         document.getElementById('account-name').value = user.name
         document.getElementById('account-surname').value = user.surname
         document.getElementById('account-email').value = user.email
-        document.getElementById('account-password').value = user.password
 
         getClasses()
     },
@@ -87,7 +123,29 @@ $.ajax({
 
 document.getElementById('newClassForm').addEventListener('submit', event => {
     event.preventDefault()
-    createClass(window.localStorage.getItem('token'), document.getElementById('newClassName').value, document.getElementById('newClassAccessType').value, document.getElementById('newClassSchoolId').value, user.teacher_id)
+    $.ajax({
+        url: 'new-class',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            class_name: document.getElementById('newClassName').value,
+            teacher_id: user.teacher_id
+        },
+        success: data => {
+            console.log(data)
+            if (data.message == 'ok') {
+                document.getElementById('newClassAlert').className = 'alert alert-success my-2'
+                document.getElementById('newClassAlert').innerHTML = '<b>Classe creata con successo</b>'
+                getClasses()
+            } else {
+                document.getElementById('newClassAlert').className = 'alert alert- my-2'
+                document.getElementById('newClassAlert').innerHTML = '<b>Classe creata con successo</b>'
+            }
+        },
+        error: data => {
+            console.log(data)
+        }
+    })
 })
 
 document.getElementById('logout').addEventListener('click', () => {
@@ -158,8 +216,14 @@ document.getElementById('subscribe-form').addEventListener('submit', (e) => {
         dataType: 'json',
         success: data => {
             getClasses()
-            document.getElementById('subscribe-alert').className = 'alert alert-success my-2'
-            document.getElementById('subscribe-alert').innerHTML = '<b>Iscrizione avvenuta con successo</b>'
+            console.log(data)
+            if (data.message == 'ok') {
+                document.getElementById('subscribe-alert').className = 'alert alert-success my-2'
+                document.getElementById('subscribe-alert').innerHTML = '<b>Iscrizione avvenuta con successo</b>'
+            } else {
+                document.getElementById('subscribe-alert').className = 'alert alert-danger'
+            document.getElementById('subscribe-alert').innerHTML = '<b>Classe non trovata</b>'
+            }
         },
         error: data => {
             console.log(data)

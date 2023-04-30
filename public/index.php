@@ -7,6 +7,7 @@ use App\controllers\SiteController;
 use App\controllers\AjaxController;
 use App\controllers\StudentController;
 use App\controllers\TeacherController;
+use App\controllers\ClassController;
 
 $request = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -14,6 +15,7 @@ $siteController    = new SiteController();
 $ajaxController    = new AjaxController();
 $studentController = new StudentController();
 $teacherController = new TeacherController();
+$classController   = new ClassController();
 
 switch ($request) {
     case '':
@@ -69,6 +71,15 @@ switch ($request) {
         break;
     case 'update-teacher':
         $teacherController->updateTeacher();
+        break;
+    case 'new-class':
+        $classController->newClass();
+        break;
+    case 'remove-class':
+        $classController->removeClass();
+        break;
+    case 'unsubscribe-teacher':
+        $teacherController->unsubscribeFromClass();
         break;
     default: 
         $siteController->NotFound();

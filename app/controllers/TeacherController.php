@@ -92,8 +92,22 @@ class TeacherController {
 
     public function subscribeToClass () {
         $this->teacherModel->setId($_POST['teacher_id']);
-        $this->teacherModel->subscribeToClass($_POST['class_id']);
-        echo json_encode(array('message' => 'ok'));
+        if ($this->teacherModel->subscribeToClass($_POST['class_id'])) {
+            $message = json_encode(array('message' => 'ok'));
+        } else {
+            $message = json_encode(array('message' => 'error'));
+        }
+        echo $message;
+    }
+
+    public function unsubscribeFromClass () {
+        $this->teacherModel->setId($_POST['teacher_id']);
+        if ($this->teacherModel->unsubscribeFromClass($_POST['class_id'])) {
+            $message = json_encode(array('message' => 'ok'));
+        } else {
+            $message = json_encode(array('message' => 'error'));
+        }
+        echo $message;
     }
 }
 

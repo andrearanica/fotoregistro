@@ -20,20 +20,36 @@ class ClassModel {
         $this->class_name = $name;
     }
 
-    public function addClass ($teacher_id, $name): bool {
+    public function addClass ($teacher_id): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "INSERT INTO teaches (teacher_id, class_id) VALUES ('$teacher_id', '$this->class_id');";
+            $query = "INSERT INTO classes (class_id, class_name) VALUES ('$this->class_id', '$this->class_name');";
             $stmt = $this->connection->prepare($query);
             $stmt->execute();
-            $query = "INSERT INTO classes (class_id, name) VALUES ('$this->class_id', '$name');";
+            $query = "INSERT INTO teaches (teacher_id, class_id) VALUES ('$teacher_id', '$this->class_id');";
             $stmt = $this->connection->prepare($query);
             $stmt->execute();
             $this->connection->commit();
             return 1;
         } catch (\mysqli_sql_exception $exception) {
             $this->connection->rollback();
-            echo json_encode(array('message' => 'error'));
+            return 0;
+        }
+    }
+
+    public function removeClass (): bool {
+        $this->connection->begin_transaction();
+        try {
+            $query = "DELETE FROM teaches WHERE class_id='$this->class_id';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $query = "DELETE FROM classes WHERE class_id='$this->class_id';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
             return 0;
         }
     }
