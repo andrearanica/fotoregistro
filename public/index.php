@@ -6,12 +6,14 @@ require_once '../vendor/autoload.php';
 use App\controllers\SiteController;
 use App\controllers\AjaxController;
 use App\controllers\StudentController;
+use App\controllers\TeacherController;
 
 $request = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_SPECIAL_CHARS);
 
 $siteController    = new SiteController();
 $ajaxController    = new AjaxController();
 $studentController = new StudentController();
+$teacherController = new TeacherController();
 
 switch ($request) {
     case '':
@@ -53,8 +55,17 @@ switch ($request) {
     case 'student-login':
         $studentController->Login();
         break;
+    case 'teacher-signup':
+        $teacherController->Signup();
+        break;
+    case 'teacher-login':
+        $teacherController->Login();
+        break;
     case 'update-student':
         $studentController->updateStudent();
+        break;
+    case 'update-teacher':
+        $teacherController->updateTeacher();
         break;
     default: 
         $siteController->NotFound();

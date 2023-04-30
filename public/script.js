@@ -80,7 +80,7 @@ loginFormTeacher.addEventListener('submit', (event) => {
     document.getElementById('loginAlertTeacher').className = ''
     document.getElementById('loginAlertTeacher').innerHTML = ''
     $.ajax({
-        url: 'ajax?request=login&type=teachers',
+        url: 'teacher-login',
         type: 'POST',
         dataType: 'json',
         data: {
@@ -116,7 +116,7 @@ signupFormTeacher.addEventListener('submit', (event) => {
         return
     }
     $.ajax({
-        url: 'ajax?request=signup&type=teachers ',
+        url: 'teacher-signup ',
         type: 'POST',
         dataType: 'json',
         data: {

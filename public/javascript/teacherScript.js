@@ -107,7 +107,7 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
         return
     }
     $.ajax({
-        url: 'ajax?request=update-account',
+        url: 'update-teacher',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`

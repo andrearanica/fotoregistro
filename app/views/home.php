@@ -30,8 +30,8 @@
 						<div class='modal-body'>
 							<h1>Login studente</h1>
 							<form id='loginFormStudent'>
-								<input type="email"    class="form-control my-2" id='loginEmailStudent'    placeholder='Email'>
-								<input type="password" class="form-control my-2" id='loginPasswordStudent' placeholder='Password'>
+								<input type="email"    class="form-control my-2" id='loginEmailStudent'    placeholder='Email' required>
+								<input type="password" class="form-control my-2" id='loginPasswordStudent' placeholder='Password' required>
 								<input type="submit"   class='btn my-2'>
 							</form>
 							<div id='loginAlertStudent'>
@@ -50,11 +50,11 @@
 						<div class='modal-body'>
 							<h1>Registrazione studente</h1>
 							<form id='signupFormStudent'>
-								<input type='text'     class='form-control my-2' id='signupNameStudent'            placeholder='Nome'>
-								<input type='text'     class='form-control my-2' id='signupSurnameStudent'         placeholder='Cognome'>
-								<input type='email'    class='form-control my-2' id='signupEmailStudent'           placeholder='Email'>
-								<input type='password' class='form-control my-2' id='signupPasswordStudent'        placeholder='Password'>
-								<input type='password' class='form-control my-2' id='signupConfirmPasswordStudent' placeholder='Conferma password'>
+								<input type='text'     class='form-control my-2' id='signupNameStudent'            placeholder='Nome' required>
+								<input type='text'     class='form-control my-2' id='signupSurnameStudent'         placeholder='Cognome' required>
+								<input type='email'    class='form-control my-2' id='signupEmailStudent'           placeholder='Email' required>
+								<input type='password' class='form-control my-2' id='signupPasswordStudent'        placeholder='Password' required>
+								<input type='password' class='form-control my-2' id='signupConfirmPasswordStudent' placeholder='Conferma password' required>
 								<label for='showPassword'>Mostra password</label><input id='showPassword' class='my-2 mx-2' type='checkbox'><br />
 								<input type="submit"   class='btn my-2'>
 								<div id='signupAlertStudent'>
@@ -74,8 +74,8 @@
 						<div class='modal-body'>
 							<h1>Login insegnante</h1>
 							<form id='loginFormTeacher'>
-								<input type="email"    class="form-control my-2" id='loginEmailTeacher'    placeholder='Email'>
-								<input type="password" class="form-control my-2" id='loginPasswordTeacher' placeholder='Password'>
+								<input type="email"    class="form-control my-2" id='loginEmailTeacher'    placeholder='Email' required>
+								<input type="password" class="form-control my-2" id='loginPasswordTeacher' placeholder='Password' required>
 								<input type="submit"   class='btn my-2'>
 							</form>
 							<div id='loginAlertTeacher'>
@@ -94,11 +94,11 @@
 						<div class='modal-body'>
 							<h1>Registrazione insegnante</h1>
 							<form id='signupFormTeacher'>
-								<input type='text'     class='form-control my-2' id='signupNameTeacher'            placeholder='Nome'>
-								<input type='text'     class='form-control my-2' id='signupSurnameTeacher'         placeholder='Cognome'>
-								<input type='email'    class='form-control my-2' id='signupEmailTeacher'           placeholder='Email'>
-								<input type='password' class='form-control my-2' id='signupPasswordTeacher'        placeholder='Password'>
-								<input type='password' class='form-control my-2' id='signupConfirmPasswordTeacher' placeholder='Conferma password'>
+								<input type='text'     class='form-control my-2' id='signupNameTeacher'            placeholder='Nome'  required>
+								<input type='text'     class='form-control my-2' id='signupSurnameTeacher'         placeholder='Cognome' required>
+								<input type='email'    class='form-control my-2' id='signupEmailTeacher'           placeholder='Email' required>
+								<input type='password' class='form-control my-2' id='signupPasswordTeacher'        placeholder='Password' required>
+								<input type='password' class='form-control my-2' id='signupConfirmPasswordTeacher' placeholder='Conferma password' required>
 								<label for='showPassword'>Mostra password</label><input id='showPasswordTeacher' class='my-2 mx-2' type='checkbox'><br />
 								<input type="submit"   class='btn my-2'>
 								<div id='signupAlertTeacher'>

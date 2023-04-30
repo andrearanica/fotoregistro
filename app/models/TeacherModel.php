@@ -2,7 +2,7 @@
 
 namespace App\models;
 
-class Teacher {
+class TeacherModel {
     private $connection;
 
     private $teacher_id;
@@ -38,6 +38,10 @@ class Teacher {
 
     public function getEnabled () {
         return $this->enabled;
+    }
+
+    public function setId ($id) {
+        $this->teacher_id = $id;
     }
 
     public function setName ($name) {

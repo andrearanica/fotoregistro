@@ -2,32 +2,32 @@
 
 namespace App\controllers;
 
-use App\models\StudentModel;
+use App\models\TeacherModel;
 
 ini_set('display_errors', 1);
 
-class StudentController {
-    private $studentModel;
+class TeacherController {
+    private $teacherModel;
 
     public function __construct () {
-        $this->studentModel = new StudentModel();
+        $this->teacherModel = new TeacherModel();
     }
 
-    public function updateStudent () {
+    public function updateTeacher () {
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $email = $_POST['email'];
         $password = $_POST['password'];
 
         $password = password_hash($password, PASSWORD_BCRYPT);
-        $this->studentModel->setEmail($email);
-        $this->studentModel->updateInfo($name, $surname, $password);
+        $this->teacherModel->setEmail($email);
+        $this->teacherModel->updateInfo($name, $surname, $password);
 
         echo json_encode(array('message' => 'ok'));
     }
 
     public function Signup () {
-        $id = uniqid('st_');
+        $id = uniqid('tc_');
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $email = $_POST['email'];
@@ -36,15 +36,15 @@ class StudentController {
 
         // $query = "INSERT INTO $table (student_id, name, surname, email, password) VALUES ('$id', '$cleanName', '$cleanSurname', '$cleanEmail', '$cleanPassword');";
 
-        $this->studentModel->setId($id);
-        $this->studentModel->setName($name);
-        $this->studentModel->setSurname($surname);
-        $this->studentModel->setEmail($email);
-        $this->studentModel->setPassword($password);
-        $result = $this->studentModel->AddStudent();
+        $this->teacherModel->setId($id);
+        $this->teacherModel->setName($name);
+        $this->teacherModel->setSurname($surname);
+        $this->teacherModel->setEmail($email);
+        $this->teacherModel->setPassword($password);
+        $result = $this->teacherModel->AddTeacher();
 
-        $headers = "MIME-Version: 1.0" . "\r\n"; 
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
+        $headers = 'MIME-Version: 1.0' . '\r\n'; 
+        $headers .= 'Content-type:text/html;charset=UTF-8' . "\r\n"; 
         // mail($email, 'Benvenuto su fotoregistro', "Ciao $name! Per confermare il tuo account clicca <a href='andrearanica.altervista.org/fotoregistro/public/enable-account-student?id=$id'>questo link</a>", $headers);
 
         if ($result) {
@@ -65,13 +65,13 @@ class StudentController {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $this->studentModel->setEmail($email);
-        $this->studentModel->setPassword($password);
+        $this->teacherModel->setEmail($email);
+        $this->teacherModel->setPassword($password);
 
-        if ($this->studentModel->GetStudentByEmailAndPassword($email, $password)) {
-            if ($this->studentModel->getEnabled()) {
+        if ($this->teacherModel->GetTeacherByEmailAndPassword()) {
+            if ($this->teacherModel->getEnabled()) {
                 $headers = array('alg' => 'HS256', 'typ' => 'JWT');
-                $payload = array('id' => $this->studentModel->getId(), 'name' => $this->studentModel->getName(), 'surname' => $this->studentModel->getSurname(), 'email' => $this->studentModel->getEmail(), 'photo' => $this->studentModel->getPhoto(), 'class_id' => $this->studentModel->getClassId());
+                $payload = array('id' => $this->teacherModel->getId(), 'name' => $this->teacherModel->getName(), 'surname' => $this->teacherModel->getSurname(), 'email' => $this->teacherModel->getEmail());
                 $message['message'] = jwt($headers, $payload);
             } else {
                 $message['message'] = 'user not enabled';   
@@ -83,63 +83,10 @@ class StudentController {
         echo json_encode($message);
     }
 
-    public function subscribeToClass () {
-        include('jwt.php');
-
-        $class_id = $_POST['class_id'];
-        $student_id = $_POST['student_id'];
-
-        $this->studentModel->setId($student_id);
-        $this->studentModel->subscribeToClass($class_id);
-        
-        echo json_encode(array('message' => 'ok'));
-    }
-
-    public function unsubscribeFromClass () {
-        $student_id = $_POST['student_id'];
-        $this->studentModel->setId($student_id);
-        $this->studentModel->unsubscribeFromClass();
-    }
-
-    public function UploadPhoto () {
-        $student_id = $_POST['student_id'];
-        unlink("../app/photos/$student_id.png");
-        foreach ($_FILES as $file) {
-            if (UPLOAD_ERR_OK === $file['error']) {
-                $fileName = "$student_id.png";
-                move_uploaded_file($file['tmp_name'], "../app/photos/$fileName");
-            }
-        }
-        
-        $this->studentModel->setId($student_id);
-        $this->studentModel->uploadPhoto($student_id);
-    
-        header('Location: student');
-    }
-
-    public function savePhoto () {
-        define('UPLOAD_DIR', '../app/photos/');
-        $student_id = $_POST['student_id'];
-        $image_parts = explode(';base64,', $_POST['photo']);
-        $image_base64 = base64_decode($image_parts[1]);
-        $file = UPLOAD_DIR . "$student_id.png";
-        file_put_contents($file, $image_base64);
-        
-        $this->studentModel->setId($student_id);
-        $this->studentModel->uploadPhoto();
-    }
-
-    public function removePhoto () {
-        $student_id = $_POST['student_id'];
-        unlink("..app/photos/$student_id.png");
-        $this->studentModel->setId($student_id);
-        $this->studentModel->removePhoto($student_id);
-    }
-
     public function enableAccount () {
         $id = $_GET['id'];
-        $this->studentModel->setId($id);
-        $this->studentModel->enableAccount();
+        $this->teacherModel->setId($id);
+        $this->teacherModel->enableAccount();
         echo 'Account correttamente abilitato. Torna alla pagina <a href="../public/index.html">Login</a>';
     }
 }
