@@ -46,6 +46,9 @@ switch ($request) {
     case 'subscribe-student':
         $studentController->subscribeToClass();
         break;
+    case 'subscribe-teacher':
+        $teacherController->subscribeToClass();
+        break;
     case 'unsubscribe':
         $studentController->unsubscribeFromClass();
         break;

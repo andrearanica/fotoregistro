@@ -136,6 +136,5 @@
         <script src='./node_modules/html5-qrcode/html5-qrcode.min.js'></script>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js'></script>
         <script src='./javascript/studentScript.js' type='module'></script>
-        <script src='../../javascript/checkToken.js'></script>
     </body>
 </html>

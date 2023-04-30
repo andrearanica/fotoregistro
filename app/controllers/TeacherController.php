@@ -89,6 +89,12 @@ class TeacherController {
         $this->teacherModel->enableAccount();
         echo 'Account correttamente abilitato. Torna alla pagina <a href="../public/index.html">Login</a>';
     }
+
+    public function subscribeToClass () {
+        $this->teacherModel->setId($_POST['teacher_id']);
+        $this->teacherModel->subscribeToClass($_POST['class_id']);
+        echo json_encode(array('message' => 'ok'));
+    }
 }
 
 ?>

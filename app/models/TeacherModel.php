@@ -109,7 +109,19 @@ class TeacherModel {
 
     public function enableAccount () {
         $query = "UPDATE teachers SET enabled=1 WHERE teacher_id='$this->teacher_id'";
-        $this->connection->query($query);
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+    }
+
+    public function subscribeToClass ($class_id) {
+        $query = "INSERT INTO teaches (teacher_id, class_id) VALUES ('$this->teacher_id', '$class_id');";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+        if ($stmt->error) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
 

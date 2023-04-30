@@ -28,6 +28,7 @@ $.ajax({
         document.getElementById('account-name').value = user.name
         document.getElementById('account-surname').value = user.surname
         document.getElementById('account-email').value = user.email
+        document.getElementById('account-password').value = user.password
 
         if (user.class_id == null) {
             document.getElementById('user-alert').className = 'alert alert-warning'

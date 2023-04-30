@@ -72,9 +72,12 @@ $.ajax({
         console.log(user)
 
         document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
+        // Fill account form
         document.getElementById('account-name').value = user.name
         document.getElementById('account-surname').value = user.surname
         document.getElementById('account-email').value = user.email
+        document.getElementById('account-password').value = user.password
+
         getClasses()
     },
     error: (data) => {
@@ -89,7 +92,7 @@ document.getElementById('newClassForm').addEventListener('submit', event => {
 
 document.getElementById('logout').addEventListener('click', () => {
     window.localStorage.clear()
-    window.location.href = '../'
+    window.location.href = '../publics'
 })
 
 function showClass (classId) {
@@ -146,7 +149,7 @@ document.getElementById('reset-account-info').addEventListener('click', () => {
 document.getElementById('subscribe-form').addEventListener('submit', (e) => {
     e.preventDefault()
     $.ajax({
-        url: 'ajax?request=add-teacher-to-class',
+        url: 'subscribe-teacher',
         type: 'POST',
         data: {
             teacher_id: user.teacher_id,
