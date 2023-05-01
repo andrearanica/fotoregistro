@@ -57,14 +57,41 @@ class ClassModel {
     public function getClassFromId (): array {
         $this->connection->begin_transaction();
         try {
-            $query = "SELECT * FROM classes WHERE class_id='$this->class_id';";
+            $query = "SELECT * FROM classes WHERE class_id='$this->class_id'";
             $stmt = $this->connection->prepare($query);
             $stmt->execute();
-            $this->connection->commit();
-            return array('message' => $stmt->get_result());
+            $result = $stmt->get_result();
+            $array = array();
+            $n = 0;
+
+            while ($row = $result->fetch_assoc()) {
+                $array[$n] = $row;
+                $n++;
+            }
+            return $array;
         } catch (\mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return array('message' => 'class not found');
+        }
+    }
+
+    public function getStudents (): array {
+        $this->connection->begin_transaction();
+        try {
+            $query = "SELECT * FROM students WHERE class_id='$this->class_id';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $array = array();
+            $n = 0;
+
+            while ($row = $result->fetch_assoc()) {
+                $array[$n] = $row;
+                $n++;
+            }
+            return $array;
+        } catch (\mysqli_sql_exception $exceptio) {
+            return array();
         }
     }
 }

@@ -11,8 +11,8 @@ if (window.location.href.includes('?id')) {
 
 $.ajax({
     // document.getElementById('title').innerHTML = 'ciao'
-    url: 'ajax?request=class',
-    type: 'GET',
+    url: 'class-info',
+    type: 'POST',
     headers: {
         Authorization: `Bearer ${ window.localStorage.getItem('token') }`
     },
@@ -39,8 +39,8 @@ $.ajax({
 
 $.ajax({
     // document.getElementById('title').innerHTML = 'ciao'
-    url: 'ajax?request=class',
-    type: 'GET',
+    url: 'get-students',
+    type: 'POST',
     headers: {
         Authorization: `Bearer ${ window.localStorage.getItem('token') }`
     },
@@ -72,8 +72,8 @@ function showStudents (students) {
 
 function showStudentInfo (id) {
     $.ajax({
-        url: 'ajax?request=student',
-        type: 'GET',
+        url: 'student-info',
+        type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
         },

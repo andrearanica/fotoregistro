@@ -153,6 +153,30 @@ class StudentModel {
         $query = "UPDATE students SET enabled=1 WHERE student_id='$this->student_id'";
         $this->connection->query($query);
     }
+
+    public function getStudentById (): array {
+        $this->connection->begin_transaction();
+        try {
+            $query = "SELECT * FROM students WHERE student_id='$this->student_id';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $return = $row;
+                }
+            } else {
+                $return = array();
+            }
+
+            $this->connection->commit();
+            return $return;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return array();
+        }
+    }
 }
 
-?>
+?>  

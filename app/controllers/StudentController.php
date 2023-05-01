@@ -142,6 +142,12 @@ class StudentController {
         $this->studentModel->enableAccount();
         echo 'Account correttamente abilitato. Torna alla pagina <a href="../public/index.html">Login</a>';
     }
+
+    public function getStudentById () {
+        $this->studentModel->setId($_POST['student_id']);
+        $result = $this->studentModel->getStudentById();
+        echo json_encode($result);
+    }
 }
 
 ?>

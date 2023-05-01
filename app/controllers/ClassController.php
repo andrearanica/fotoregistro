@@ -40,6 +40,12 @@ class ClassController {
         $response = $this->classModel->getClassFromId();
         echo json_encode($response);
     }
+
+    public function getStudents () {
+        $this->classModel->setId($_POST['class_id']);
+        $response = $this->classModel->getStudents();
+        echo json_encode($response);
+    }
 }
 
 ?>

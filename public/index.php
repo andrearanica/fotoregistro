@@ -90,6 +90,15 @@ switch ($request) {
     case 'teacher-classes':
         $teacherController->getClasses();
         break;
+    case 'class-info':
+        $classController->getClassFromId();
+        break;
+    case 'get-students':
+        $classController->getStudents();
+        break;
+    case 'student-info':
+        $studentController->getStudentById();
+        break;
     default: 
         $siteController->NotFound();
 }
