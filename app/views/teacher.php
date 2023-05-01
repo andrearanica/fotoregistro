@@ -61,7 +61,7 @@
                     <!--bela-->
                     <form id='subscribe-form'>
                         <label for='subscribe-class-id'>ID della classe</label>
-                        <input id='subscribe-class-id' class='form-control my-2'>
+                        <input id='subscribe-class-id' class='form-control my-2 text-center'>
                         <input type='submit' value='Aggiungi' class='btn btn-primary my-2'>
                     </form>
                     <div id='subscribe-alert'>

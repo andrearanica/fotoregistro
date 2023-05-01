@@ -140,6 +140,27 @@ class TeacherModel {
             return 0;
         }
     }
+
+    public function getClasses (): array {
+        $this->connection->begin_transaction();
+        try {
+            $query = "SELECT * FROM teaches INNER JOIN classes ON classes.class_id=teaches.class_id WHERE teacher_id='$this->teacher_id'";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $array = array();
+            $n = 0;
+
+            while ($row = $result->fetch_assoc()) {
+                $array[$n] = $row;
+                $n++;
+            }
+            return $array;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return array();
+        }
+    }
 }
 
 ?>

@@ -109,6 +109,12 @@ class TeacherController {
         }
         echo $message;
     }
+
+    public function getClasses () {
+        $this->teacherModel->setId($_POST['teacher_id']);
+        $result = $this->teacherModel->getClasses();
+        echo json_encode($result);
+    }
 }
 
 ?>

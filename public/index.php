@@ -78,8 +78,17 @@ switch ($request) {
     case 'remove-class':
         $classController->removeClass();
         break;
+    case 'unsubscribe-student':
+        $studentController->unsubscribeFromClass();
+        break;
     case 'unsubscribe-teacher':
         $teacherController->unsubscribeFromClass();
+        break;
+    case 'remove-image':
+        $studentController->removePhoto();
+        break;
+    case 'teacher-classes':
+        $teacherController->getClasses();
         break;
     default: 
         $siteController->NotFound();

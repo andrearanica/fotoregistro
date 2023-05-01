@@ -101,7 +101,7 @@ function showStudentInfo (id) {
             }
             document.getElementById('ban-student').onclick = () => {
                 $.ajax({
-                    url: 'ajax?request=unsubscribe',
+                    url: 'unsubscribe',
                     type: 'POST',
                     headers: {
                         Authorization: `Bearer ${ window.localStorage.getItem('token') }`
@@ -116,7 +116,7 @@ function showStudentInfo (id) {
             }
             document.getElementById('delete-photo').onclick = () => {
                 $.ajax({
-                    url: 'ajax?request=remove-image',
+                    url: 'remove-image',
                     type: 'POST',
                     headers: {
                         Authorization: `Bearer ${ window.localStorage.getItem('token') }`

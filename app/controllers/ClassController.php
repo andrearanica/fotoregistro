@@ -34,6 +34,12 @@ class ClassController {
         }
         echo $return;
     }
+
+    public function getClassFromId () {
+        $this->classModel->setId($_POST['class_id']);
+        $response = $this->classModel->getClassFromId();
+        echo json_encode($response);
+    }
 }
 
 ?>

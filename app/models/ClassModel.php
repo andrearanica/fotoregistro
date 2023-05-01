@@ -53,6 +53,20 @@ class ClassModel {
             return 0;
         }
     }
+
+    public function getClassFromId (): array {
+        $this->connection->begin_transaction();
+        try {
+            $query = "SELECT * FROM classes WHERE class_id='$this->class_id';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return array('message' => $stmt->get_result());
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return array('message' => 'class not found');
+        }
+    }
 }
 
 ?>

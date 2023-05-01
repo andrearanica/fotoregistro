@@ -3,12 +3,15 @@ let classes = []
 
 function getClasses () {
     $.ajax({
-        url: `ajax?request=class&teacher_id=${ user.teacher_id }`,
-        type: 'GET',
+        url: `teacher-classes`,
+        type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`
         },
         dataType: 'json',
+        data: {
+            teacher_id: user.teacher_id
+        },
         success: data => {
             console.log(data)
             // console.log(`Classi di questo insegnante: ${ data }`)
@@ -143,8 +146,8 @@ document.getElementById('newClassForm').addEventListener('submit', event => {
                 document.getElementById('newClassAlert').innerHTML = '<b>Classe creata con successo</b>'
                 getClasses()
             } else {
-                document.getElementById('newClassAlert').className = 'alert alert- my-2'
-                document.getElementById('newClassAlert').innerHTML = '<b>Classe creata con successo</b>'
+                document.getElementById('newClassAlert').className = 'alert alert-danger my-2'
+                document.getElementById('newClassAlert').innerHTML = '<b>C\'è stato un errore, riprova più tardi</b>'
             }
         },
         error: data => {
@@ -155,7 +158,7 @@ document.getElementById('newClassForm').addEventListener('submit', event => {
 
 document.getElementById('logout').addEventListener('click', () => {
     window.localStorage.clear()
-    window.location.href = '../publics'
+    window.location.href = '../public'
 })
 
 function showClass (classId) {
@@ -205,8 +208,6 @@ document.getElementById('reset-account-info').addEventListener('click', () => {
     document.getElementById('account-name').value = user.name
     document.getElementById('account-surname').value = user.surname
     document.getElementById('account-email').value = user.email
-    document.getElementById('account-password').value = user.password
-    document.getElementById('account-password-confirm').value = user.password
 })
 
 document.getElementById('subscribe-form').addEventListener('submit', (e) => {
@@ -226,8 +227,8 @@ document.getElementById('subscribe-form').addEventListener('submit', (e) => {
                 document.getElementById('subscribe-alert').className = 'alert alert-success my-2'
                 document.getElementById('subscribe-alert').innerHTML = '<b>Iscrizione avvenuta con successo</b>'
             } else {
-                document.getElementById('subscribe-alert').className = 'alert alert-danger'
-            document.getElementById('subscribe-alert').innerHTML = '<b>Classe non trovata</b>'
+                document.getElementById('subscribe-alert').className = 'alert alert-danger my-2'
+                document.getElementById('subscribe-alert').innerHTML = '<b>Operazione impossibile: controlla l\'id della classe e che tu non sia già iscritto</b>'
             }
         },
         error: data => {
