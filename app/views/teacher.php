@@ -61,13 +61,16 @@
                     <!--bela-->
                     <form id='subscribe-form'>
                         <label for='subscribe-class-id'>ID della classe</label>
-                        <input id='subscribe-class-id' class='form-control my-2'>
+                        <input id='subscribe-class-id' class='form-control my-2 text-center'>
                         <input type='submit' value='Aggiungi' class='btn btn-primary my-2'>
                     </form>
                     <div id='subscribe-alert'>
                         
                     </div>
                 </div>
+            </div>
+            <div id='message-div'>
+
             </div>
             <div class='modal fade' id='newClassModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
                 <div class='modal-dialog'>
@@ -79,11 +82,6 @@
                     <div class='modal-body'>
                         <form id='newClassForm'>
                             <input id='newClassName'        class='form-control my-2' name='newClassName'        placeholder='Nome (es. 5ID)' required>
-                            <select id='newClassAccessType' class='form-control my-2' placeholder='Modalità di accesso' required>
-                                <option selected disabled>Modalità di accesso</option>
-                                <option value='0'>Libera</option>
-                                <option value='1'>Con limitazioni</option>
-                            </select>
                             <input class='btn' type='submit' value='Crea classe'>
                             <div id='newClassAlert'></div>
                         </form>
@@ -95,7 +93,6 @@
         
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js'></script>
         <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js' integrity='sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN' crossorigin='anonymous'></script>
-        <script src='../../javascript/checkToken.js'></script>
         <script src='./javascript/teacherScript.js'></script>
     </body>
 </html>
