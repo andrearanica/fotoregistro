@@ -87,6 +87,11 @@ function unsubscribeFromClass (class_id) {
         },
         success: data => {
             console.log(data)
+            getClasses()
+            if (data.message == 'ok') {
+                document.getElementById('message-div').value = '<b>Ti sei disiscritto dalla classe</b>'
+                document.getElementById('message-div').value = '<b>Ti sei disiscritto dalla classe</b>'
+            }
         },
         error: data => {
             console.log(data)
