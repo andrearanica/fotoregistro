@@ -20,6 +20,14 @@ class ClassModel {
         $this->class_name = $name;
     }
 
+    public function getId () {
+        return $this->class_id;
+    }
+
+    public function getName () {
+        return $this->class_name;
+    }
+
     public function addClass ($teacher_id): bool {
         $this->connection->begin_transaction();
         try {

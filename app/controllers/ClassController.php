@@ -3,6 +3,7 @@
 namespace App\controllers;
 
 use App\models\ClassModel;
+use App\core\PDF;
 
 class ClassController {
     private $classModel;
@@ -45,6 +46,19 @@ class ClassController {
         $this->classModel->setId($_POST['class_id']);
         $response = $this->classModel->getStudents();
         echo json_encode($response);
+    }
+
+    public function printPdf () {
+        require_once '../app/fpdf/fpdf.php';
+        $this->classModel->setId($_GET['id']);
+        $info = $this->classModel->getClassFromId();
+        $this->classModel->setId($info[0]['class_id']);
+        $this->classModel->setName($info[0]['class_name']);
+        // echo var_dump($info[0]);
+        $pdf = new PDF();
+        $pdf->setClassName($this->classModel->getName());
+        $pdf->printPage();
+        $pdf->Output();
     }
 }
 
