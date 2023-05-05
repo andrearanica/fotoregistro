@@ -3,6 +3,7 @@
 namespace App\controllers;
 
 use App\models\TeacherModel;
+use App\utilities\Jwt;
 
 ini_set('display_errors', 1);
 
@@ -14,6 +15,13 @@ class TeacherController {
     }
 
     public function updateTeacher () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $email = $_POST['email'];
@@ -91,6 +99,13 @@ class TeacherController {
     }
 
     public function subscribeToClass () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
         $this->teacherModel->setId($_POST['teacher_id']);
         if ($this->teacherModel->subscribeToClass($_POST['class_id'])) {
             $message = json_encode(array('message' => 'ok'));
@@ -101,6 +116,13 @@ class TeacherController {
     }
 
     public function unsubscribeFromClass () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
         $this->teacherModel->setId($_POST['teacher_id']);
         if ($this->teacherModel->unsubscribeFromClass($_POST['class_id'])) {
             $message = json_encode(array('message' => 'ok'));
@@ -111,6 +133,13 @@ class TeacherController {
     }
 
     public function getClasses () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+        
         $this->teacherModel->setId($_POST['teacher_id']);
         $result = $this->teacherModel->getClasses();
         echo json_encode($result);

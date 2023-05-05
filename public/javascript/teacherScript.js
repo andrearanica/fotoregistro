@@ -65,6 +65,9 @@ function removeClass (class_id) {
     $.ajax({
         url: 'remove-class',
         type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
         dataType: 'json',
         data: {
             class_id: class_id
@@ -83,6 +86,9 @@ function unsubscribeFromClass (class_id) {
     $.ajax({
         url: 'unsubscribe-teacher',
         type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
         dataType: 'json',
         data: {
             teacher_id: user.teacher_id,
@@ -134,6 +140,9 @@ document.getElementById('newClassForm').addEventListener('submit', event => {
     $.ajax({
         url: 'new-class',
         type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
         dataType: 'json',
         data: {
             class_name: document.getElementById('newClassName').value,
@@ -215,6 +224,9 @@ document.getElementById('subscribe-form').addEventListener('submit', (e) => {
     $.ajax({
         url: 'subscribe-teacher',
         type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
         data: {
             teacher_id: user.teacher_id,
             class_id: document.getElementById('subscribe-class-id').value

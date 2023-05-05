@@ -12,7 +12,6 @@ $.ajax({
         token: window.localStorage.getItem('token')
     },
     success: (data) => {
-        console.log(data)
         user = data
         /*
         user.surname = data.surname
@@ -67,8 +66,8 @@ $.ajax({
         } else {
             document.getElementById('subscribe-form').style = 'display: none;'
             $.ajax({
-                url: `ajax?request=class`,
-                type: 'GET',
+                url: `class-info`,
+                type: 'POST',
                 headers: {
                     Authorization: `Bearer ${ window.localStorage.getItem('token') }`
                 },
@@ -78,7 +77,6 @@ $.ajax({
                 },
                 success: (data) => {
                     classInfo = data[0]
-                    console.log(classInfo)
                     document.getElementById('user-alert').className = 'alert alert-success'
                     document.getElementById('user-alert').innerHTML = `<b>Sei iscritto alla classe ${ classInfo.class_name }</b>`
                     document.getElementById('unsubscribe').style = '';
@@ -242,6 +240,7 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
             password: document.getElementById('account-password').value
         },
         success: data => {
+            console.log(data)
             if (data.message == 'ok') {
                 document.getElementById('account-alert').className = 'alert alert-success my-2'
                 document.getElementById('account-alert').innerHTML = '<b>Account modificato</b>'
@@ -249,6 +248,9 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
                 document.getElementById('account-alert').className = 'alert alert-danger my-2'
                 document.getElementById('account-alert').innerHTML = '<b>Qualcosa è andato storto</b>'
             }
+        },
+        error: data => {
+            console.log(data)
         }
     })
 })

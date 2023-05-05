@@ -2,6 +2,8 @@
 
 namespace App\controllers;
 
+
+use App\utilities\Jwt;
 use App\models\StudentModel;
 
 ini_set('display_errors', 1);
@@ -14,6 +16,12 @@ class StudentController {
     }
 
     public function updateStudent () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $email = $_POST['email'];
@@ -84,7 +92,12 @@ class StudentController {
     }
 
     public function subscribeToClass () {
-        include('jwt.php');
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
 
         $class_id = $_POST['class_id'];
         $student_id = $_POST['student_id'];
@@ -96,12 +109,26 @@ class StudentController {
     }
 
     public function unsubscribeFromClass () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
         $student_id = $_POST['student_id'];
         $this->studentModel->setId($student_id);
         $this->studentModel->unsubscribeFromClass();
     }
 
     public function UploadPhoto () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
         $student_id = $_POST['student_id'];
         unlink("../app/photos/$student_id.png");
         foreach ($_FILES as $file) {
@@ -118,6 +145,13 @@ class StudentController {
     }
 
     public function savePhoto () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
         define('UPLOAD_DIR', '../app/photos/');
         $student_id = $_POST['student_id'];
         $image_parts = explode(';base64,', $_POST['photo']);
@@ -130,6 +164,13 @@ class StudentController {
     }
 
     public function removePhoto () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
         $student_id = $_POST['student_id'];
         unlink("..app/photos/$student_id.png");
         $this->studentModel->setId($student_id);
@@ -144,6 +185,13 @@ class StudentController {
     }
 
     public function getStudentById () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
         $this->studentModel->setId($_POST['student_id']);
         $result = $this->studentModel->getStudentById();
         echo json_encode($result);

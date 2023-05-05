@@ -99,6 +99,9 @@ switch ($request) {
     case 'student-info':
         $studentController->getStudentById();
         break;
+    case 'print-pdf':
+        $classController->printPdf();
+        break;
     default: 
         $siteController->NotFound();
 }

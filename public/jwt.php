@@ -3,7 +3,7 @@
 ini_set('display_errors', true);
 require('connection.php');
 
-function jwt($headers, $payload, $secret = 'tia') {
+function jwt($headers, $payload, $secret = 'f@t@r3g1str@') {
     $headers_encoded = base64url_encode(json_encode($headers));
     $payload_encoded = base64url_encode(json_encode($payload));
     $signature = hash_hmac('SHA256', "$headers_encoded.$payload_encoded", $secret, true);
@@ -31,7 +31,7 @@ if (isset($_GET['check'])) {
     getInfo($_POST['token'], $_GET['type']);
 }
 
-function check ($jwt, $secret = 'tia') {
+function check ($jwt, $secret = 'f@t@r3g1str@') {
     $tokenParts = explode('.', $jwt);
     $header = base64_decode($tokenParts[0]);
     $payload = base64_decode($tokenParts[1]);

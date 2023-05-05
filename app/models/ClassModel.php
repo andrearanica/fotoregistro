@@ -90,7 +90,7 @@ class ClassModel {
                 $n++;
             }
             return $array;
-        } catch (\mysqli_sql_exception $exceptio) {
+        } catch (\mysqli_sql_exception $exception) {
             return array();
         }
     }
