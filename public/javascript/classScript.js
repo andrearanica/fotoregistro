@@ -49,6 +49,7 @@ $.ajax({
     success: (data) => {
         classInfo = data[0]
         console.log(classInfo)
+        document.getElementById('print-pdf-a').href = `print-pdf?id=${ classInfo.class_id }`
         document.getElementById('title').innerHTML = `Classe ${ classInfo.class_name }`
         document.getElementById('class-id').innerHTML = `Oppure inserisci questo codice: ${ classInfo.class_id }`
         let canvas = document.getElementById('canvas')
@@ -84,16 +85,24 @@ $.ajax({
 })
 
 function showStudents (students) {
-    studentsDiv.innerHTML = '<h2>Studenti iscritti</h2>'
+    studentsDiv.innerHTML = '<h2>Studenti iscritti</h2><div class="row">'
     if (students.length == 0) {
         studentsDiv.innerHTML += 'Nessuno studente è iscritto a questa classe'
         return
     }
     students.map(student => {
         studentsDiv.innerHTML += `
-        <button class='btn' student-info-button my-2' onclick="showStudentInfo('${ student.student_id }')" data-bs-toggle='modal' data-bs-target='#student-info'>${ student.name } ${ student.surname }</button><br>
-        `
+        <center>
+            <div class="card my-4" style="width: 18rem;">
+                <img src="../app/photos/${ student.student_id }.png" height=200>
+                <div class="card-body">
+                    <button class='btn' student-info-button my-2' onclick="showStudentInfo('${ student.student_id }')" data-bs-toggle='modal' data-bs-target='#student-info'>${ student.name } ${ student.surname }</button>
+                </div>
+            </div>
+        </center>`
     })
+
+    studentsDiv.innerHTML += '</div>';
 }
 
 function showStudentInfo (id) {

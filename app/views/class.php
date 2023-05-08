@@ -37,7 +37,7 @@
                 
             </div>
             <hr>
-            <a href='print-pdf'><button class='btn btn-primary my-2'>Stampa PDF</button></a>
+            <a id='print-pdf-a' href='print-pdf'><button class='btn btn-primary my-2'>Stampa PDF</button></a>
             <!--<button class='btn btn-success' data-bs-toggle='modal' data-bs-target='#student-info'>${ student.name } ${ student.surname }</button> <br />-->
 
             <div class="modal fade" id="student-info" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -4,6 +4,7 @@ namespace App\controllers;
 
 use App\models\ClassModel;
 use App\utilities\Jwt;
+use App\utilities\Pdf;
 
 class ClassController {
     private $classModel;
@@ -77,18 +78,10 @@ class ClassController {
     }
 
     public function printPdf () {
-        $headers = getallheaders();
-        $token = explode(' ', $headers['Authorization'])[1];
-        if (!Jwt::checkToken($token)) {
-            echo json_encode(array('message' => 'token not valid'));
-            return;
-        }
-        
-        require('../app/fpdf/fpdf.php');
-        $pdf = new \FPDF();
-        $pdf->SetFont('Arial', 'B', 16);
-        $pdf->Cell(100, 0, 'ciao');
-        $pdf->Output();
+        $this->classModel->setId($_GET['id']);
+        $pdf = new Pdf();
+        $pdf->setClassModel($this->classModel);
+        $pdf->print();
     }
 }
 

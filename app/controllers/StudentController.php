@@ -122,13 +122,6 @@ class StudentController {
     }
 
     public function UploadPhoto () {
-        $headers = getallheaders();
-        $token = explode(' ', $headers['Authorization'])[1];
-        if (!Jwt::checkToken($token)) {
-            echo json_encode(array('message' => 'token not valid'));
-            return;
-        }
-
         $student_id = $_POST['student_id'];
         unlink("../app/photos/$student_id.png");
         foreach ($_FILES as $file) {
