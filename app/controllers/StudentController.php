@@ -178,10 +178,23 @@ class StudentController {
     }
 
     public function enableAccount () {
-        $id = $_GET['id'];
-        $this->studentModel->setId($id);
-        $this->studentModel->enableAccount();
-        echo 'Account correttamente abilitato. Torna alla pagina <a href="../public/index.html">Login</a>';
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $this->studentModel->setId($id);
+            $this->studentModel->enableAccount();
+            echo '
+            <div class="container my-5 text-center">
+                <h1>Account correttamente abilitato</h1>
+                <p>Ritorna alla pagina di <a href="/">login</a></p>
+            </div>
+            ';
+        } else {
+            echo '
+            <div class="">
+                <h1>Link non valido, torna alla pagina di <a href="./">login</a></h1>
+            </div>
+            ';
+        }
     }
 
     public function getStudentById () {

@@ -10,6 +10,32 @@ if (window.location.href.includes('?id')) {
 }
 
 $.ajax({
+    url: 'ajax?request=infoFromJwt&type=teachers',
+    type: 'POST',
+    headers: {
+        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+    },
+    dataType: 'json',
+    data: {
+        token: window.localStorage.getItem('token')
+    },
+    success: (data) => {
+        user = data
+        console.log(user)
+
+        // Fill account form
+        document.getElementById('account-name').value = user.name
+        document.getElementById('account-surname').value = user.surname
+        document.getElementById('account-email').value = user.email
+
+        getClasses()
+    },
+    error: (data) => {
+        console.log(data)
+    }
+})
+
+$.ajax({
     // document.getElementById('title').innerHTML = 'ciao'
     url: 'class-info',
     type: 'POST',

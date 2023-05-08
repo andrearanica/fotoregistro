@@ -149,9 +149,15 @@ class StudentModel {
         $stmt->execute();
     }
 
-    public function enableAccount () {
-        $query = "UPDATE students SET enabled=1 WHERE student_id='$this->student_id'";
-        $this->connection->query($query);
+    public function enableAccount (): bool {
+        $this->connection->begin_transaction();
+        try {
+            $query = "UPDATE students SET enabled=1 WHERE student_id='$this->student_id'";
+            $this->connection->query($query);
+            return true;
+        } catch (\mysqli_sql_exception $exception) {
+            return false;
+        }
     }
 
     public function getStudentById (): array {
