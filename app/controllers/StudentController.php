@@ -126,12 +126,15 @@ class StudentController {
         unlink("../app/photos/$student_id.png");
         foreach ($_FILES as $file) {
             if (UPLOAD_ERR_OK === $file['error']) {
-                $fileName = "$student_id.png";
+                $name = basename($file['name']);
+                $type = strtolower(pathinfo("uploads/$name", PATHINFO_EXTENSION));
+                $fileName = "$student_id.$type";
                 move_uploaded_file($file['tmp_name'], "../app/photos/$fileName");
             }
         }
         
-        $this->studentModel->setId($student_id);
+        $this->studentModel->setId($student_id);                
+        $this->studentModel->setPhotoType($type);
         $this->studentModel->uploadPhoto();
     
         header('Location: student');

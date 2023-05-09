@@ -8,7 +8,8 @@ class StudentModel {
     private $student_id;
     private $name;
     private $surname;
-    private $photo;
+    private $photo;    
+    private $photo_type;
     private $class_id;
     private $email;
     private $password;
@@ -32,6 +33,10 @@ class StudentModel {
 
     public function getPhoto () {
         return $this->photo;
+    }
+
+    public function getPhotoType () {
+        return $this->photo_type;
     }
 
     public function getClassId () {
@@ -64,6 +69,10 @@ class StudentModel {
 
     public function setPhoto ($photo) {
         $this->photo = $photo;
+    }
+
+    public function setPhotoType ($photo_type) {
+        $this->photo_type = $photo_type;
     }
 
     public function setClassId ($class_id) {
@@ -138,7 +147,7 @@ class StudentModel {
     }
 
     public function uploadPhoto () {
-        $query = "UPDATE students SET photo=1 WHERE student_id='$this->student_id';";
+        $query = "UPDATE students SET photo=1, photo_type='$this->photo_type' WHERE student_id='$this->student_id';";
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
     }

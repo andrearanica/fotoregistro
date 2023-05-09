@@ -14,7 +14,7 @@
                 border: 2px solid black;
             }
             img {
-                border-radius: 25px;
+                border-radius: 5px;
             }
             @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&display=swap');
 

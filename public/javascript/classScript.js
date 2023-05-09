@@ -85,24 +85,32 @@ $.ajax({
 })
 
 function showStudents (students) {
-    studentsDiv.innerHTML = '<h2>Studenti iscritti</h2><div class="row">'
     if (students.length == 0) {
         studentsDiv.innerHTML += 'Nessuno studente è iscritto a questa classe'
         return
     }
-    students.map(student => {
-        studentsDiv.innerHTML += `
-        <center>
-            <div class="card my-4" style="width: 18rem;">
-                <img src="../app/photos/${ student.student_id }.png" height=200>
-                <div class="card-body">
-                    <button class='btn' student-info-button my-2' onclick="showStudentInfo('${ student.student_id }')" data-bs-toggle='modal' data-bs-target='#student-info'>${ student.name } ${ student.surname }</button>
-                </div>
-            </div>
-        </center>`
-    })
+    
+    studentsDiv.className = 'row'
+    studentsDiv.innerHTML = '<h2>Studenti iscritti</h2>'
 
-    studentsDiv.innerHTML += '</div>';
+    for (let i = 0; i < students.length; i++) {
+        console.log(students[i])
+        if (students[i].photo) {
+            studentsDiv.innerHTML += `
+                <div class="col-sm">
+                    <img width='200' src="../app/photos/${ students[i].student_id }.${ students[i].photo_type }"><br>
+                    <button onclick="showStudentInfo('${ students[i].student_id }')" class="btn my-2" data-bs-toggle='modal' data-bs-target='#student-info'>${ students[i].name } ${ students[i].surname }</button>
+                </div>
+            `
+        } else {
+            studentsDiv.innerHTML += `
+                <div class="col-sm">
+                    <img width='200' src="../app/photos/user.png"><br>
+                    <button onclick="showStudentInfo('${ students[i].student_id }')" class="btn my-2" data-bs-toggle='modal' data-bs-target='#student-info'>${ students[i].name } ${ students[i].surname }</button>
+                </div>
+            `
+        }
+    }
 }
 
 function showStudentInfo (id) {
@@ -126,7 +134,7 @@ function showStudentInfo (id) {
             Email: <a href='mailto:${ student.email }'>${ student.email }</a><br>
             `
             if (student.photo) {
-                document.getElementById('student-image').src = `../app/photos/${ student.student_id }.png`
+                document.getElementById('student-image').src = `../app/photos/${ student.student_id }.${ student.photo_type }`
                 document.getElementById('delete-photo').style = 'color: white;';
             } else {
                 document.getElementById('student-image').src = ``

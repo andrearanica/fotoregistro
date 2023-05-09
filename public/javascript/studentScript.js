@@ -90,7 +90,7 @@ $.ajax({
         if (user.photo) {
             document.getElementById('start-camera').style = 'display: none';
             document.getElementById('upload-photo').style = 'display: none';
-            document.getElementById('student-photo').src = `../app/photos/${ user.student_id }.png`
+            document.getElementById('student-photo').src = `../app/photos/${ user.student_id }.${ user.photo_type }`
             document.getElementById('messages').innerHTML = 'Questa è la tua foto. Se non ti piace, puoi <a id="remove-photo">ricaricarla</a>'
             document.getElementById('remove-photo').addEventListener('click', () => {
                 removePhoto(user.student_id)
