@@ -86,7 +86,7 @@ class ClassModel {
     public function getStudents (): array {
         $this->connection->begin_transaction();
         try {
-            $query = "SELECT * FROM students WHERE class_id='$this->class_id';";
+            $query = "SELECT * FROM students WHERE class_id='$this->class_id' ORDER BY surname;";
             $stmt = $this->connection->prepare($query);
             $stmt->execute();
             $result = $stmt->get_result();

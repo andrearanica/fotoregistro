@@ -32,6 +32,7 @@
 							<form id='loginFormStudent'>
 								<input type="email"    class="form-control my-2" id='loginEmailStudent'    placeholder='Email' required>
 								<input type="password" class="form-control my-2" id='loginPasswordStudent' placeholder='Password' required>
+								<label for='showPassword'>Mostra password</label><input id='show-password-student-login' onclick='showPasswordStudent("login")' class='my-2 mx-2 btn' type='button' value='❌'><br />
 								<input type="submit"   class='btn my-2'>
 							</form>
 							<div id='loginAlertStudent'>
@@ -55,7 +56,7 @@
 								<input type='email'    class='form-control my-2' id='signupEmailStudent'           placeholder='Email' required>
 								<input type='password' class='form-control my-2' id='signupPasswordStudent'        placeholder='Password' required>
 								<input type='password' class='form-control my-2' id='signupConfirmPasswordStudent' placeholder='Conferma password' required>
-								<label for='showPassword'>Mostra password</label><input id='showPassword' class='my-2 mx-2' type='checkbox'><br />
+								<label for='showPassword'>Mostra password</label><input id='show-password-student-signup' onclick='showPasswordStudent("signup")' class='my-2 mx-2 btn' type='button' value='❌'><br />
 								<input type="submit"   class='btn my-2'>
 								<div id='signupAlertStudent'>
 
@@ -76,6 +77,7 @@
 							<form id='loginFormTeacher'>
 								<input type="email"    class="form-control my-2" id='loginEmailTeacher'    placeholder='Email' required>
 								<input type="password" class="form-control my-2" id='loginPasswordTeacher' placeholder='Password' required>
+								<label for='showPassword'>Mostra password</label><input id='show-password-teacher-login' onclick='showPasswordTeacher("login")' class='my-2 mx-2 btn' type='button' value='❌'><br />
 								<input type="submit"   class='btn my-2'>
 							</form>
 							<div id='loginAlertTeacher'>
@@ -99,7 +101,7 @@
 								<input type='email'    class='form-control my-2' id='signupEmailTeacher'           placeholder='Email' required>
 								<input type='password' class='form-control my-2' id='signupPasswordTeacher'        placeholder='Password' required>
 								<input type='password' class='form-control my-2' id='signupConfirmPasswordTeacher' placeholder='Conferma password' required>
-								<label for='showPassword'>Mostra password</label><input id='showPasswordTeacher' class='my-2 mx-2' type='checkbox'><br />
+								<label for='showPassword'>Mostra password</label><input id='show-password-teacher-signup' onclick='showPasswordTeacher("signup")' class='my-2 mx-2 btn ' type='button' value='❌'><br />
 								<input type="submit"   class='btn my-2'>
 								<div id='signupAlertTeacher'>
 

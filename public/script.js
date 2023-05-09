@@ -3,9 +3,6 @@ var signupFormStudent = document.getElementById('signupFormStudent')
 var loginFormTeacher = document.getElementById('loginFormTeacher')
 var signupFormTeacher = document.getElementById('signupFormTeacher')
 
-let showPasswordStudent = false
-let showPasswordTeacher = false
-
 loginFormStudent.addEventListener('submit', (event) => {
     event.preventDefault()
     document.getElementById('loginAlertStudent').className = ''
@@ -71,8 +68,50 @@ signupFormStudent.addEventListener('submit', (event) => {
     })
 })
 
-document.getElementById('showPassword').onchange = () => {
-    
+function showPasswordStudent (form) {
+    if (form == 'login') {
+        var x = document.getElementById('loginPasswordStudent')
+    } else {
+        var x = document.getElementById('signupPasswordStudent')
+    }
+    if (x.type == 'password') {
+        x.type = 'text'
+        if (form == 'login') {
+            document.getElementById('show-password-student-login').value = '👁️'
+        } else {
+            document.getElementById('show-password-student-signup').value = '👁️'
+        }
+    } else {
+        x.type = 'password'
+        if (form == 'login') {
+            document.getElementById('show-password-student-login').value = '❌'
+        } else {
+            document.getElementById('show-password-student-signup').value = '❌'
+        }
+    }
+}
+
+function showPasswordTeacher (form) {
+    if (form == 'login') {
+        var x = document.getElementById('loginPasswordTeacher')
+    } else {
+        var x = document.getElementById('signupPasswordTeacher')
+    }
+    if (x.type == 'password') {
+        x.type = 'text'
+        if (form == 'login') {
+            document.getElementById('show-password-teacher-login').value = '👁️'
+        } else {
+            document.getElementById('show-password-teacher-signup').value = '👁️'
+        }
+    } else {
+        x.type = 'password'
+        if (form == 'login') {
+            document.getElementById('show-password-teacher-login').value = '❌'
+        } else {
+            document.getElementById('show-password-teacher-signup').value = '❌'
+        }
+    }
 }
 
 loginFormTeacher.addEventListener('submit', (event) => {

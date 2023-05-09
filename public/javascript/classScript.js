@@ -27,8 +27,6 @@ $.ajax({
         document.getElementById('account-name').value = user.name
         document.getElementById('account-surname').value = user.surname
         document.getElementById('account-email').value = user.email
-
-        getClasses()
     },
     error: (data) => {
         console.log(data)
@@ -49,9 +47,9 @@ $.ajax({
     success: (data) => {
         classInfo = data[0]
         console.log(classInfo)
-        document.getElementById('print-pdf-a').href = `print-pdf?id=${ classInfo.class_id }`
         document.getElementById('title').innerHTML = `Classe ${ classInfo.class_name }`
         document.getElementById('class-id').innerHTML = `Oppure inserisci questo codice: ${ classInfo.class_id }`
+        document.getElementById('pdf-id').value = classInfo.class_id
         let canvas = document.getElementById('canvas')
         QRCode.toCanvas(canvas, id, (error) => {
             if (error) {

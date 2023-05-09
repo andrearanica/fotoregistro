@@ -37,7 +37,7 @@
                 
             </div>
             <hr>
-            <a id='print-pdf-a' href='print-pdf'><button class='btn btn-primary my-2'>Stampa PDF</button></a>
+            <button class='btn btn-primary my-2' data-bs-toggle="modal" data-bs-target="#exampleModal">Stampa PDF</button>
             <!--<button class='btn btn-success' data-bs-toggle='modal' data-bs-target='#student-info'>${ student.name } ${ student.surname }</button> <br />-->
 
             <div class="modal fade" id="student-info" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -56,6 +56,26 @@
                             <button id='delete-photo' class='btn btn-warning' style='color: white;'>Cancella questa foto</button>
                             <button id='ban-student' class='btn btn-danger'>Espelli questo studente</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Stampa PDF</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id='pdf-form' action='print-pdf'>
+                            <input name='id' id='pdf-id' style='display: none;'>
+                            <label for='display'>Seleziona gli studenti da mostrare nel PDF</label>
+                            <select required id='display' name='display' class='form-control my-2 text-center'>
+                                <option value='all'>Tutti gli studenti iscritti alla classe</option>
+                                <option value='photo'>Solo gli studenti che hanno caricato la foto</option>
+                            </select>
+                            <input type='submit' class='btn btn-success'>
+                        </form>
                     </div>
                 </div>
             </div>

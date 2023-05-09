@@ -168,9 +168,13 @@ class StudentController {
         }
 
         $student_id = $_POST['student_id'];
-        unlink("..app/photos/$student_id.png");
+        unlink("../app/photos/$student_id.png");
         $this->studentModel->setId($student_id);
         $this->studentModel->removePhoto();
+
+        $headers = "MIME-Version: 1.0" . "\r\n"; 
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
+        // mail($email, 'La tua foto è stata cancellata', "Ciao $name.<br>Uno dei tuoi professori ha eliminato la tua foto. <a href='https://andrearanica.altervista.org/fotoregistro/public'></a>", $headers);
     }
 
     public function enableAccount () {

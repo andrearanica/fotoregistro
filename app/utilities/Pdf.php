@@ -31,21 +31,26 @@ class Pdf extends \FPDF {
 
     private function printStudents () {
         $this->SetFont('Arial', '', 10);
-        $i = 0; $x = 10; $y = 60;
+        $i = 0; $x = 10; $y = 45;
         foreach ($this->classModel->getStudents() as $student) {
-            $id = $student['student_id']; $name = $student['name']; $surname = $student['surname'];
-            if ($student['photo'] == 1){
-                $this->Image("../app/photos/$id.png", $x, $y, 30); 
-            }
-            $this->Text($x, $y + 35, "$name $surname");
-            $this->Ln(0);
-            $i++;
+            $id = $student['student_id']; $name = $student['name']; $surname = $student['surname']; $photo_type = $student['photo_type'];
+            if ($student['photo'] == 1 || $_GET['display'] == 'all'){
+                if ($student['photo'] == 1) {
+                    $this->Image("../app/photos/$id.$photo_type", $x, $y, 0, 35);
+                } else {
+                    $this->Image("../app/photos/user.png", $x, $y, 0, 35);
+                }
+                $this->Text($x, $y + 40, "$name $surname");
+                $this->Ln(50);
+                $i++;
 
-            if ($x == 170) {
-                $x = 10;
-                $y += 10;
+                $x += 40;
+                
+                if ($x == 250) {
+                    $x = 10;
+                    $y += 55;
+                }
             }
-            $x += 80;
         }
     }
 
