@@ -140,7 +140,7 @@ function showStudentInfo (id) {
                 document.getElementById('student-messages').innerHTML = `${ student.name } non ha ancora caricato la sua foto`
                 document.getElementById('delete-photo').style = 'display: none;';
             }
-            document.getElementById('ban-student').onclick = () => {
+            document.getElementById('eject-student').onclick = () => {
                 $.ajax({
                     url: 'unsubscribe',
                     type: 'POST',
@@ -169,6 +169,21 @@ function showStudentInfo (id) {
                         document.getElementById('student-image').src = ''
                         document.getElementById('student-messages').innerHTML = 'Foto eliminata'
                         document.getElementById('delete-photo').style = 'display: none;';
+                    }
+                })
+            }
+            document.getElementById('ban-student').onclick = () => {
+                $.ajax({
+                    url: 'unsubscribe',
+                    type: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+                    },
+                    data: {
+                        student_id: student.student_id
+                    },
+                    success: () => {
+                        location.reload()
                     }
                 })
             }

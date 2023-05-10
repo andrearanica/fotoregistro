@@ -54,7 +54,8 @@
                         </div>
                         <div class="modal-footer">
                             <button id='delete-photo' class='btn btn-warning' style='color: white;'>Cancella questa foto</button>
-                            <button id='ban-student' class='btn btn-danger'>Espelli questo studente</button>
+                            <button id='eject-student' class='btn btn-danger'>Espelli questo studente</button>
+                            <button id='ban-student' class='btn btn-dark'>Banna lo studente</button>
                         </div>
                     </div>
                 </div>
