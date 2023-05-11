@@ -9,10 +9,11 @@
         <h1 class='modal-title fs-5' id='exampleModalLabel'>Studenti bannati</h1>
         <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
       </div>
-      <center>
-      <div class='modal-body row' id='banned-students-div'>          
-      </div>
-      </center>
+        <center>
+          <div class='modal-body row text-center' id='banned-students-div'>    
+            
+          </div>
+        </center>
     </div>
   </div>
 </div>

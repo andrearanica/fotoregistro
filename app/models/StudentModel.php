@@ -227,6 +227,24 @@ class StudentModel {
             return 0;
         }
     }
+
+    public function removeFromBlacklist (): bool {
+        if ($this->class_id == null) {
+            return 0;
+        }
+        $this->connection->begin_transaction();
+        try {
+            $query = "DELETE FROM blacklist WHERE student_id='$this->student_id' AND class_id='$this->class_id';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            echo $exception;
+            $this->connection->rollback();
+            return 0;
+        }
+    }
 }
 
 ?>  

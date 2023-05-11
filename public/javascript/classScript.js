@@ -82,7 +82,29 @@ $.ajax({
     }
 })
 
-document.getElementById('show-banned-students-btn').addEventListener('click', () => {
+function removeFromBlacklist (student_id) {
+    $.ajax({
+        url: 'remove-student-from-blacklist',
+        type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
+        dataType: 'json',
+        data: {
+            student_id: student_id,
+            class_id: classInfo.class_id
+        },
+        success: data => {
+            showBannedStudents()
+        },
+        error: data => {
+            console.log(data)
+        }
+    })
+}
+
+function showBannedStudents () {
+    document.getElementById('banned-students-div').innerHTML = ''
     $.ajax({
         // document.getElementById('title').innerHTML = 'ciao'
         url: 'get-banned-students',
@@ -103,14 +125,14 @@ document.getElementById('show-banned-students-btn').addEventListener('click', ()
                         document.getElementById('banned-students-div').innerHTML += `
                             <div class="col-sm">
                                 <img width='200' src="../app/photos/${ student.student_id }.${ student.photo_type }"><br>
-                                <p class="my-2">${ student.name } ${ student.surname }</p>
+                                <button onclick='removeFromBlacklist("${ student.student_id }")' class='btn btn-success my-2'>${ student.name } ${ student.surname }</button>
                             </div>
                         `
                     } else {
                             document.getElementById('banned-students-div').innerHTML += `
                             <div class="col-sm">
                                 <img width='200' src="../app/photos/user.png"><br>
-                                <p class="my-2">${ student.name } ${ student.surname }</p>
+                                <button onclick='removeFromBlacklist("${ student.student_id }")' class='btn btn-success my-2'>${ student.name } ${ student.surname }</button>
                             </div>
                         `
                     }
@@ -123,6 +145,10 @@ document.getElementById('show-banned-students-btn').addEventListener('click', ()
             console.log(data)
         }
     })
+}
+
+document.getElementById('show-banned-students-btn').addEventListener('click', () => {
+    showBannedStudents()
 })
 
 function showStudents (students) {

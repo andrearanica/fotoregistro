@@ -108,6 +108,9 @@ switch ($request) {
     case 'get-banned-students':
         $classController->getBannedStudents();
         break;
+    case 'remove-student-from-blacklist':
+        $studentController->removeFromBlacklist();
+        break;
     default: 
         $siteController->NotFound();
 }

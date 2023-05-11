@@ -232,6 +232,24 @@ class StudentController {
             echo json_encode(array('message' => 'error'));
         }
     }
+
+    public function removeFromBlacklist () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
+        $this->studentModel->setId($_POST['student_id']);
+        $this->studentModel->setClassId($_POST['class_id']);
+
+        if ($this->studentModel->removeFromBlacklist()) {
+            echo json_encode(array('message' => 'ok'));
+        } else {
+            echo json_encode(array('message' => 'error'));
+        }
+    }
 }
 
 ?>
