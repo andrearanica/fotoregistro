@@ -77,6 +77,19 @@ class ClassController {
         echo json_encode($response);
     }
 
+    public function getBannedStudents () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
+        $this->classModel->setId($_POST['class_id']);
+        $response = $this->classModel->getBannedStudents();
+        echo json_encode($response);
+    }
+
     public function printPdf () {
         $this->classModel->setId($_GET['id']);
         $pdf = new Pdf();

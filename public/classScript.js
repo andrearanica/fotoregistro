@@ -26,11 +26,11 @@ $.ajax({
         document.getElementById('title').innerHTML = `Classe ${ classInfo.class_name }`
         document.getElementById('class-id').innerHTML = `Oppure inserisci questo codice: ${ classInfo.class_id }`
         let canvas = document.getElementById('canvas')
-        QRCode.toCanvas(canvas, id, (error) => {
+        /*QRCode.toCanvas(canvas, id, (error) => {
             if (error) {
                 console.log(error)
             }
-        })
+        })*/
     },
     error: data => {
         console.log(data)
@@ -51,6 +51,25 @@ $.ajax({
     },
     success: data => {
         showStudents(data)
+    },
+    error: data => {
+        console.log(data)
+    }
+})
+
+$.ajax({
+    url: 'get-banned-students',
+    type: 'POST',
+    headers: {
+        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+    },
+    dataType: 'json',
+    data: {
+        class_id: id,
+        students: true
+    },
+    success: data => {
+        console.log(data)
     },
     error: data => {
         console.log(data)

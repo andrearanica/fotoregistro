@@ -102,6 +102,12 @@ switch ($request) {
     case 'print-pdf':
         $classController->printPdf();
         break;
+    case 'add-to-blacklist':
+        $studentController->addToBlacklist();
+        break;
+    case 'get-banned-students':
+        $classController->getBannedStudents();
+        break;
     default: 
         $siteController->NotFound();
 }

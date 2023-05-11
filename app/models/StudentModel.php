@@ -134,10 +134,25 @@ class StudentModel {
         return 0;
     }
 
-    public function subscribeToClass ($class_id) {
-        $query = "UPDATE students SET class_id='$class_id' WHERE student_id='$this->student_id'";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
+    public function subscribeToClass ($class_id): int {
+        $this->connection->begin_transaction();
+        try {
+            $query = "SELECT student_id FROM blacklist WHERE student_id='$this->student_id' AND class_id='$class_id'";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            if ($stmt->get_result()->num_rows > 0) {
+                $this->connection->rollback();
+                return 2;
+            }
+            $query = "UPDATE students SET class_id='$class_id' WHERE student_id='$this->student_id'";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return -1;
+        }
     }
 
     public function unsubscribeFromClass () {
@@ -190,6 +205,26 @@ class StudentModel {
         } catch (\mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return array();
+        }
+    }
+
+    public function addToBlacklist (): bool {
+        if ($this->class_id == null) {
+            return 0;
+        }
+        $this->connection->begin_transaction();
+        try {
+            $query = "INSERT INTO blacklist(student_id, class_id) VALUES ('$this->student_id', '$this->class_id');";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $query = "UPDATE students SET class_id=null WHERE student_id='$this->student_id';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
         }
     }
 }

@@ -103,9 +103,14 @@ class StudentController {
         $student_id = $_POST['student_id'];
 
         $this->studentModel->setId($student_id);
-        $this->studentModel->subscribeToClass($class_id);
         
-        echo json_encode(array('message' => 'ok'));
+        if ($this->studentModel->subscribeToClass($class_id) == 1) {
+            echo json_encode(array('message' => 'ok'));
+        } else if ($this->studentModel->subscribeToClass($class_id) == 2) {
+            echo json_encode(array('message' => 'banned'));
+        } else {
+            echo json_encode(array('message' => 'not found'));
+        }
     }
 
     public function unsubscribeFromClass () {
@@ -208,6 +213,24 @@ class StudentController {
         $this->studentModel->setId($_POST['student_id']);
         $result = $this->studentModel->getStudentById();
         echo json_encode($result);
+    }
+
+    public function addToBlacklist () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
+        $this->studentModel->setId($_POST['student_id']);
+        $this->studentModel->setClassId($_POST['class_id']);
+        
+        if ($this->studentModel->addToBlacklist()) {
+            echo json_encode(array('message' => 'ok'));
+        } else {
+            echo json_encode(array('message' => 'error'));
+        }
     }
 }
 

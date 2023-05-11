@@ -12,6 +12,7 @@ $.ajax({
         token: window.localStorage.getItem('token')
     },
     success: (data) => {
+        console.log(data)
         user = data
         /*
         user.surname = data.surname
@@ -32,7 +33,7 @@ $.ajax({
             document.getElementById('user-alert').className = 'alert alert-warning'
             document.getElementById('user-alert').innerHTML = '<b>Non sei ancora iscritto alla tua classe</b>'
             document.getElementById('subscribe-form').style = ''
-            let html5QrcodeScanner = new Html5QrcodeScanner('reader', {
+            /*let html5QrcodeScanner = new Html5QrcodeScanner('reader', {
                 fps: 24,
                 qrbox: {
                     width: 250,
@@ -62,7 +63,7 @@ $.ajax({
                         }
                     })
                 }
-            }
+            }*/
         } else {
             document.getElementById('subscribe-form').style = 'display: none;'
             $.ajax({
@@ -163,7 +164,7 @@ document.getElementById('save-photo').addEventListener('click', () => {
             console.log(data)
         }
     })
-    location.reload()
+    // location.reload()
 })
 
 document.getElementById('unsubscribe').addEventListener('click', () => {
@@ -201,7 +202,16 @@ document.getElementById('subscribe-to-class').addEventListener('submit', (e) => 
         },
         dataType: 'json',
         success: data => {
-            location.reload()
+            console.log(data)
+            if (data.message == 'ok') {
+                location.reload()
+            } else if (data.message == 'banned') {
+                document.getElementById('subscribe-errors').className = 'alert alert-danger text-center my-4'            
+                document.getElementById('subscribe-errors').innerHTML = '<b>Sei stato bannato da questa classe</b>'            
+            } else {
+                document.getElementById('subscribe-errors').className = 'alert alert-danger text-center my-4'            
+            document.getElementById('subscribe-errors').innerHTML = '<b>Classe non trovata</b>'            
+            }
         },
         error: data => {
             console.log(data)

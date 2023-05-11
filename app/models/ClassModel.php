@@ -102,6 +102,26 @@ class ClassModel {
             return array();
         }
     }
+
+    public function getBannedStudents (): array {
+        $this->connection->begin_transaction();
+        try {
+            $query = "SELECT * FROM students WHERE student_id IN (SELECT student_id FROM blacklist WHERE class_id='$this->class_id');";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $array = array();
+            $n = 0;
+
+            while ($row = $result->fetch_assoc()) {
+                $array[$n] = $row;
+                $n++;
+            }
+            return $array;
+        } catch (\mysqli_sql_exception $exception) {
+            return array();
+        }
+    }
 }
 
 ?>

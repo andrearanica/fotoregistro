@@ -37,6 +37,7 @@
                 
             </div>
             <hr>
+            <?php require('../app/views/components/show-banned-students.php'); ?>
             <button class='btn btn-primary my-2' data-bs-toggle="modal" data-bs-target="#exampleModal">Stampa PDF</button>
             <!--<button class='btn btn-success' data-bs-toggle='modal' data-bs-target='#student-info'>${ student.name } ${ student.surname }</button> <br />-->
 
@@ -84,7 +85,6 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        <script src='../node_modules/qrcode/build/qrcode.js'></script>
         <script src="./javascript/classScript.js"></script>
     </body>
 </html>

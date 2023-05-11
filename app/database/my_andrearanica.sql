@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Creato il: Mar 31, 2023 alle 12:50
--- Versione del server: 10.4.27-MariaDB
--- Versione PHP: 8.2.0
+-- Host: 127.0.0.1
+-- Creato il: Mag 11, 2023 alle 18:49
+-- Versione del server: 10.4.28-MariaDB
+-- Versione PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -48,6 +48,26 @@ INSERT INTO `angulardisplacement` (`displacement`, `factor`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `blacklist`
+--
+
+CREATE TABLE `blacklist` (
+  `student_id` varchar(255) NOT NULL,
+  `class_id` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `blacklist`
+--
+
+INSERT INTO `blacklist` (`student_id`, `class_id`) VALUES
+('st_645a59ac6f80c', 'cl_6425d7bd508a0'),
+('st_645a8e68adfd7', 'cl_6425d7bd508a0'),
+('st_644a500c6eae6', 'cl_6425d7bd508a0');
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `classes`
 --
 
@@ -70,7 +90,14 @@ INSERT INTO `classes` (`class_id`, `class_name`, `access_type`, `school_id`) VAL
 ('5', '5EA', b'0', 1),
 ('6', '5EB', b'0', 1),
 ('cl_6425d7bd508a0', '5IB', b'0', 1),
-('cl_6426bac4ba51a', '5EA', b'0', 1);
+('cl_6426bac4ba51a', '5EA', b'0', 1),
+('cl_6426bbb38236e', 'daf', b'1', 1),
+('cl_6426bc62c71e6', 'dia', b'0', 1),
+('cl_6426bf5d82a19', 'wa', b'0', 1),
+('cl_6426bf8b3f7c6', 'wa', b'0', 1),
+('cl_6426bfa3cb7dd', 'wa', b'0', 1),
+('cl_6437c356db6f1', 'Loris', b'0', 1),
+('cl_643cf8c74c129', '5FF', b'0', 1);
 
 -- --------------------------------------------------------
 
@@ -92,8 +119,9 @@ CREATE TABLE `companies` (
 --
 
 CREATE TABLE `evaluations` (
-  `id` int(11) NOT NULL,
+  `evaluation_id` int(11) NOT NULL,
   `valid` tinyint(1) NOT NULL DEFAULT 1,
+  `author` int(11) DEFAULT NULL,
   `businessName` varchar(255) NOT NULL,
   `cost` float NOT NULL,
   `date` varchar(255) NOT NULL,
@@ -115,8 +143,10 @@ CREATE TABLE `evaluations` (
 -- Dump dei dati per la tabella `evaluations`
 --
 
-INSERT INTO `evaluations` (`id`, `valid`, `businessName`, `cost`, `date`, `realWeight`, `heightFromGround`, `verticalDistance`, `horizontalDistance`, `angularDisplacement`, `gripValue`, `frequency`, `duration`, `oneHand`, `twoPeople`, `maximumWeight`, `IR`) VALUES
-(55, 1, 'HP', 250, '2023-02-22', 30, 0, 25, 25, 0, 'Buono', 1, '< 1 ora', 1, 0, 9.98844, 3.00347);
+INSERT INTO `evaluations` (`evaluation_id`, `valid`, `author`, `businessName`, `cost`, `date`, `realWeight`, `heightFromGround`, `verticalDistance`, `horizontalDistance`, `angularDisplacement`, `gripValue`, `frequency`, `duration`, `oneHand`, `twoPeople`, `maximumWeight`, `IR`) VALUES
+(94, 1, 1, 'Castelli', 10, '2023-04-26', 4, 75, 40, 30, 0, 'Buono', 1, 'da 2 a 8 ore', 0, 0, 11.5785, 0.345468),
+(95, 1, 16, 'Hu', 40, '2023-04-27', 5, 0, 25, 25, 0, 'Buono', 0.2, '< 1 ora', 0, 0, 15.4, 0.324675),
+(96, 1, 1, 'Castelli', 10, '2023-04-26', 4, 50, 25, 25, 0, 'Buono', 0.2, '< 1 ora', 0, 0, 18.6, 0.215054);
 
 -- --------------------------------------------------------
 
@@ -253,10 +283,11 @@ CREATE TABLE `students` (
   `student_id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `surname` varchar(255) NOT NULL,
-  `photo` bit(50) DEFAULT b'0',
+  `photo` tinyint(1) DEFAULT 0,
+  `photo_type` varchar(255) DEFAULT NULL,
   `class_id` varchar(255) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -264,13 +295,20 @@ CREATE TABLE `students` (
 -- Dump dei dati per la tabella `students`
 --
 
-INSERT INTO `students` (`student_id`, `name`, `surname`, `photo`, `class_id`, `email`, `password`, `enabled`) VALUES
-('0', 'Carlo', 'Riva', NULL, 'cl_6425d7bd508a0', 'wolf@gmail.com', 'carlo', 1),
-('1', 'Mario', 'Rossi', NULL, NULL, 'mariorossi@gmail.com', 'mariorossi', 1),
-('10', 'Alberto', 'Fagioli', NULL, NULL, 'alberto@gmail.com', 'fagioli', 0),
-('st_64034ada04103', 'Edoardo', 'Rebussi', b'00000000000000000000000000000000000000000000000000', NULL, 'edo@gmail.com', 'edo', 1),
-('st_6406191ec90e1', 'Riccardo', 'Nasatti', b'00000000000000000000000000000000000000000000000000', NULL, 'riccardonasatti@gmail.com', 'riccardonasatti', 1),
-('st_6425de16f115a', 'Riccardo', 'Ranica', b'00000000000000000000000000000000000000000000000000', NULL, 'riccardoranica@gmail.com', 'riccardoranica', 1);
+INSERT INTO `students` (`student_id`, `name`, `surname`, `photo`, `photo_type`, `class_id`, `email`, `password`, `enabled`) VALUES
+('0', 'Carlo', 'Riva', NULL, '', NULL, 'wolf@gmail.com', 'carlo', 1),
+('1', 'Mario', 'Rossi', NULL, '', NULL, 'mariorossi@gmail.com', 'mariorossi', 1),
+('st_64034ada04103', 'Edoardo', 'Rebussi', 0, '', NULL, 'edo@gmail.com', 'edo', 1),
+('st_644a500c6eae6', 'Edoardo', 'Stroppa', 1, 'jpeg', NULL, 'stroppa.edoardo4@gmail.com', '$2y$10$QfvWZMHkhwt32KRQbWH.KOl/PXOPiOMqiP3mKKlA7GxwDoxaoH5oq', 1),
+('st_645960d7ad477', 'f', 'ougf', 1, '', NULL, 'e@e', '$2y$10$6SB1oF3vbN1yvgrpSMSvYuRk3kx3uWUcZjsdWp2X4TDoAtEDenU16', 1),
+('st_645a56c90e57a', 'Loris', 'Rota', 1, '', NULL, 'lorisrota@gmail.com', '$2y$10$Kl6q2zE/6365S1jX/jK1x.l52.G3u7qpsgXRO1cV1VDZdhUlHt/7G', 1),
+('st_645a5731c528b', 'Mattia', 'Rocchi', 0, 'jpeg', NULL, 'mattiarocchi@gmail.com', '$2y$10$AvByhGcv5ROEyOUvdZT/ReZViMYL.WE.OPUrPaxCXcYS6ZEQcaP0.', 1),
+('st_645a576a04b55', 'Simone', 'Milesi', 1, 'jpeg', NULL, 'simonemilesi@gmail.com', '$2y$10$OnkTHFTwzX.Ec9I.nHbTIu63RkEcwqkwPQ2t7WhGGpzF78kE0giBy', 1),
+('st_645a57b5121ab', 'Alessandro', 'Bassi', 1, 'jpeg', NULL, 'bassi@gmail.com', '$2y$10$KwPkGBJI7LKLBM4eYo3IIOSnrFj7bspV4M/Z/S4MhMVly70Nju.46', 1),
+('st_645a58fab3b99', 'Filippo Giovanni', 'Graziano', 1, 'jpg', NULL, 'graziano@gmail.com', '$2y$10$Xw1gt39K8SE.dsuq9.fj8etfLksXnR5NrsjNeSx.xvC2QhyHdu4BS', 1),
+('st_645a5975b620a', 'Chengzhou', 'Hu', 0, 'jpg', NULL, 'hu@gmail.com', '$2y$10$RuOvQn9rGMZ2LhUF16qzquNDWf9mjGOnRJUJFsDr1Jcte3QYZbNa6', 1),
+('st_645a59ac6f80c', 'Francesco', 'Vavassori', 1, 'jpg', NULL, 'vava@gmail.com', '$2y$10$fx3aDpkIxNojIAchwPQdyuHEj46Af5hp.yiuCqWszu4DWiDwH4mEy', 1),
+('st_645a8e68adfd7', 'Oscar', 'Mazzoni', 1, 'jpg', NULL, 'oscarmazzoni@gmail.com', '$2y$10$EfA1d4HA4T2MDTxPzmuB/.Y6qA1RsutGihaG7B3iykKs.IsMPFvvG', 1);
 
 -- --------------------------------------------------------
 
@@ -296,7 +334,9 @@ INSERT INTO `teachers` (`teacher_id`, `name`, `surname`, `email`, `password`, `e
 ('1', 'Diego', 'Bernini', 'diego.bernini@itispaleocapa.it', 'diegobernini', 1),
 ('2', '', '', '', '', 0),
 ('3', '', '', '', '', 0),
-('tc_64061fe1d18ed', 'Mirko', 'Togni', 'mirko.togni@itispaleocapa.it', 'mirkotogni', 1);
+('tc_64061fe1d18ed', 'Mirko', 'Togni', 'mirko.togni@itispaleocapa.it', 'mirkotogni', 1),
+('tc_644271e4b25a8', 'Luigi', 'Cisana', 'luigi.cisana@itispaleocapa.it', '$2y$10$/mTC.9ZgUuwKEBPAaqL8LeB0OGkeuBtcEeSikwoPIJiSt8LMC.xlG', 1),
+('tc_644a3d64cdc38', 'Andrea', 'Ranica', 'andrearanica2004@gmail.com', '$2y$10$IuO25S2kXYdOepJzHwziKu.Hrz9q5ySy0590FjE.2CCr1MR4uLyOq', 1);
 
 -- --------------------------------------------------------
 
@@ -320,7 +360,16 @@ INSERT INTO `teaches` (`class_id`, `teacher_id`) VALUES
 ('cl_6420586d73dbf', 'tc_64061fe1d18ed'),
 ('cl_642058a05b231', 'tc_64061fe1d18ed'),
 ('cl_6425d7bd508a0', '1'),
-('cl_6426bac4ba51a', '1');
+('cl_6426bac4ba51a', '1'),
+('cl_6426bbb38236e', '1'),
+('cl_6426bc62c71e6', '1'),
+('cl_6426bfa3cb7dd', '1'),
+('cl_6437c356db6f1', 'tc_64061fe1d18ed'),
+('cl_643cf8c74c129', 'tc_64061fe1d18ed'),
+('cl_6425d7bd508a0', 'tc_644a3d64cdc38'),
+('3', 'tc_644271e4b25a8'),
+('cl_6425d7bd508a0', 'tc_644271e4b25a8'),
+('cl_6425d7bd508a0', 'tc_644271e4b25a8');
 
 -- --------------------------------------------------------
 
@@ -345,7 +394,19 @@ INSERT INTO `users` (`id`, `name_surname`, `username`, `password`, `role`) VALUE
 (2, 'Diego Bernini', 'diegobernini', 'diegobernini', 0),
 (4, 'Stefano Pezzotta', 'stefanopezzotta', 'stefanopezzotta', 0),
 (5, 'Marcella Falzone', 'marcellafalzone', 'a6b5a20875439723a23c5300d3ce30be66fbc9a284f1d3e182feed398aad2550', 0),
-(6, 'Amadeus Sebastiani', 'olamadeus', '7fa492d29d0e7ddfdc0dbf09b3ddbf1272abb3a73ad595ae23574b5b210a197b', 2);
+(6, 'Amadeus Sebastiani', 'olamadeus', '7fa492d29d0e7ddfdc0dbf09b3ddbf1272abb3a73ad595ae23574b5b210a197b', 2),
+(7, 'Admin  ', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 1),
+(8, ' ', '', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 1),
+(9, ' ', '', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 0),
+(12, 'Mario Masse', 'mariomasse', '5fa8b6113426cdd5d27951f74c2fd44646674cb93aa6a95053f08fbfd38a275e', 0),
+(13, 'oscar mazzoni', 'mazzoni ', 'd32ea12e4335a0624570d2df7c6640aa7d209688cbc87163cb6f7f5660e316e6', 0),
+(14, 'Oscar Mazzoni', 'mazzoni', 'd32ea12e4335a0624570d2df7c6640aa7d209688cbc87163cb6f7f5660e316e6', 0),
+(16, 'Operatore Operatore', 'operatore', '7e1d5a895ce6c831e646c19cb875e67c8a0f22d4d9d688a53c233d64eb84fff8', 2),
+(17, 'Chengzhou Hu', 'cheng', '211c963a9272a1405a2ae77464235dd515f0fb086fed0cf785e0ce5c13c07477', 2),
+(18, 'Rota Rota', 'Rota', '7c81b807e573b9e2efc7169af5ecf94ab18e71a0b8d2904a457b5e4713168071', 0),
+(19, 'Mario Mario', 'mario', '59195c6c541c8307f1da2d1e768d6f2280c984df217ad5f4c64c3542b04111a4', 0),
+(20, 'Castelli  ', 'Castelli', 'e7b5072d1fcf141ec44bdb8784a26e30fc74ff4800f2e8be6d1495534bb3f92c', 0),
+(21, 'Castelli  ', 'Castelli', 'e7b5072d1fcf141ec44bdb8784a26e30fc74ff4800f2e8be6d1495534bb3f92c', 0);
 
 -- --------------------------------------------------------
 
@@ -383,6 +444,13 @@ ALTER TABLE `angulardisplacement`
   ADD PRIMARY KEY (`displacement`);
 
 --
+-- Indici per le tabelle `blacklist`
+--
+ALTER TABLE `blacklist`
+  ADD KEY `class_id` (`class_id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
 -- Indici per le tabelle `classes`
 --
 ALTER TABLE `classes`
@@ -399,7 +467,8 @@ ALTER TABLE `companies`
 -- Indici per le tabelle `evaluations`
 --
 ALTER TABLE `evaluations`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`evaluation_id`),
+  ADD KEY `author` (`author`);
 
 --
 -- Indici per le tabelle `gripvalue`
@@ -470,7 +539,7 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT per la tabella `evaluations`
 --
 ALTER TABLE `evaluations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `evaluation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT per la tabella `schools`
@@ -482,17 +551,30 @@ ALTER TABLE `schools`
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Limiti per le tabelle scaricate
 --
 
 --
+-- Limiti per la tabella `blacklist`
+--
+ALTER TABLE `blacklist`
+  ADD CONSTRAINT `blacklist_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`),
+  ADD CONSTRAINT `blacklist_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
+
+--
 -- Limiti per la tabella `classes`
 --
 ALTER TABLE `classes`
   ADD CONSTRAINT `classes_ibfk_1` FOREIGN KEY (`school_id`) REFERENCES `schools` (`school_id`);
+
+--
+-- Limiti per la tabella `evaluations`
+--
+ALTER TABLE `evaluations`
+  ADD CONSTRAINT `evaluations_ibfk_1` FOREIGN KEY (`author`) REFERENCES `users` (`id`);
 
 --
 -- Limiti per la tabella `students`

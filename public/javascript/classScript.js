@@ -82,6 +82,49 @@ $.ajax({
     }
 })
 
+document.getElementById('show-banned-students-btn').addEventListener('click', () => {
+    $.ajax({
+        // document.getElementById('title').innerHTML = 'ciao'
+        url: 'get-banned-students',
+        type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
+        dataType: 'json',
+        data: {
+            class_id: id,
+            students: true
+        },
+        success: data => {
+            console.log(data)
+            if (data.length > 0) {
+                data.map(student => {
+                    if (student.photo) {
+                        document.getElementById('banned-students-div').innerHTML += `
+                            <div class="col-sm">
+                                <img width='200' src="../app/photos/${ student.student_id }.${ student.photo_type }"><br>
+                                <p class="my-2">${ student.name } ${ student.surname }</p>
+                            </div>
+                        `
+                    } else {
+                            document.getElementById('banned-students-div').innerHTML += `
+                            <div class="col-sm">
+                                <img width='200' src="../app/photos/user.png"><br>
+                                <p class="my-2">${ student.name } ${ student.surname }</p>
+                            </div>
+                        `
+                    }
+                })
+            } else {
+                document.getElementById('banned-students-div').innerHTML = 'Non è stato bannato nessuno studente in questa classe'
+            }
+        },
+        error: data => {
+            console.log(data)
+        }
+    })
+})
+
 function showStudents (students) {
     if (students.length == 0) {
         studentsDiv.innerHTML += 'Nessuno studente è iscritto a questa classe'
@@ -174,16 +217,18 @@ function showStudentInfo (id) {
             }
             document.getElementById('ban-student').onclick = () => {
                 $.ajax({
-                    url: 'unsubscribe',
+                    url: 'add-to-blacklist',
                     type: 'POST',
+                    dataType: 'json',
                     headers: {
                         Authorization: `Bearer ${ window.localStorage.getItem('token') }`
                     },
                     data: {
-                        student_id: student.student_id
+                        student_id: student.student_id,
+                        class_id: student.class_id
                     },
-                    success: () => {
-                        location.reload()
+                    success: data => {
+                        console.log(data)
                     }
                 })
             }
