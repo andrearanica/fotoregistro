@@ -1,110 +1,116 @@
 let user = {}
 let classInfo = {}
 
-$.ajax({
-    url: 'ajax?request=infoFromJwt&type=students',
-    type: 'POST',
-    headers: {
-        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
-    },
-    dataType: 'json',
-    data: {
-        token: window.localStorage.getItem('token')
-    },
-    success: (data) => {
-        console.log(data)
-        user = data
-        /*
-        user.surname = data.surname
-        user.student_id = data.student_id
-        user.email = data.email
-        user.photo = data.photo*/
-
-        document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
-        document.getElementById('student-id-1').value = user.student_id
-        document.getElementById('student-id-2').value = user.student_id
-        
-        // Fill account form
-        document.getElementById('account-name').value = user.name
-        document.getElementById('account-surname').value = user.surname
-        document.getElementById('account-email').value = user.email
-
-        if (user.class_id == null) {
-            document.getElementById('user-alert').className = 'alert alert-warning'
-            document.getElementById('user-alert').innerHTML = '<b>Non sei ancora iscritto alla tua classe</b>'
-            document.getElementById('subscribe-form').style = ''
-            /*let html5QrcodeScanner = new Html5QrcodeScanner('reader', {
-                fps: 24,
-                qrbox: {
-                    width: 250,
-                    height: 250
-                },
-            }, false)
-            html5QrcodeScanner.render(onScanSuccess)
-            function onScanSuccess(decodedText, decodedResult) {
-                if (decodedText.includes('cl')) {
-                    $.ajax({
-                        url: 'subscribe-student',
-                        type: 'POST',
-                        headers: {
-                            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
-                        },
-                        data: {
-                            class_id: decodedText,
-                            student_id: user.student_id
-                        },
-                        dataType: 'json',
-                        success: (data) => {
-                            console.log('Iscritto')
-                            location.reload()
-                        },
-                        error: (error) => {
-                            console.log(error)
-                        }
-                    })
-                }
-            }*/
-        } else {
-            document.getElementById('subscribe-form').style = 'display: none;'
-            $.ajax({
-                url: `class-info`,
-                type: 'POST',
-                headers: {
-                    Authorization: `Bearer ${ window.localStorage.getItem('token') }`
-                },
-                dataType: 'json',
-                data: {
-                    class_id: user.class_id
-                },
-                success: (data) => {
-                    classInfo = data[0]
-                    document.getElementById('user-alert').className = 'alert alert-success'
-                    document.getElementById('user-alert').innerHTML = `<b>Sei iscritto alla classe ${ classInfo.class_name }</b>`
-                    document.getElementById('unsubscribe').style = '';
-                },
-                error: data => {
-                    console.log(data)
-                }
-            })
+function getStudentInfo () {
+    $.ajax({
+        url: 'ajax?request=infoFromJwt&type=students',
+        type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
+        dataType: 'json',
+        data: {
+            token: window.localStorage.getItem('token')
+        },
+        success: (data) => {
+            console.log(data)
+            user = data
+            /*
+            user.surname = data.surname
+            user.student_id = data.student_id
+            user.email = data.email
+            user.photo = data.photo*/
+    
+            document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
+            document.getElementById('student-id-1').value = user.student_id
+            document.getElementById('student-id-2').value = user.student_id
+            
+            // Fill account form
+            document.getElementById('account-name').value = user.name
+            document.getElementById('account-surname').value = user.surname
+            document.getElementById('account-email').value = user.email
+    
+            if (user.class_id == null) {
+                document.getElementById('unsubscribe').style = 'display: none;';
+                document.getElementById('user-alert').className = 'alert alert-warning'
+                document.getElementById('user-alert').innerHTML = '<b>Non sei ancora iscritto alla tua classe</b>'
+                document.getElementById('subscribe-form').style = ''
+                /*let html5QrcodeScanner = new Html5QrcodeScanner('reader', {
+                    fps: 24,
+                    qrbox: {
+                        width: 250,
+                        height: 250
+                    },
+                }, false)
+                html5QrcodeScanner.render(onScanSuccess)
+                function onScanSuccess(decodedText, decodedResult) {
+                    if (decodedText.includes('cl')) {
+                        $.ajax({
+                            url: 'subscribe-student',
+                            type: 'POST',
+                            headers: {
+                                Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+                            },
+                            data: {
+                                class_id: decodedText,
+                                student_id: user.student_id
+                            },
+                            dataType: 'json',
+                            success: (data) => {
+                                console.log('Iscritto')
+                                location.reload()
+                            },
+                            error: (error) => {
+                                console.log(error)
+                            }
+                        })
+                    }
+                }*/
+            } else {
+                document.getElementById('unsubscribe').style = '';
+                document.getElementById('subscribe-form').style = 'display: none;'
+                $.ajax({
+                    url: `class-info`,
+                    type: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+                    },
+                    dataType: 'json',
+                    data: {
+                        class_id: user.class_id
+                    },
+                    success: (data) => {
+                        classInfo = data[0]
+                        document.getElementById('user-alert').className = 'alert alert-success'
+                        document.getElementById('user-alert').innerHTML = `<b>Sei iscritto alla classe ${ classInfo.class_name }</b>`
+                        document.getElementById('unsubscribe').style = '';
+                    },
+                    error: data => {
+                        console.log(data)
+                    }
+                })
+            }
+    
+            if (user.photo) {
+                document.getElementById('start-camera').style = 'display: none';
+                document.getElementById('upload-photo').style = 'display: none';
+                document.getElementById('student-photo').src = `../app/photos/${ user.student_id }.${ user.photo_type }`
+                document.getElementById('messages').innerHTML = 'Questa è la tua foto. Se non ti piace, puoi <a id="remove-photo">ricaricarla</a>'
+                document.getElementById('remove-photo').addEventListener('click', () => {
+                    removePhoto(user.student_id)
+                })
+            } else {
+                document.getElementById('start-camera').style = '';
+                document.getElementById('messages').innerHTML = 'Non hai ancora caricato la foto: è il momento giusto per farlo!'
+            }
+        },
+        error: (data) => {
+            console.log(data)
         }
+    })
+}
 
-        if (user.photo) {
-            document.getElementById('start-camera').style = 'display: none';
-            document.getElementById('upload-photo').style = 'display: none';
-            document.getElementById('student-photo').src = `../app/photos/${ user.student_id }.${ user.photo_type }`
-            document.getElementById('messages').innerHTML = 'Questa è la tua foto. Se non ti piace, puoi <a id="remove-photo">ricaricarla</a>'
-            document.getElementById('remove-photo').addEventListener('click', () => {
-                removePhoto(user.student_id)
-            })
-        } else {
-            document.getElementById('start-camera').style = '';
-            document.getElementById('messages').innerHTML += 'Non hai ancora caricato la foto: è il momento giusto per farlo!'
-        }
-    },
-    error: (data) => {
-        console.log(data)
-    }
-})
+getStudentInfo()
 
 let video = document.getElementById('video')
 
@@ -178,7 +184,8 @@ document.getElementById('unsubscribe').addEventListener('click', () => {
             student_id: user.student_id
         },
         success: data => {
-            location.reload()
+            // location.reload()
+            getStudentInfo()
         },
         error: data => {
             console.log(data)
@@ -204,7 +211,7 @@ document.getElementById('subscribe-to-class').addEventListener('submit', (e) => 
         success: data => {
             console.log(data)
             if (data.message == 'ok') {
-                location.reload()
+                getStudentInfo()
             } else if (data.message == 'banned') {
                 document.getElementById('subscribe-errors').className = 'alert alert-danger text-center my-4'            
                 document.getElementById('subscribe-errors').innerHTML = '<b>Sei stato bannato da questa classe</b>'            

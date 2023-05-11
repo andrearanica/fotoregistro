@@ -62,25 +62,31 @@ $.ajax({
     }
 })
 
-$.ajax({
-    // document.getElementById('title').innerHTML = 'ciao'
-    url: 'get-students',
-    type: 'POST',
-    headers: {
-        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
-    },
-    dataType: 'json',
-    data: {
-        class_id: id,
-        students: true
-    },
-    success: data => {
-        showStudents(data)
-    },
-    error: data => {
-        console.log(data)
-    }
-})
+function getStudents () {
+    studentsDiv.innerHTML = ''
+    studentsDiv.className = 'text-center'
+    $.ajax({
+        // document.getElementById('title').innerHTML = 'ciao'
+        url: 'get-students',
+        type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
+        dataType: 'json',
+        data: {
+            class_id: id,
+            students: true
+        },
+        success: data => {
+            showStudents(data)
+        },
+        error: data => {
+            console.log(data)
+        }
+    })
+}
+
+getStudents()
 
 function removeFromBlacklist (student_id) {
     $.ajax({
@@ -220,7 +226,7 @@ function showStudentInfo (id) {
                         student_id: student.student_id
                     },
                     success: () => {
-                        location.reload()
+                        getStudents()
                     }
                 })
             }
@@ -254,7 +260,7 @@ function showStudentInfo (id) {
                         class_id: student.class_id
                     },
                     success: data => {
-                        console.log(data)
+                        showStudents(getStudents())
                     }
                 })
             }

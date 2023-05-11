@@ -1,8 +1,8 @@
-<button id='show-banned-students-btn' type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>
+<button id='show-banned-students-btn' type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#show-banned-students-modal'>
     Mostra studenti bannati
 </button>
 
-<div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+<div class='modal fade' id='show-banned-students-modal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
   <div class='modal-dialog'>
     <div class='modal-content'>
       <div class='modal-header'>
