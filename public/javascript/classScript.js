@@ -50,12 +50,7 @@ $.ajax({
         document.getElementById('title').innerHTML = `Classe ${ classInfo.class_name }`
         document.getElementById('class-id').innerHTML = `Oppure inserisci questo codice: ${ classInfo.class_id }`
         document.getElementById('pdf-id').value = classInfo.class_id
-        let canvas = document.getElementById('canvas')
-        QRCode.toCanvas(canvas, id, (error) => {
-            if (error) {
-                console.log(error)
-            }
-        })
+        new QRCode(document.getElementById('canvas'), classInfo.class_id)
     },
     error: data => {
         console.log(data)
@@ -244,6 +239,8 @@ function showStudentInfo (id) {
                         document.getElementById('student-image').src = ''
                         document.getElementById('student-messages').innerHTML = 'Foto eliminata'
                         document.getElementById('delete-photo').style = 'display: none;';
+
+                        showStudents(getStudents())
                     }
                 })
             }
