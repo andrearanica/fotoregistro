@@ -110,7 +110,7 @@ class StudentModel {
     public function AddStudent (): bool {
         $id = uniqid('st_');
         $password = password_hash($this->password, PASSWORD_BCRYPT);
-        $query = "INSERT INTO students (student_id, name, surname, email, password) VALUES ('$this->student_id', '$this->name', '$this->surname', '$this->email', '$this->password');";
+        $query = "INSERT INTO students (student_id, name, surname, email, password, activation_code) VALUES ('$this->student_id', '$this->name', '$this->surname', '$this->email', '$this->password', '$this->activation_code');";
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
         if ($stmt->error) {
@@ -185,11 +185,19 @@ class StudentModel {
     public function enableAccount (): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "UPDATE students SET enabled=1 WHERE student_id='$this->student_id'";
+            $query = "SELECT * FROM students WHERE student_id='$this->student_id' AND activation_code='$this->activation_code';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            if ($stmt->get_result()->num_rows == 0) {
+                $this->connection->rollback();
+                return 0;
+            }
+            $query = "UPDATE students SET enabled=1 WHERE student_id='$this->student_id' AND activation_code='$this->activation_code';";
             $this->connection->query($query);
-            return true;
+            $this->connection->commit();
+            return 1;
         } catch (\mysqli_sql_exception $exception) {
-            return false;
+            return 0;
         }
     }
 

@@ -49,11 +49,14 @@ class StudentController {
         $this->studentModel->setSurname($surname);
         $this->studentModel->setEmail($email);
         $this->studentModel->setPassword($password);
+        $this->studentModel->setActivationCode(uniqid());
         $result = $this->studentModel->AddStudent();
+
+        $activation_code = $this->studentModel->getActivationCode();
 
         $headers = "MIME-Version: 1.0" . "\r\n"; 
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
-        // mail($email, 'Benvenuto su fotoregistro', "Ciao $name! Per confermare il tuo account clicca <a href='andrearanica.altervista.org/fotoregistro/public/enable-account-student?id=$id'>questo link</a>", $headers);
+        // mail($email, 'Benvenuto su fotoregistro', "Ciao $name! Per confermare il tuo account clicca <a href='andrearanica.altervista.org/fotoregistro/public/enable-account-student?id=$id&activation_code=$activation_code'>questo link</a>", $headers);
 
         if ($result) {
             $response['message'] = 'ok';
@@ -192,20 +195,16 @@ class StudentController {
     public function enableAccount () {
         if (isset($_GET['id']) && isset($_GET['activation_code'])) {
             $id = $_GET['id'];
+            $activation_code = $_GET['activation_code'];
             $this->studentModel->setId($id);
-            $this->studentModel->enableAccount();
-            echo '
-            <div class="container my-5 text-center">
-                <h1>Account correttamente abilitato</h1>
-                <p>Ritorna alla pagina di <a href="/">login</a></p>
-            </div>
-            ';
+            $this->studentModel->setActivationCode($activation_code);
+            if ($this->studentModel->enableAccount()) {
+                echo '<h4>Operazione avvenuta con successo</h4>';
+            } else {
+                echo '<h4>ID e/o Codice di attivazione non validi</h4>';
+            }
         } else {
-            echo '
-            <div class="">
-                <h1>Link non valido, torna alla pagina di <a href="./">login</a></h1>
-            </div>
-            ';
+            echo '<h4>Dati di attivazione non validi<br>Controlla il link sulla tua mail</h4>';
         }
     }
 
