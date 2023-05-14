@@ -1,6 +1,8 @@
 let user = {}
 let classInfo = {}
 
+document.getElementById('body').addEventListener('load', getStudentInfo())
+
 function getStudentInfo () {
     $.ajax({
         url: 'ajax?request=infoFromJwt&type=students',
@@ -35,7 +37,7 @@ function getStudentInfo () {
                 document.getElementById('user-alert').className = 'alert alert-warning'
                 document.getElementById('user-alert').innerHTML = '<b>Non sei ancora iscritto alla tua classe</b>'
                 document.getElementById('subscribe-form').style = ''
-                /*let html5QrcodeScanner = new Html5QrcodeScanner('reader', {
+                let html5QrcodeScanner = new Html5QrcodeScanner('reader', {
                     fps: 24,
                     qrbox: {
                         width: 250,
@@ -44,7 +46,7 @@ function getStudentInfo () {
                 }, false)
                 html5QrcodeScanner.render(onScanSuccess)
                 function onScanSuccess(decodedText, decodedResult) {
-                    if (decodedText.includes('cl')) {
+                    
                         $.ajax({
                             url: 'subscribe-student',
                             type: 'POST',
@@ -57,15 +59,17 @@ function getStudentInfo () {
                             },
                             dataType: 'json',
                             success: (data) => {
-                                console.log('Iscritto')
-                                location.reload()
+                                getStudentInfo()
+                                return
+                                console.log(`${ data }`)
+                                // location.reload()
                             },
                             error: (error) => {
                                 console.log(error)
                             }
                         })
-                    }
-                }*/
+                    
+                }
             } else {
                 document.getElementById('unsubscribe').style = '';
                 document.getElementById('subscribe-form').style = 'display: none;'
@@ -92,7 +96,8 @@ function getStudentInfo () {
             }
     
             if (user.photo) {
-                document.getElementById('start-camera').style = 'display: none';
+                // document.getElementById('start-camera').style = 'display: none';
+                document.getElementById('student-photo').style = '';
                 document.getElementById('upload-photo').style = 'display: none';
                 document.getElementById('student-photo').src = `../app/photos/${ user.student_id }.${ user.photo_type }`
                 document.getElementById('messages').innerHTML = 'Questa è la tua foto. Se non ti piace, puoi <a id="remove-photo">ricaricarla</a>'
@@ -100,8 +105,9 @@ function getStudentInfo () {
                     removePhoto(user.student_id)
                 })
             } else {
-                document.getElementById('start-camera').style = '';
+                // document.getElementById('start-camera').style = '';
                 document.getElementById('messages').innerHTML = 'Non hai ancora caricato la foto: è il momento giusto per farlo!'
+                document.getElementById('student-photo').style = 'display: none;';
             }
         },
         error: (data) => {
@@ -110,14 +116,14 @@ function getStudentInfo () {
     })
 }
 
-getStudentInfo()
+// getStudentInfo()
 
 let video = document.getElementById('video')
 
-document.getElementById('start-camera').addEventListener('click', async () => {
+/*document.getElementById('start-camera').addEventListener('click', async () => {
     let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false })
     video.srcObject = stream
-})
+})*/
 
 document.getElementById('try-again-photo').addEventListener('click', () => {
     document.getElementById('video').style = ''
@@ -147,9 +153,14 @@ function removePhoto (id) {
         },
         data: {
             student_id: id
+        },
+        success: () => {
+            document.getElementById('student-photo').src = ''
+            document.getElementById('student-photo').style = 'display: none;'
+            document.getElementById('messages').innerHTML = 'Non hai ancora caricato la foto: è il momento giusto per farlo!'
+            document.getElementById('upload-photo').style = ''
         }
     })
-    location.reload()
 }
 
 document.getElementById('save-photo').addEventListener('click', () => {

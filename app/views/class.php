@@ -43,6 +43,7 @@
             <div id='show-students'>
                 
             </div>
+            <button id='reload-students-info' class='btn btn-success'>Ricarica</button>
             <hr>
             <?php require('../app/views/components/show-banned-students.php'); ?>
             <button class='btn btn-primary my-2' data-bs-toggle='modal' data-bs-target='#exampleModal'>Stampa PDF</button>

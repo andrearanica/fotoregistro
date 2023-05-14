@@ -20,7 +20,7 @@
             }
         </style>
     </head>
-    <body>
+    <body id='body'>
         <?php require('../app/views/components/navbar.php'); ?>
         <?php require('../app/views/components/account-info.php'); ?>
         <div class='container my-5 text-center'>
@@ -51,7 +51,7 @@
             <div id='messages' class='my-4'>
 
             </div>
-            <button id='start-camera' class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#photo-modal">Scatta la foto</button>
+            <!--<button id='start-camera' class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#photo-modal">Scatta la foto</button>-->
             <div class="modal fade" id="photo-modal" tabindex="-1" aria-labelledby="photo-modal" aria-hidden="true">
                 <div class="modal-dialog">
                 <div class="modal-content">
@@ -135,5 +135,6 @@
         <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js'></script>
+        <script src='./javascript/html5-qrcode.min.js'></script>
     </body>
 </html>

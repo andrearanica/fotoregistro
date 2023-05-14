@@ -72,15 +72,16 @@ class TeacherModel {
     }
 
     public function AddTeacher (): bool {
-        $id = uniqid('st_');
-        $password = password_hash($this->password, PASSWORD_BCRYPT);
-        $query = "INSERT INTO teachers (teacher_id, name, surname, email, password) VALUES ('$this->teacher_id', '$this->name', '$this->surname', '$this->email', '$this->password');";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
-        if ($stmt->error) {
-            return 0;
-        } else {
+        $this->connection->begin_transaction();
+        try {
+            $query = "INSERT INTO teachers (teacher_id, name, surname, email, password) VALUES ('$this->teacher_id', '$this->name', '$this->surname', '$this->email', '$this->password');";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
             return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
         }
     }
 

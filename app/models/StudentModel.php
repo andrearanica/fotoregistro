@@ -14,6 +14,7 @@ class StudentModel {
     private $email;
     private $password;
     private $enabled;
+    private $activation_code;
 
     public function __construct () {
         $this->connection = new \mysqli('127.0.0.1', 'root', '', 'my_andrearanica');
@@ -55,6 +56,10 @@ class StudentModel {
         return $this->enabled;
     }
 
+    public function getActivationCode () {
+        return $this->activation_code;
+    }
+
     public function setId ($id) {
         $this->student_id = $id;
     }
@@ -89,6 +94,10 @@ class StudentModel {
 
     public function setEnabled ($enabled) {
         $this->enabled = $enabled;
+    }
+
+    public function setActivationCode ($activation_code) {
+        $this->activation_code = $activation_code;
     }
 
     public function updateInfo ($name, $surname, $password) {

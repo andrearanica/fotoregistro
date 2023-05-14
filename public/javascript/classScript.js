@@ -267,3 +267,7 @@ function showStudentInfo (id) {
         }
     })
 }
+
+document.getElementById('reload-students-info').addEventListener('click', (e) => {
+    showStudents(getStudents())
+})

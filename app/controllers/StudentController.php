@@ -128,8 +128,15 @@ class StudentController {
 
     public function UploadPhoto () {
         $student_id = $_POST['student_id'];
-        unlink("../app/photos/$student_id.png");
+        $this->studentModel->setId($student_id);
+        $student = $this->studentModel->getStudentById();
+        $photo_type = $student['photo_type'];
+        unlink("../app/photos/$student_id.$photo_type");
         foreach ($_FILES as $file) {
+            $check = getimagesize($file['tmp_name']);
+            if (!$check) {
+                return;
+            }
             if (UPLOAD_ERR_OK === $file['error']) {
                 $name = basename($file['name']);
                 $type = strtolower(pathinfo("uploads/$name", PATHINFO_EXTENSION));
@@ -183,7 +190,7 @@ class StudentController {
     }
 
     public function enableAccount () {
-        if (isset($_GET['id'])) {
+        if (isset($_GET['id']) && isset($_GET['activation_code'])) {
             $id = $_GET['id'];
             $this->studentModel->setId($id);
             $this->studentModel->enableAccount();
