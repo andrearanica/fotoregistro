@@ -8,6 +8,7 @@ use App\controllers\AjaxController;
 use App\controllers\StudentController;
 use App\controllers\TeacherController;
 use App\controllers\ClassController;
+use App\utilities\Jwt;
 
 $request = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -110,6 +111,12 @@ switch ($request) {
         break;
     case 'remove-student-from-blacklist':
         $studentController->removeFromBlacklist();
+        break;
+    case 'check-token':
+        echo $_POST['token'];
+        if (!Jwt::checkToken($_POST['token'])) {
+            echo 'ahia';
+        }
         break;
     default: 
         $siteController->NotFound();

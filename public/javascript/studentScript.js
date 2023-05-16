@@ -239,11 +239,6 @@ document.getElementById('subscribe-to-class').addEventListener('submit', (e) => 
     })
 })
 
-document.getElementById('logout').addEventListener('click', () => {
-    window.localStorage.setItem('token', '')
-    window.location.href = '../public'
-})
-
 document.getElementById('account-info-form').addEventListener('submit', (e) => {
     e.preventDefault()
     document.getElementById('account-alert').className = ''

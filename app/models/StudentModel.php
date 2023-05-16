@@ -100,23 +100,35 @@ class StudentModel {
         $this->activation_code = $activation_code;
     }
 
-    public function updateInfo ($name, $surname, $password) {
-        $password = password_hash($password, PASSWORD_BCRYPT);
-        $query = "UPDATE students SET name='$name', surname='$surname', password='$password' WHERE email='$this->email';";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
+    public function updateInfo ($name, $surname, $password): bool {
+        $this->connection->begin_transaction();
+        try {
+            $password = password_hash($password, PASSWORD_BCRYPT);
+            $query = "UPDATE students SET name='$name', surname='$surname', password='$password' WHERE email='$this->email';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
+        }
+        
     }
 
     public function AddStudent (): bool {
-        $id = uniqid('st_');
-        $password = password_hash($this->password, PASSWORD_BCRYPT);
-        $query = "INSERT INTO students (student_id, name, surname, email, password, activation_code) VALUES ('$this->student_id', '$this->name', '$this->surname', '$this->email', '$this->password', '$this->activation_code');";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
-        if ($stmt->error) {
-            return 0;
-        } else {
+        $this->connection->begin_transaction();
+        try {
+            $id = uniqid('st_');
+            $password = password_hash($this->password, PASSWORD_BCRYPT);
+            $query = "INSERT INTO students (student_id, name, surname, email, password, activation_code) VALUES ('$this->student_id', '$this->name', '$this->surname', '$this->email', '$this->password', '$this->activation_code');";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
             return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
         }
     }
 
@@ -164,22 +176,47 @@ class StudentModel {
         }
     }
 
-    public function unsubscribeFromClass () {
-        $query = "UPDATE students SET class_id=null WHERE student_id='$this->student_id';";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
+    public function unsubscribeFromClass (): bool {
+        $this->connection->begin_transaction();
+        try {
+            $query = "UPDATE students SET class_id=null WHERE student_id='$this->student_id';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
+        }
     }
 
     public function uploadPhoto () {
-        $query = "UPDATE students SET photo=1, photo_type='$this->photo_type' WHERE student_id='$this->student_id';";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
+        $this->connection->begin_transaction();
+        try {
+            $query = "UPDATE students SET photo=1, photo_type='$this->photo_type' WHERE student_id='$this->student_id';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
+        }
     }
 
-    public function removePhoto () {
-        $query = "UPDATE students SET photo=0 WHERE student_id='$this->student_id';";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
+    public function removePhoto (): bool {
+        $this->connection->begin_transaction();
+        try {
+            $query = "UPDATE students SET photo=0 WHERE student_id='$this->student_id';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
+        }
+        
     }
 
     public function enableAccount (): bool {

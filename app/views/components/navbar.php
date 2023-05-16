@@ -10,12 +10,18 @@
           <a class='nav-link active' aria-current='page' href='#'>Home</a>
         </li>-->
         <li class='nav-item' data-bs-toggle="modal" data-bs-target="#accountInfo">
-            <a class='nav-link'>Il mio account</a>
+            <button class='btn'><a class='nav-link'>Il mio account</a></button>
         </li>
         <li class='nav-item'>
-         <a id='logout' class='nav-link'>Logout</a>
+            <button class='btn'><a id='logout' class='nav-link'>Logout</a></button>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+<script>
+document.getElementById('logout').addEventListener('click', () => {
+    window.localStorage.setItem('token', '')
+    window.location.href = '../public'
+})
+</script>

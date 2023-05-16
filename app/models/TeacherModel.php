@@ -65,10 +65,18 @@ class TeacherModel {
     }
 
     public function updateInfo ($name, $surname, $password) {
-        $password = password_hash($password, PASSWORD_BCRYPT);
-        $query = "UPDATE teachers SET name='$name', surname='$surname', password='$password' WHERE email='$this->email';";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
+        $this->connection->begin_transaction();
+        try {
+            $password = password_hash($password, PASSWORD_BCRYPT);
+            $query = "UPDATE teachers SET name='$name', surname='$surname', password='$password' WHERE email='$this->email';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
+        }
     }
 
     public function AddTeacher (): bool {
@@ -109,9 +117,17 @@ class TeacherModel {
     }
 
     public function enableAccount () {
-        $query = "UPDATE teachers SET enabled=1 WHERE teacher_id='$this->teacher_id'";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute();
+        $this->connection->begin_transaction();
+        try {
+            $query = "UPDATE teachers SET enabled=1 WHERE teacher_id='$this->teacher_id'";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
+        }
     }
 
     public function subscribeToClass ($class_id): bool {
