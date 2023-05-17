@@ -33,6 +33,33 @@ class TeacherController {
         echo json_encode(array('message' => 'ok'));
     }
 
+    public function editPassword () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
+        $email = $_POST['email'];
+        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+        /*$this->studentModel->setPassword($password);
+        $this->studentModel->setEmail($email);
+
+        if ($this->studentModel->GetStudentByEmailAndPassword()) {
+            
+        }*/
+
+        $this->teacherModel->setEmail($email);
+        $this->teacherModel->setPassword($password);
+        if ($this->teacherModel->editPassword()) {
+            echo json_encode(array('message' => 'ok'));
+        } else {
+            echo json_encode(array('message' => 'error'));
+        }
+    }
+
     public function Signup () {
         $id = uniqid('tc_');
         $name = $_POST['name'];

@@ -70,6 +70,12 @@ switch ($request) {
     case 'update-student':
         $studentController->updateStudent();
         break;
+    case 'edit-password-student':
+        $studentController->editPassword();
+        break;
+    case 'edit-password-teacher':
+        $teacherController->editPassword();
+        break;
     case 'update-teacher':
         $teacherController->updateTeacher();
         break;

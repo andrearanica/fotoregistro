@@ -115,6 +115,20 @@ class StudentModel {
         
     }
 
+    public function editPassword (): bool {
+        $this->connection->begin_transaction();
+        try {
+            $query = "UPDATE students SET password='$this->password' WHERE email='$this->email';";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
+        }
+    }
+
     public function AddStudent (): bool {
         $this->connection->begin_transaction();
         try {

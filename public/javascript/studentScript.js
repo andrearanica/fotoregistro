@@ -278,3 +278,37 @@ document.getElementById('reset-account-info').addEventListener('click', () => {
     document.getElementById('account-surname').value = user.surname
     document.getElementById('account-email').value = user.email
 })
+
+document.getElementById('account-password-form').addEventListener('submit', (e) => {
+    e.preventDefault()
+    if (document.getElementById('new-password').value !== document.getElementById('confirm-new-password').value) {
+        document.getElementById('account-alert').className = 'alert alert-danger'
+        document.getElementById('account-alert').innerHTML = '<b>Le password inserite non combaciano</b>'
+        return
+    }
+    $.ajax({
+        url: 'edit-password-student',
+        type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
+        data: {
+            email: user.email,
+            password: document.getElementById('new-password').value
+        },
+        dataType: 'json',
+        success: data => {
+            if (data.message == 'ok') {
+                document.getElementById('account-alert').className = 'alert alert-success'
+                document.getElementById('account-alert').innerHTML = '<b>Password aggiornata con successo</b>'
+            } else {
+                document.getElementById('account-alert').className = 'alert alert-danger'
+                document.getElementById('account-alert').innerHTML = '<b>C\'è stato un errore, riprova più tardi</b>'
+            }
+        },
+        error: data => {
+            document.getElementById('account-alert').className = 'alert alert-danger'
+            document.getElementById('account-alert').innerHTML = '<b>C\'è stato un errore, riprova più tardi</b>'
+        }
+    })
+})
