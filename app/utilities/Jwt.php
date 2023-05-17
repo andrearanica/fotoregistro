@@ -9,8 +9,13 @@ class Jwt {
         return rtrim(strtr(base64_encode($str), '+/', '-'), '=');
     }
 
-    public static function createToken () {
-        
+    public static function createToken ($headers, $payload, $secret = 'f@t@r3g1str@') {
+        $headers_encoded = Jwt::base64url_encode(json_encode($headers));
+        $payload_encoded = Jwt::base64url_encode(json_encode($payload));
+        $signature = hash_hmac('SHA256', "$headers_encoded.$payload_encoded", $secret, true);
+        $signature_encoded = Jwt::base64url_encode($signature);
+        $jwt = "$headers_encoded.$payload_encoded.$signature_encoded";
+        return $jwt;
     }
 
     public static function checkToken ($token, $secret = 'f@t@r3g1str@') : bool {

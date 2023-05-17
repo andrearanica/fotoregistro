@@ -50,6 +50,9 @@
             <div id='classes' class='container text-center my-5 row'>
                 
             </div>
+            <div id='message-div'>
+
+            </div>
             <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#newClassModal'>
                 Nuova classe
             </button><br><br>
@@ -60,7 +63,7 @@
                 <div class='card card-body my-2'>
                     <!--bela-->
                     <form id='subscribe-form'>
-                        <label for='subscribe-class-id'>ID della classe</label>
+                        <label for='subscribe-class-id'>Codice della classe</label>
                         <input id='subscribe-class-id' class='form-control my-2 text-center'>
                         <input type='submit' value='Aggiungi' class='btn btn-primary my-2'>
                     </form>
@@ -68,9 +71,6 @@
                         
                     </div>
                 </div>
-            </div>
-            <div id='message-div'>
-
             </div>
             <div class='modal fade' id='newClassModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
                 <div class='modal-dialog'>

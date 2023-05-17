@@ -1,6 +1,13 @@
 let user = {}
 let classes = []
 
+function clean (element) {
+    setTimeout(()=> {
+        element.className = ''
+        element.innerHTML = ''
+    }, 2000)
+}
+
 function getClasses () {
     $.ajax({
         url: `teacher-classes`,
@@ -15,20 +22,26 @@ function getClasses () {
         success: data => {
             console.log(data)
             // console.log(`Classi di questo insegnante: ${ data }`)
+            document.getElementById('classes').className = ''
             document.getElementById('classes').innerHTML = '<div class="row">'
-            data.map(c => document.getElementById('classes').innerHTML += `
-            <div class="col">
-                <center><div class='card my-2' style='width: 18rem; margin: auto; '>
-                    <div class='card-body'>
-                        <h5 class='card-title'>Classe ${ c.class_name }</h5>
-                        <button onclick="showClass('${ c.class_id }')" class='btn btn-success my-1  ' id='showClassButton'>Visualizza classe</button><br>
-                        <button onclick="unsubscribeFromClass('${ c.class_id }')" class='btn btn-warning my-1'>Disiscriviti</button><br>
-                        <button onclick="removeClass('${ c.class_id }')" class='btn btn-danger my-1'>Rimuovi</button>
-                    </div>
-                </div></center>
-            </div>
-            `)
-            document.getElementById('classes').innerHTML += '</div>'
+            if (data.length > 0) {
+                data.map(c => document.getElementById('classes').innerHTML += `
+                <div class="col">
+                    <center><div class='card my-2' style='width: 18rem; margin: auto; '>
+                        <div class='card-body'>
+                            <h5 class='card-title'>Classe ${ c.class_name }</h5>
+                            <button onclick="showClass('${ c.class_id }')" class='btn btn-success my-1  ' id='showClassButton'>Visualizza classe</button><br>
+                            <button onclick="unsubscribeFromClass('${ c.class_id }')" class='btn btn-warning my-1'>Disiscriviti</button><br>
+                            <button onclick="removeClass('${ c.class_id }')" class='btn btn-danger my-1'>Rimuovi</button>
+                        </div>
+                    </div></center>
+                </div>
+                `)
+                document.getElementById('classes').innerHTML += '</div>'
+            } else {
+                document.getElementById('classes').className = 'alert alert-warning text-center'
+                document.getElementById('classes').innerHTML = 'Non sei iscritto a nessuna classe'
+            }
         },
         error: data => {
             console.log(data)
@@ -75,6 +88,9 @@ function removeClass (class_id) {
         success: data => {
             console.log(data)
             getClasses()
+            document.getElementById('message-div').className = 'alert alert-success'
+            document.getElementById('message-div').innerHTML = '<b>Classe eliminata con successo</b>'
+            clean(document.getElementById('message-div'))
         },
         error: data => {
             console.log(data)
@@ -98,8 +114,9 @@ function unsubscribeFromClass (class_id) {
             console.log(data)
             getClasses()
             if (data.message == 'ok') {
-                document.getElementById('message-div').value = '<b>Ti sei disiscritto dalla classe</b>'
-                document.getElementById('message-div').value = '<b>Ti sei disiscritto dalla classe</b>'
+                document.getElementById('message-div').className = `alert alert-success my-4`
+                document.getElementById('message-div').innerHTML = '<b>Ti sei disiscritto dalla classe</b>'
+                clean(document.getElementById('message-div'))
             }
         },
         error: data => {
@@ -242,6 +259,7 @@ document.getElementById('subscribe-form').addEventListener('submit', (e) => {
                 document.getElementById('subscribe-alert').className = 'alert alert-danger my-2'
                 document.getElementById('subscribe-alert').innerHTML = '<b>Operazione impossibile: controlla l\'id della classe e che tu non sia già iscritto</b>'
             }
+            clean(document.getElementById('subscribe-alert'))
         },
         error: data => {
             console.log(data)

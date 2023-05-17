@@ -29,7 +29,7 @@
         <div class='container my-5 text-center'>
             <h1 id='title'></h1>
             <a class='btn btn-primary my-4' data-bs-toggle='collapse' href='#class-info' role='button' aria-expanded='false' aria-controls='collapseExample'>
-                Come entrare in questa classe?
+                Mostra codice della classe
             </a>
             <div class='collapse' id='class-info'>
                 <div class='card card-body my-2'>

@@ -28,6 +28,11 @@
             <div id='user-alert'>
                 
             </div>
+            <center>
+            <div id='class-info' class='table'>
+
+            </div>
+            </center>
             <button id='unsubscribe' class='btn btn-danger' style='display: none;'>Disiscriviti dalla classe</button>
             
             <div id='subscribe-form'>

@@ -100,11 +100,10 @@ class StudentModel {
         $this->activation_code = $activation_code;
     }
 
-    public function updateInfo ($name, $surname, $password): bool {
+    public function updateInfo ($name, $surname): bool {
         $this->connection->begin_transaction();
         try {
-            $password = password_hash($password, PASSWORD_BCRYPT);
-            $query = "UPDATE students SET name='$name', surname='$surname', password='$password' WHERE email='$this->email';";
+            $query = "UPDATE students SET name='$name', surname='$surname' WHERE email='$this->email';";
             $stmt = $this->connection->prepare($query);
             $stmt->execute();
             $this->connection->commit();

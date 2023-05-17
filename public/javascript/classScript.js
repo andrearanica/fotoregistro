@@ -26,7 +26,6 @@ $.ajax({
         // Fill account form
         document.getElementById('account-name').value = user.name
         document.getElementById('account-surname').value = user.surname
-        document.getElementById('account-email').value = user.email
     },
     error: (data) => {
         console.log(data)
@@ -276,11 +275,6 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
     e.preventDefault()
     document.getElementById('account-alert').className = ''
     document.getElementById('account-alert').innerHTML = ''
-    if (document.getElementById('account-password').value != document.getElementById('account-password-confirm').value) {
-        document.getElementById('account-alert').className = 'alert alert-danger my-2'
-        document.getElementById('account-alert').innerHTML = '<b>Le password non corrispondono</b>'
-        return
-    }
     $.ajax({
         url: 'update-teacher',
         type: 'POST',
@@ -292,8 +286,7 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
             type: 'teachers',
             name: document.getElementById('account-name').value,
             surname: document.getElementById('account-surname').value,
-            email: document.getElementById('account-email').value,
-            password: document.getElementById('account-password').value
+            email: user.email
         },
         success: data => {
             if (data.message == 'ok') {

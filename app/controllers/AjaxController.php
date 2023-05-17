@@ -56,7 +56,6 @@ class AjaxController {
                 break;
             case 'subscribe':
                 include('connection.php');
-                include('jwt.php');
                 include('checkToken.php');
 
                 $classId = $_POST['classId'];

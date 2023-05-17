@@ -87,7 +87,7 @@ function getStudentInfo () {
                         classInfo = data[0]
                         document.getElementById('user-alert').className = 'alert alert-success'
                         document.getElementById('user-alert').innerHTML = `<b>Sei iscritto alla classe ${ classInfo.class_name }</b>`
-                        document.getElementById('unsubscribe').style = '';
+                        document.getElementById('unsubscribe').style = ''
                     },
                     error: data => {
                         console.log(data)
@@ -243,11 +243,6 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
     e.preventDefault()
     document.getElementById('account-alert').className = ''
     document.getElementById('account-alert').innerHTML = ''
-    if (document.getElementById('account-password').value != document.getElementById('account-password-confirm').value) {
-        document.getElementById('account-alert').className = 'alert alert-danger my-2'
-        document.getElementById('account-alert').innerHTML = '<b>Le password non corrispondono</b>'
-        return
-    }
     $.ajax({
         url: 'update-student',
         type: 'POST',
@@ -259,11 +254,11 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
             type: 'students',
             name: document.getElementById('account-name').value,
             surname: document.getElementById('account-surname').value,
-            email: document.getElementById('account-email').value,
-            password: document.getElementById('account-password').value
+            email: user.email
         },
         success: data => {
             console.log(data)
+            getStudentInfo()
             if (data.message == 'ok') {
                 document.getElementById('account-alert').className = 'alert alert-success my-2'
                 document.getElementById('account-alert').innerHTML = '<b>Account modificato</b>'

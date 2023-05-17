@@ -25,11 +25,9 @@ class StudentController {
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $email = $_POST['email'];
-        $password = $_POST['password'];
 
-        $password = password_hash($password, PASSWORD_BCRYPT);
         $this->studentModel->setEmail($email);
-        $this->studentModel->updateInfo($name, $surname, $password);
+        $this->studentModel->updateInfo($name, $surname);
 
         echo json_encode(array('message' => 'ok'));
     }
@@ -71,7 +69,6 @@ class StudentController {
 
     public function Login () {
         ini_set('display_errors', 1);
-        require('jwt.php');
 
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -83,7 +80,7 @@ class StudentController {
             if ($this->studentModel->getEnabled()) {
                 $headers = array('alg' => 'HS256', 'typ' => 'JWT');
                 $payload = array('id' => $this->studentModel->getId(), 'name' => $this->studentModel->getName(), 'surname' => $this->studentModel->getSurname(), 'email' => $this->studentModel->getEmail(), 'photo' => $this->studentModel->getPhoto(), 'class_id' => $this->studentModel->getClassId());
-                $message['message'] = jwt($headers, $payload);
+                $message['message'] = Jwt::createToken($headers, $payload);
             } else {
                 $message['message'] = 'user not enabled';   
             }

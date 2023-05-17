@@ -11,6 +11,7 @@ class TeacherModel {
     private $email;
     private $password;
     private $enabled;
+    private $activation_code;
 
     public function __construct () {
         $this->connection = new \mysqli('127.0.0.1', 'root', '', 'my_andrearanica');
@@ -40,6 +41,10 @@ class TeacherModel {
         return $this->enabled;
     }
 
+    public function getActivationCode () {
+        return $this->activation_code;
+    }
+
     public function setId ($id) {
         $this->teacher_id = $id;
     }
@@ -64,11 +69,14 @@ class TeacherModel {
         $this->enabled = $enabled;
     }
 
-    public function updateInfo ($name, $surname, $password) {
+    public function setActivationCode ($activation_code) {
+        $this->activation_code = $activation_code;
+    }
+
+    public function updateInfo ($name, $surname) {
         $this->connection->begin_transaction();
         try {
-            $password = password_hash($password, PASSWORD_BCRYPT);
-            $query = "UPDATE teachers SET name='$name', surname='$surname', password='$password' WHERE email='$this->email';";
+            $query = "UPDATE teachers SET name='$name', surname='$surname' WHERE email='$this->email';";
             $stmt = $this->connection->prepare($query);
             $stmt->execute();
             $this->connection->commit();
@@ -82,7 +90,7 @@ class TeacherModel {
     public function AddTeacher (): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "INSERT INTO teachers (teacher_id, name, surname, email, password) VALUES ('$this->teacher_id', '$this->name', '$this->surname', '$this->email', '$this->password');";
+            $query = "INSERT INTO teachers (teacher_id, name, surname, email, password, activation_code) VALUES ('$this->teacher_id', '$this->name', '$this->surname', '$this->email', '$this->password', '$this->activation_code');";
             $stmt = $this->connection->prepare($query);
             $stmt->execute();
             $this->connection->commit();

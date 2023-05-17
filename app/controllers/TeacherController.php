@@ -25,11 +25,10 @@ class TeacherController {
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $email = $_POST['email'];
-        $password = $_POST['password'];
 
-        $password = password_hash($password, PASSWORD_BCRYPT);
+        // $password = password_hash($password, PASSWORD_BCRYPT);
         $this->teacherModel->setEmail($email);
-        $this->teacherModel->updateInfo($name, $surname, $password);
+        $this->teacherModel->updateInfo($name, $surname);
 
         echo json_encode(array('message' => 'ok'));
     }
@@ -49,11 +48,13 @@ class TeacherController {
         $this->teacherModel->setSurname($surname);
         $this->teacherModel->setEmail($email);
         $this->teacherModel->setPassword($password);
+        $this->teacherModel->setActivationCode(uniqid());
         $result = $this->teacherModel->AddTeacher();
+        $activation_code = $this->teacherModel->getActivationCode();
 
-        $headers = 'MIME-Version: 1.0' . '\r\n'; 
-        $headers .= 'Content-type:text/html;charset=UTF-8' . "\r\n"; 
-        // mail($email, 'Benvenuto su fotoregistro', "Ciao $name! Per confermare il tuo account clicca <a href='andrearanica.altervista.org/fotoregistro/public/enable-account-student?id=$id'>questo link</a>", $headers);
+        $headers = "MIME-Version: 1.0" . "\r\n"; 
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
+        // mail($email, 'Benvenuto su fotoregistro', "Ciao $name! Per confermare il tuo account clicca <a href='andrearanica.altervista.org/fotoregistro/public/enable-account-teacher?id=$id&activation_code=$activation_code'>questo link</a>", $headers);
 
         if ($result) {
             $response['message'] = 'ok';
@@ -68,7 +69,6 @@ class TeacherController {
 
     public function Login () {
         ini_set('display_errors', 1);
-        require('jwt.php');
 
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -80,7 +80,7 @@ class TeacherController {
             if ($this->teacherModel->getEnabled()) {
                 $headers = array('alg' => 'HS256', 'typ' => 'JWT');
                 $payload = array('id' => $this->teacherModel->getId(), 'name' => $this->teacherModel->getName(), 'surname' => $this->teacherModel->getSurname(), 'email' => $this->teacherModel->getEmail());
-                $message['message'] = jwt($headers, $payload);
+                $message['message'] = Jwt::createToken($headers, $payload);
             } else {
                 $message['message'] = 'user not enabled';   
             }
