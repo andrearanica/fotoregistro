@@ -243,17 +243,10 @@ class StudentModel {
     public function enableAccount (): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "SELECT * FROM students WHERE student_id=? AND activation_code=?;";
-            $stmt = $this->connection->prepare($query);
-            $stmt->bind_param('ss', $this->student_id, $this->activation_code);
-            $stmt->execute();
-            if ($stmt->get_result()->num_rows == 0) {
-                $this->connection->rollback();
-                return 0;
-            }
             $query = "UPDATE students SET enabled=1 WHERE student_id=? AND activation_code=?;";
             $stmt = $this->connection->prepare($query);
             $stmt->bind_param('ss', $this->student_id, $this->activation_code);
+            $stmt->execute();
             $this->connection->commit();
             return 1;
         } catch (\mysqli_sql_exception $exception) {
