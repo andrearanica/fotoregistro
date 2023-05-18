@@ -103,6 +103,9 @@ switch ($request) {
     case 'get-students':
         $classController->getStudents();
         break;
+    case 'get-teachers':
+        $classController->getTeachers();
+        break;
     case 'student-info':
         $studentController->getStudentById();
         break;

@@ -76,8 +76,9 @@ class TeacherModel {
     public function updateInfo ($name, $surname) {
         $this->connection->begin_transaction();
         try {
-            $query = "UPDATE teachers SET name='$name', surname='$surname' WHERE email='$this->email';";
+            $query = "UPDATE teachers SET name=?, surname=? WHERE email=?;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('sss', $name, $surname, $this->email);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -90,8 +91,9 @@ class TeacherModel {
     public function editPassword (): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "UPDATE teachers SET password='$this->password' WHERE email='$this->email';";
+            $query = "UPDATE teachers SET password=? WHERE email=?;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->password, $this->email);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -104,8 +106,9 @@ class TeacherModel {
     public function AddTeacher (): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "INSERT INTO teachers (teacher_id, name, surname, email, password, activation_code) VALUES ('$this->teacher_id', '$this->name', '$this->surname', '$this->email', '$this->password', '$this->activation_code');";
+            $query = "INSERT INTO teachers (teacher_id, name, surname, email, password, activation_code) VALUES (?, ?, ?, ?, ?, ?);";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ssssss', $this->teacher_id, $this->name, $this->surname, $this->email, $this->password, $this->activation_code);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -116,8 +119,9 @@ class TeacherModel {
     }
 
     public function GetTeacherByEmailAndPassword (): bool {
-        $query = "SELECT * FROM teachers WHERE email='$this->email';";
+        $query = "SELECT * FROM teachers WHERE email=?;";
         $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('s', $this->email);
         $stmt->execute();
         $result = $stmt->get_result();
         
@@ -141,8 +145,9 @@ class TeacherModel {
     public function enableAccount () {
         $this->connection->begin_transaction();
         try {
-            $query = "UPDATE teachers SET enabled=1 WHERE teacher_id='$this->teacher_id'";
+            $query = "UPDATE teachers SET enabled=1 WHERE teacher_id=?";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->teacher_id);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -155,8 +160,9 @@ class TeacherModel {
     public function subscribeToClass ($class_id): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "INSERT INTO teaches (teacher_id, class_id) VALUES ('$this->teacher_id', '$class_id');";
+            $query = "INSERT INTO teaches (teacher_id, class_id) VALUES (?, ?);";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->teacher_id, $class_id);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -169,8 +175,9 @@ class TeacherModel {
     public function unsubscribeFromClass ($class_id): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "DELETE FROM teaches WHERE teacher_id='$this->teacher_id' AND class_id='$class_id';";
+            $query = "DELETE FROM teaches WHERE teacher_id=? AND class_id=?;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->teacher_id, $class_id);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -183,8 +190,9 @@ class TeacherModel {
     public function getClasses (): array {
         $this->connection->begin_transaction();
         try {
-            $query = "SELECT * FROM teaches INNER JOIN classes ON classes.class_id=teaches.class_id WHERE teacher_id='$this->teacher_id'";
+            $query = "SELECT * FROM teaches INNER JOIN classes ON classes.class_id=teaches.class_id WHERE teacher_id=?";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->teacher_id);
             $stmt->execute();
             $result = $stmt->get_result();
             $array = array();

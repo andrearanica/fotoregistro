@@ -31,11 +31,13 @@ class ClassModel {
     public function addClass ($teacher_id): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "INSERT INTO classes (class_id, class_name) VALUES ('$this->class_id', '$this->class_name');";
+            $query = "INSERT INTO classes (class_id, class_name) VALUES (?, ?);";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->class_id, $this->class_name);
             $stmt->execute();
-            $query = "INSERT INTO teaches (teacher_id, class_id) VALUES ('$teacher_id', '$this->class_id');";
+            $query = "INSERT INTO teaches (teacher_id, class_id) VALUES (?, ?);";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $teacher_id, $this->class_id);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -48,11 +50,17 @@ class ClassModel {
     public function removeClass (): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "DELETE FROM teaches WHERE class_id='$this->class_id';";
+            $query = "DELETE FROM teaches WHERE class_id=?;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->class_id);
             $stmt->execute();
-            $query = "DELETE FROM classes WHERE class_id='$this->class_id';";
+            $query = "UPDATE students SET class_id=null WHERE class_id=?";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->class_id);
+            $stmt->execute();
+            $query = "DELETE FROM classes WHERE class_id=?;";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->class_id);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -65,8 +73,9 @@ class ClassModel {
     public function getClassFromId (): array {
         $this->connection->begin_transaction();
         try {
-            $query = "SELECT * FROM classes WHERE class_id='$this->class_id'";
+            $query = "SELECT * FROM classes WHERE class_id=?";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->class_id);
             $stmt->execute();
             $result = $stmt->get_result();
             $array = array();
@@ -86,8 +95,9 @@ class ClassModel {
     public function getStudents (): array {
         $this->connection->begin_transaction();
         try {
-            $query = "SELECT * FROM students WHERE class_id='$this->class_id' ORDER BY surname;";
+            $query = "SELECT * FROM students WHERE class_id=? ORDER BY surname;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->class_id);
             $stmt->execute();
             $result = $stmt->get_result();
             $array = array();
@@ -106,8 +116,30 @@ class ClassModel {
     public function getBannedStudents (): array {
         $this->connection->begin_transaction();
         try {
-            $query = "SELECT * FROM students WHERE student_id IN (SELECT student_id FROM blacklist WHERE class_id='$this->class_id');";
+            $query = "SELECT * FROM students WHERE student_id IN (SELECT student_id FROM blacklist WHERE class_id=?);";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->class_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $array = array();
+            $n = 0;
+
+            while ($row = $result->fetch_assoc()) {
+                $array[$n] = $row;
+                $n++;
+            }
+            return $array;
+        } catch (\mysqli_sql_exception $exception) {
+            return array();
+        }
+    }
+
+    public function getTeachers (): array {
+        $this->connection->begin_transaction();
+        try {
+            $query = "SELECT * FROM teaches JOIN teachers ON teaches.teacher_id=teachers.teacher_id WHERE class_id=?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->class_id);
             $stmt->execute();
             $result = $stmt->get_result();
             $array = array();

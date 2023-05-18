@@ -96,6 +96,19 @@ class ClassController {
         $pdf->setClassModel($this->classModel);
         $pdf->print();
     }
+
+    public function getTeachers () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
+        $this->classModel->setId($_POST['class_id']);
+        $response = $this->classModel->getTeachers();
+        echo json_encode($response);
+    }
 }
 
 ?>

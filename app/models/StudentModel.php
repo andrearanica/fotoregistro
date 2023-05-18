@@ -118,8 +118,9 @@ class StudentModel {
     public function editPassword (): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "UPDATE students SET password='$this->password' WHERE email='$this->email';";
+            $query = "UPDATE students SET password=? WHERE email=?;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->password, $this->email);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -134,8 +135,9 @@ class StudentModel {
         try {
             $id = uniqid('st_');
             $password = password_hash($this->password, PASSWORD_BCRYPT);
-            $query = "INSERT INTO students (student_id, name, surname, email, password, activation_code) VALUES ('$this->student_id', '$this->name', '$this->surname', '$this->email', '$this->password', '$this->activation_code');";
+            $query = "INSERT INTO students (student_id, name, surname, email, password, activation_code) VALUES (?, ?, ?, ?, ?, ?);";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ssssss', $this->student_id, $this->name, $this->surname, $this->email, $this->password, $this->activation_code);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -146,8 +148,9 @@ class StudentModel {
     }
 
     public function GetStudentByEmailAndPassword (): bool {
-        $query = "SELECT * FROM students WHERE email='$this->email';";
+        $query = "SELECT * FROM students WHERE email=?;";
         $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('s', $this->email);
         $stmt->execute();
         $result = $stmt->get_result();
         
@@ -171,15 +174,17 @@ class StudentModel {
     public function subscribeToClass ($class_id): int {
         $this->connection->begin_transaction();
         try {
-            $query = "SELECT student_id FROM blacklist WHERE student_id='$this->student_id' AND class_id='$class_id'";
+            $query = "SELECT student_id FROM blacklist WHERE student_id=? AND class_id=?";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->student_id, $class_id);
             $stmt->execute();
             if ($stmt->get_result()->num_rows > 0) {
                 $this->connection->rollback();
                 return 2;
             }
-            $query = "UPDATE students SET class_id='$class_id' WHERE student_id='$this->student_id'";
+            $query = "UPDATE students SET class_id=? WHERE student_id=?";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $class_id, $this->student_id);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -192,8 +197,9 @@ class StudentModel {
     public function unsubscribeFromClass (): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "UPDATE students SET class_id=null WHERE student_id='$this->student_id';";
+            $query = "UPDATE students SET class_id=null WHERE student_id=?;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->student_id);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -206,8 +212,9 @@ class StudentModel {
     public function uploadPhoto () {
         $this->connection->begin_transaction();
         try {
-            $query = "UPDATE students SET photo=1, photo_type='$this->photo_type' WHERE student_id='$this->student_id';";
+            $query = "UPDATE students SET photo=1, photo_type=? WHERE student_id=?;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->photo_type, $this->student_id);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -220,8 +227,9 @@ class StudentModel {
     public function removePhoto (): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "UPDATE students SET photo=0 WHERE student_id='$this->student_id';";
+            $query = "UPDATE students SET photo=0 WHERE student_id=?;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->student_id);
             $stmt->execute();
             $this->connection->commit();
             return 1;
@@ -235,15 +243,17 @@ class StudentModel {
     public function enableAccount (): bool {
         $this->connection->begin_transaction();
         try {
-            $query = "SELECT * FROM students WHERE student_id='$this->student_id' AND activation_code='$this->activation_code';";
+            $query = "SELECT * FROM students WHERE student_id=? AND activation_code=?;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->student_id, $this->activation_code);
             $stmt->execute();
             if ($stmt->get_result()->num_rows == 0) {
                 $this->connection->rollback();
                 return 0;
             }
-            $query = "UPDATE students SET enabled=1 WHERE student_id='$this->student_id' AND activation_code='$this->activation_code';";
-            $this->connection->query($query);
+            $query = "UPDATE students SET enabled=1 WHERE student_id=? AND activation_code=?;";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->student_id, $this->activation_code);
             $this->connection->commit();
             return 1;
         } catch (\mysqli_sql_exception $exception) {
@@ -254,8 +264,9 @@ class StudentModel {
     public function getStudentById (): array {
         $this->connection->begin_transaction();
         try {
-            $query = "SELECT * FROM students WHERE student_id='$this->student_id';";
+            $query = "SELECT * FROM students WHERE student_id=?;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->student_id);
             $stmt->execute();
             $result = $stmt->get_result();
 
@@ -281,8 +292,9 @@ class StudentModel {
         }
         $this->connection->begin_transaction();
         try {
-            $query = "INSERT INTO blacklist(student_id, class_id) VALUES ('$this->student_id', '$this->class_id');";
+            $query = "INSERT INTO blacklist(student_id, class_id) VALUES (?, ?);";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->student_id, $this->class_id);
             $stmt->execute();
             $query = "UPDATE students SET class_id=null WHERE student_id='$this->student_id';";
             $stmt = $this->connection->prepare($query);
@@ -301,8 +313,9 @@ class StudentModel {
         }
         $this->connection->begin_transaction();
         try {
-            $query = "DELETE FROM blacklist WHERE student_id='$this->student_id' AND class_id='$this->class_id';";
+            $query = "DELETE FROM blacklist WHERE student_id=? AND class_id=?;";
             $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->student_id, $this->class_id);
             $stmt->execute();
             $this->connection->commit();
             return 1;
