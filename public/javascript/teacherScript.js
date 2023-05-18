@@ -371,10 +371,12 @@ document.getElementById('edit-class-form').addEventListener('submit', (e) => {
                 document.getElementById('class-edit-alert').className = 'alert alert-danger my-2'
                 document.getElementById('class-edit-alert').innerHTML = '<b>C\'è stato un errore, riprova più tardi</b>'
             }
+            clean(document.getElementById('class-edit-alert'))
         },
         error: data => {
             document.getElementById('class-edit-alert').className = 'alert alert-danger my-2'
-                document.getElementById('class-edit-alert').innerHTML = '<b>C\'è stato un errore, riprova più tardi</b>'
+            document.getElementById('class-edit-alert').innerHTML = '<b>C\'è stato un errore, riprova più tardi</b>'
+            clean(document.getElementById('class-edit-alert'))
         }
     })
 })
