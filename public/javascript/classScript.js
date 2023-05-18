@@ -93,6 +93,7 @@ $.ajax({
         class_id: id
     },
     success: data => {
+        document.getElementById('show-teachers').innerHTML = 'Insegnanti: '
         for (let i = 0; i < data.length; i++) {
             document.getElementById('show-teachers').innerHTML += `${ data[i].name } ${ data[i].surname }`
             if (i !== data.length - 1) {
