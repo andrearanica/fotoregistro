@@ -46,10 +46,36 @@ $.ajax({
     success: (data) => {
         classInfo = data[0]
         console.log(classInfo)
+        if (classInfo === undefined) {
+            window.location.href = 'teacher'
+        }
         document.getElementById('title').innerHTML = `Classe ${ classInfo.class_name }`
         document.getElementById('class-id').innerHTML = `Oppure inserisci questo codice: ${ classInfo.class_id }`
         document.getElementById('pdf-id').value = classInfo.class_id
         new QRCode(document.getElementById('canvas'), classInfo.class_id)
+    },
+    error: data => {
+        console.log(data)
+    }
+})
+
+$.ajax({
+    url: 'get-teachers',
+    type: 'POST',
+    headers: {
+        Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+    },
+    dataType: 'json',
+    data: {
+        class_id: id
+    },
+    success: data => {
+        for (let i = 0; i < data.length; i++) {
+            document.getElementById('show-teachers').innerHTML += `${ data[i].name } ${ data[i].surname }`
+            if (i !== data.length - 1) {
+                document.getElementById('show-teachers').innerHTML += ', '
+            }
+        }
     },
     error: data => {
         console.log(data)
@@ -299,6 +325,40 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
         },
         error: data => {
             console.log(data)
+        }
+    })
+})
+
+document.getElementById('account-password-form').addEventListener('submit', (e) => {
+    e.preventDefault()
+    if (document.getElementById('new-password').value !== document.getElementById('confirm-new-password').value) {
+        document.getElementById('account-alert').className = 'alert alert-danger'
+        document.getElementById('account-alert').innerHTML = '<b>Le password inserite non combaciano</b>'
+        return
+    }
+    $.ajax({
+        url: 'edit-password-teacher',
+        type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
+        data: {
+            email: user.email,
+            password: document.getElementById('new-password').value
+        },
+        dataType: 'json',
+        success: data => {
+            if (data.message == 'ok') {
+                document.getElementById('account-alert').className = 'alert alert-success'
+                document.getElementById('account-alert').innerHTML = '<b>Password aggiornata con successo</b>'
+            } else {
+                document.getElementById('account-alert').className = 'alert alert-danger'
+                document.getElementById('account-alert').innerHTML = '<b>C\'è stato un errore, riprova più tardi</b>'
+            }
+        },
+        error: data => {
+            document.getElementById('account-alert').className = 'alert alert-danger'
+            document.getElementById('account-alert').innerHTML = '<b>C\'è stato un errore, riprova più tardi</b>'
         }
     })
 })

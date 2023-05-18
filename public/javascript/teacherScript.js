@@ -29,7 +29,7 @@ function getClasses () {
                 <div class="col">
                     <center><div class='card my-2' style='width: 18rem; margin: auto; '>
                         <div class='card-body'>
-                            <h5 class='card-title'>Classe ${ c.class_name }</h5>
+                            <h5 class='card-title'><b>Classe ${ c.class_name }</b></h5>
                             <button onclick="showClass('${ c.class_id }')" class='btn btn-success my-1  ' id='showClassButton'>Visualizza classe</button><br>
                             <button onclick="unsubscribeFromClass('${ c.class_id }')" class='btn btn-warning my-1'>Disiscriviti</button><br>
                             <button onclick="removeClass('${ c.class_id }')" class='btn btn-danger my-1'>Rimuovi</button>
@@ -75,6 +75,9 @@ function createClass (token, className, classAccessType, teacher_id) {
 }
 
 function removeClass (class_id) {
+    if (!confirm(`Sei sicuro di voler eliminare la classe? Perderai tutte le informazioni sui tuoi studenti`)) {
+        return
+    }
     $.ajax({
         url: 'remove-class',
         type: 'POST',
@@ -99,6 +102,9 @@ function removeClass (class_id) {
 }
 
 function unsubscribeFromClass (class_id) {
+    if (!confirm(`Sei sicuro di volerti disiscrivere da questa classe?`)) {
+        return
+    }
     $.ajax({
         url: 'unsubscribe-teacher',
         type: 'POST',
@@ -195,11 +201,6 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
     e.preventDefault()
     document.getElementById('account-alert').className = ''
     document.getElementById('account-alert').innerHTML = ''
-    if (document.getElementById('account-password').value != document.getElementById('account-password-confirm').value) {
-        document.getElementById('account-alert').className = 'alert alert-danger my-2'
-        document.getElementById('account-alert').innerHTML = '<b>Le password non corrispondono</b>'
-        return
-    }
     $.ajax({
         url: 'update-teacher',
         type: 'POST',
@@ -211,8 +212,7 @@ document.getElementById('account-info-form').addEventListener('submit', (e) => {
             type: 'teachers',
             name: document.getElementById('account-name').value,
             surname: document.getElementById('account-surname').value,
-            email: document.getElementById('account-email').value,
-            password: document.getElementById('account-password').value
+            email: user.email,
         },
         success: data => {
             if (data.message == 'ok') {

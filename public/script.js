@@ -168,7 +168,7 @@ signupFormTeacher.addEventListener('submit', (event) => {
             console.log(data)
             if (data.message == 'ok') {
                 document.getElementById('signupAlertTeacher').className = 'alert my-2 alert-success text-center'
-                document.getElementById('signupAlertTeacher').innerHTML = '<b>Registrazione effettuata correttamente, effettua il login</b>'
+                document.getElementById('signupAlertTeacher').innerHTML = '<b>Registrazione effettuata correttamente, controlla la tua email</b>'
             }
         },
         error: (data) => {

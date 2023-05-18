@@ -3,6 +3,11 @@ let classInfo = {}
 
 document.getElementById('body').addEventListener('load', getStudentInfo())
 
+let regexp = /android|iphone|kindle|ipad/i;
+if (!regexp.test(navigator.userAgent)) {
+    document.getElementById('smartphone').style = 'padding: 20px;'
+} 
+
 function getStudentInfo () {
     $.ajax({
         url: 'ajax?request=infoFromJwt&type=students',
@@ -100,21 +105,25 @@ function getStudentInfo () {
                 document.getElementById('student-photo').style = '';
                 document.getElementById('upload-photo').style = 'display: none';
                 document.getElementById('student-photo').src = `../app/photos/${ user.student_id }.${ user.photo_type }`
-                document.getElementById('messages').innerHTML = 'Questa è la tua foto. Se non ti piace, puoi <a id="remove-photo">ricaricarla</a>'
+                // ricaricarla
+                document.getElementById('messages').innerHTML = 'Vuoi cambiare foto?<br><a id="remove-photo" class="btn btn-danger">Cancella questa foto</a>'
                 document.getElementById('remove-photo').addEventListener('click', () => {
                     removePhoto(user.student_id)
                 })
+                document.getElementById('smartphone').style = 'display: none;'
             } else {
                 // document.getElementById('start-camera').style = '';
-                document.getElementById('messages').innerHTML = 'Non hai ancora caricato la foto: è il momento giusto per farlo!'
-                document.getElementById('student-photo').style = 'display: none;';
+                document.getElementById('messages').className = 'alert alert-warning'
+                document.getElementById('messages').innerHTML = 'Non hai ancora caricato una foto: è il momento giusto per farlo!'
+                document.getElementById('student-photo').style = 'display: none;'
+                document.getElementById('smartphone').style = 'padding: 20px;'
             }
         },
         error: (data) => {
             console.log(data)
         }
     })
-}
+} 
 
 // getStudentInfo()
 
@@ -145,6 +154,9 @@ document.getElementById('click-photo').addEventListener('click', () => {
 })
 
 function removePhoto (id) {
+    if (!confirm(`Sei sicuro di voler rimuovere la tua foto?`)) {
+        return
+    }
     $.ajax({
         url: 'remove-photo',
         type: 'POST',
@@ -185,6 +197,9 @@ document.getElementById('save-photo').addEventListener('click', () => {
 })
 
 document.getElementById('unsubscribe').addEventListener('click', () => {
+    if (!confirm(`Sei sicuro di volerti disiscrivere dalla classe ${ classInfo.class_name }?`)) {
+        return
+    }
     $.ajax({
         url: 'unsubscribe',
         type: 'POST',

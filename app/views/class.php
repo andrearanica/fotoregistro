@@ -28,6 +28,7 @@
         <?php require('../app/views/components/account-info.php'); ?>
         <div class='container my-5 text-center'>
             <h1 id='title'></h1>
+            <p id='show-teachers'></p>
             <a class='btn btn-primary my-4' data-bs-toggle='collapse' href='#class-info' role='button' aria-expanded='false' aria-controls='collapseExample'>
                 Mostra codice della classe
             </a>
