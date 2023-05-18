@@ -70,6 +70,21 @@ class ClassModel {
         }
     }
 
+    public function editClass () {
+        $this->connection->begin_transaction();
+        try {
+            $query = "UPDATE classes SET class_name=? WHERE class_id=?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ss', $this->class_name, $this->class_id);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
+        }
+    }
+
     public function getClassFromId (): array {
         $this->connection->begin_transaction();
         try {

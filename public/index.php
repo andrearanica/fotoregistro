@@ -41,7 +41,10 @@ switch ($request) {
         $studentController->removePhoto();
         break;
     case 'enable-account-student':
-        $studentController->EnableAccount();
+        $studentController->enableAccount();
+        break;
+    case 'enable-account-teacher':
+        $teacherController->enableAccount();
         break;
     case 'class':
         $siteController->Class();
@@ -121,10 +124,14 @@ switch ($request) {
     case 'remove-student-from-blacklist':
         $studentController->removeFromBlacklist();
         break;
+    case 'edit-class':
+        $classController->editClass();
+        break;
     case 'check-token':
-        echo $_POST['token'];
-        if (!Jwt::checkToken($_POST['token'])) {
-            echo 'ahia';
+        if (Jwt::checkToken(htmlspecialchars($_POST['token']))) {
+            echo json_encode( array('message' => 'ok'));
+        } else {
+            echo json_encode(array('message' => 'error'));
         }
         break;
     default: 

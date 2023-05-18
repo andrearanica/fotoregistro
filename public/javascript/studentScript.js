@@ -3,10 +3,22 @@ let classInfo = {}
 
 document.getElementById('body').addEventListener('load', getStudentInfo())
 
-let regexp = /android|iphone|kindle|ipad/i;
-if (!regexp.test(navigator.userAgent)) {
-    document.getElementById('smartphone').style = 'padding: 20px;'
-} 
+$.ajax({
+    url: 'check-token',
+    type: 'POST',
+    data: {
+        token: window.localStorage.getItem('token')
+    },
+    dataType: 'json',
+    success: data => {
+        if (data.message === 'error') {
+            window.location.href = '../public'
+        }
+    },
+    error: data => {
+        console.log(data)
+    }
+})
 
 function getStudentInfo () {
     $.ajax({
@@ -22,6 +34,13 @@ function getStudentInfo () {
         success: (data) => {
             console.log(data)
             user = data
+
+            try {
+                console.log(user.student_id)
+            } catch (exception) {
+                window.location.href = '../public'
+            }
+
             /*
             user.surname = data.surname
             user.student_id = data.student_id
@@ -93,6 +112,31 @@ function getStudentInfo () {
                         document.getElementById('user-alert').className = 'alert alert-success'
                         document.getElementById('user-alert').innerHTML = `<b>Sei iscritto alla classe ${ classInfo.class_name }</b>`
                         document.getElementById('unsubscribe').style = ''
+                        $.ajax({
+                            url: 'get-students',
+                            type: 'POST',
+                            headers: {
+                                Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+                            },
+                            data: {
+                                class_id: user.class_id
+                            },
+                            dataType: 'json',
+                            success: data => {
+                                document.getElementById('user-alert').innerHTML += '<br>Compagni di classe: '
+                                for (let i = 0; i < data.length; i++) {
+                                    if (data[i].student_id !== user.student_id) {
+                                        document.getElementById('user-alert').innerHTML += `${ data[i].name } ${ data[i].surname }`
+                                        if (i !== data.length - 1) {
+                                            document.getElementById('user-alert').innerHTML += ', '
+                                        }
+                                    }
+                                }
+                            },
+                            error: data => {
+                                console.log(data)
+                            }
+                        })
                     },
                     error: data => {
                         console.log(data)
@@ -110,13 +154,11 @@ function getStudentInfo () {
                 document.getElementById('remove-photo').addEventListener('click', () => {
                     removePhoto(user.student_id)
                 })
-                document.getElementById('smartphone').style = 'display: none;'
             } else {
                 // document.getElementById('start-camera').style = '';
                 document.getElementById('messages').className = 'alert alert-warning'
                 document.getElementById('messages').innerHTML = 'Non hai ancora caricato una foto: è il momento giusto per farlo!'
                 document.getElementById('student-photo').style = 'display: none;'
-                document.getElementById('smartphone').style = 'padding: 20px;'
             }
         },
         error: (data) => {
@@ -211,6 +253,7 @@ document.getElementById('unsubscribe').addEventListener('click', () => {
         },
         success: data => {
             // location.reload()
+            console.log(data)
             getStudentInfo()
         },
         error: data => {

@@ -22,9 +22,9 @@ class StudentController {
             echo json_encode(array('message' => 'token not valid'));
             return;
         }
-        $name = $_POST['name'];
-        $surname = $_POST['surname'];
-        $email = $_POST['email'];
+        $name = htmlspecialchars($_POST['name']);
+        $surname = htmlspecialchars($_POST['surname']);
+        $email = htmlspecialchars($_POST['email']);
 
         $this->studentModel->setEmail($email);
         $this->studentModel->updateInfo($name, $surname);
@@ -40,8 +40,8 @@ class StudentController {
             return;
         }
 
-        $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        $email = htmlspecialchars($_POST['email']);
+        $password = password_hash(htmlspecialchars($_POST['password']), PASSWORD_BCRYPT);
 
         /*$this->studentModel->setPassword($password);
         $this->studentModel->setEmail($email);
@@ -61,10 +61,10 @@ class StudentController {
 
     public function Signup () {
         $id = uniqid('st_');
-        $name = $_POST['name'];
-        $surname = $_POST['surname'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $name = htmlspecialchars($_POST['name']);
+        $surname = htmlspecialchars($_POST['surname']);
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['password']);
         $password = password_hash($password, PASSWORD_BCRYPT);
 
         // $query = "INSERT INTO $table (student_id, name, surname, email, password) VALUES ('$id', '$cleanName', '$cleanSurname', '$cleanEmail', '$cleanPassword');";
@@ -97,8 +97,8 @@ class StudentController {
     public function Login () {
         ini_set('display_errors', 1);
 
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['password']);
 
         $this->studentModel->setEmail($email);
         $this->studentModel->setPassword($password);
@@ -126,8 +126,8 @@ class StudentController {
             return;
         }
 
-        $class_id = $_POST['class_id'];
-        $student_id = $_POST['student_id'];
+        $class_id = htmlspecialchars($_POST['class_id']);
+        $student_id = htmlspecialchars($_POST['student_id']);
 
         $this->studentModel->setId($student_id);
         
@@ -148,13 +148,13 @@ class StudentController {
             return;
         }
 
-        $student_id = $_POST['student_id'];
+        $student_id = htmlspecialchars($_POST['student_id']);
         $this->studentModel->setId($student_id);
         $this->studentModel->unsubscribeFromClass();
     }
 
     public function UploadPhoto () {
-        $student_id = $_POST['student_id'];
+        $student_id = htmlspecialchars($_POST['student_id']);
         $this->studentModel->setId($student_id);
         $student = $this->studentModel->getStudentById();
         $photo_type = $student['photo_type'];
@@ -188,8 +188,8 @@ class StudentController {
         }
 
         define('UPLOAD_DIR', '../app/photos/');
-        $student_id = $_POST['student_id'];
-        $image_parts = explode(';base64,', $_POST['photo']);
+        $student_id = htmlspecialchars($_POST['student_id']);
+        $image_parts = explode(';base64,', htmlspecialchars($_POST['photo']));
         $image_base64 = base64_decode($image_parts[1]);
         $file = UPLOAD_DIR . "$student_id.png";
         file_put_contents($file, $image_base64);
@@ -206,7 +206,7 @@ class StudentController {
             return;
         }
 
-        $student_id = $_POST['student_id'];
+        $student_id = htmlspecialchars($_POST['student_id']);
         unlink("../app/photos/$student_id.png");
         $this->studentModel->setId($student_id);
         $this->studentModel->removePhoto();
@@ -218,8 +218,8 @@ class StudentController {
 
     public function enableAccount () {
         if (isset($_GET['id']) && isset($_GET['activation_code'])) {
-            $id = $_GET['id'];
-            $activation_code = $_GET['activation_code'];
+            $id = htmlspecialchars($_GET['id']);
+            $activation_code = htmlspecialchars($_GET['activation_code']);
             $this->studentModel->setId($id);
             $this->studentModel->setActivationCode($activation_code);
             if ($this->studentModel->enableAccount()) {
@@ -240,7 +240,7 @@ class StudentController {
             return;
         }
 
-        $this->studentModel->setId($_POST['student_id']);
+        $this->studentModel->setId(htmlspecialchars($_POST['student_id']));
         $result = $this->studentModel->getStudentById();
         echo json_encode($result);
     }
@@ -253,8 +253,8 @@ class StudentController {
             return;
         }
 
-        $this->studentModel->setId($_POST['student_id']);
-        $this->studentModel->setClassId($_POST['class_id']);
+        $this->studentModel->setId(htmlspecialchars($_POST['student_id']));
+        $this->studentModel->setClassId(htmlspecialchars($_POST['class_id']));
         
         if ($this->studentModel->addToBlacklist()) {
             echo json_encode(array('message' => 'ok'));
@@ -271,8 +271,8 @@ class StudentController {
             return;
         }
 
-        $this->studentModel->setId($_POST['student_id']);
-        $this->studentModel->setClassId($_POST['class_id']);
+        $this->studentModel->setId(htmlspecialchars($_POST['student_id']));
+        $this->studentModel->setClassId(htmlspecialchars($_POST['class_id']));
 
         if ($this->studentModel->removeFromBlacklist()) {
             echo json_encode(array('message' => 'ok'));

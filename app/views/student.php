@@ -85,11 +85,6 @@
             </div>
             <button id='upload-photo' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#upload-modal'>Carica la foto da file</button>
             
-            <div id='smartphone' class='text-center my-4 card' style='display: none;'>
-                <center><img src='./phone.png' class='my-4' width=180></center>
-                <p>Se vuoi scattare una foto anziché caricarla da file, effettua il login dal tuo smartphone!</p></center>
-            </div>
-            
             <div class='modal fade' id='upload-modal' tabindex='-1' aria-labelledby='photo-modal' aria-hidden='true'>
                 <div class='modal-dialog'>
                     <div class='modal-content'>

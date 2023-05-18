@@ -21,12 +21,28 @@ class ClassController {
             return;
         }
 
-        $class_name = $_POST['class_name'];
-        $this->classModel->setName($class_name);
+        $this->classModel->setName(htmlspecialchars($_POST['class_name']));
         $this->classModel->setId(uniqid('cl_'));
         
-        $teacher_id = $_POST['teacher_id'];
-        if ($this->classModel->addClass($teacher_id)) {
+        if ($this->classModel->addClass(htmlspecialchars($_POST['teacher_id']))) {
+            echo json_encode(array('message' => 'ok'));
+        } else {
+            echo json_encode(array('message' => 'error'));
+        }
+    }
+
+    public function editClass () {
+        $headers = getallheaders();
+        $token = explode(' ', $headers['Authorization'])[1];
+        if (!Jwt::checkToken($token)) {
+            echo json_encode(array('message' => 'token not valid'));
+            return;
+        }
+
+        $this->classModel->setId(htmlspecialchars($_POST['class_id']));
+        $this->classModel->setName(htmlspecialchars($_POST['class_name']));
+        
+        if ($this->classModel->editClass()) {
             echo json_encode(array('message' => 'ok'));
         } else {
             echo json_encode(array('message' => 'error'));
@@ -41,8 +57,7 @@ class ClassController {
             return;
         }
 
-        $class_id = $_POST['class_id'];
-        $this->classModel->setId($class_id);
+        $this->classModel->setId(htmlspecialchars($_POST['class_id']));
         if ($this->classModel->removeClass()) {
             $return = json_encode(array('message' => 'ok'));
         } else {
@@ -59,7 +74,7 @@ class ClassController {
             return;
         }
 
-        $this->classModel->setId($_POST['class_id']);
+        $this->classModel->setId(htmlspecialchars($_POST['class_id']));
         $response = $this->classModel->getClassFromId();
         echo json_encode($response);
     }
@@ -72,7 +87,7 @@ class ClassController {
             return;
         }
 
-        $this->classModel->setId($_POST['class_id']);
+        $this->classModel->setId(htmlspecialchars($_POST['class_id']));
         $response = $this->classModel->getStudents();
         echo json_encode($response);
     }
@@ -85,13 +100,13 @@ class ClassController {
             return;
         }
 
-        $this->classModel->setId($_POST['class_id']);
+        $this->classModel->setId(htmlspecialchars($_POST['class_id']));
         $response = $this->classModel->getBannedStudents();
         echo json_encode($response);
     }
 
     public function printPdf () {
-        $this->classModel->setId($_GET['id']);
+        $this->classModel->setId(htmlspecialchars($_GET['id']));
         $pdf = new Pdf();
         $pdf->setClassModel($this->classModel);
         $pdf->print();
@@ -105,7 +120,7 @@ class ClassController {
             return;
         }
 
-        $this->classModel->setId($_POST['class_id']);
+        $this->classModel->setId(htmlspecialchars($_POST['class_id']));
         $response = $this->classModel->getTeachers();
         echo json_encode($response);
     }

@@ -19,6 +19,7 @@
     <body>
         <?php require('../app/views/components/navbar.php'); ?>
         <?php require('../app/views/components/account-info.php'); ?>
+        <?php require('../app/views/components/class-info.php'); ?>
         <div class='container my-5 text-center'>
             <!--<button type='button' class='btn' data-bs-toggle='modal' data-bs-target='#accountInfoModal'>
                 Il mio account

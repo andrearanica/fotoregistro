@@ -22,9 +22,9 @@ class TeacherController {
             return;
         }
 
-        $name = $_POST['name'];
-        $surname = $_POST['surname'];
-        $email = $_POST['email'];
+        $name = htmlspecialchars($_POST['name']);
+        $surname = htmlspecialchars($_POST['surname']);
+        $email = htmlspecialchars($_POST['email']);
 
         // $password = password_hash($password, PASSWORD_BCRYPT);
         $this->teacherModel->setEmail($email);
@@ -41,8 +41,8 @@ class TeacherController {
             return;
         }
 
-        $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        $email = htmlspecialchars($_POST['email']);
+        $password = password_hash(htmlspecialchars($_POST['password']), PASSWORD_BCRYPT);
 
         /*$this->studentModel->setPassword($password);
         $this->studentModel->setEmail($email);
@@ -62,10 +62,10 @@ class TeacherController {
 
     public function Signup () {
         $id = uniqid('tc_');
-        $name = $_POST['name'];
-        $surname = $_POST['surname'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $name = htmlspecialchars($_POST['name']);
+        $surname = htmlspecialchars($_POST['surname']);
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['password']);
         $password = password_hash($password, PASSWORD_BCRYPT);
 
         // $query = "INSERT INTO $table (student_id, name, surname, email, password) VALUES ('$id', '$cleanName', '$cleanSurname', '$cleanEmail', '$cleanPassword');";
@@ -97,8 +97,8 @@ class TeacherController {
     public function Login () {
         ini_set('display_errors', 1);
 
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['password']);
 
         $this->teacherModel->setEmail($email);
         $this->teacherModel->setPassword($password);
@@ -119,10 +119,19 @@ class TeacherController {
     }
 
     public function enableAccount () {
-        $id = $_GET['id'];
-        $this->teacherModel->setId($id);
-        $this->teacherModel->enableAccount();
-        echo 'Account correttamente abilitato. Torna alla pagina <a href="../public/index.html">Login</a>';
+        if (isset($_GET['id']) && isset($_GET['activation_code'])) {
+            $id = htmlspecialchars($_GET['id']);
+            $activation_code = htmlspecialchars($_GET['activation_code']);
+            $this->teacherModel->setId($id);
+            $this->teacherModel->setActivationCode($activation_code);
+            if ($this->teacherModel->enableAccount()) {
+                echo '<h4>Operazione avvenuta con successo</h4>';
+            } else {
+                echo '<h4>ID e/o Codice di attivazione non validi</h4>';
+            }
+        } else {
+            echo '<h4>Dati di attivazione non validi<br>Controlla il link sulla tua mail</h4>';
+        }
     }
 
     public function subscribeToClass () {
@@ -133,8 +142,8 @@ class TeacherController {
             return;
         }
 
-        $this->teacherModel->setId($_POST['teacher_id']);
-        if ($this->teacherModel->subscribeToClass($_POST['class_id'])) {
+        $this->teacherModel->setId(htmlspecialchars($_POST['teacher_id']));
+        if ($this->teacherModel->subscribeToClass(htmlspecialchars($_POST['class_id']))) {
             $message = json_encode(array('message' => 'ok'));
         } else {
             $message = json_encode(array('message' => 'error'));
@@ -150,8 +159,8 @@ class TeacherController {
             return;
         }
 
-        $this->teacherModel->setId($_POST['teacher_id']);
-        if ($this->teacherModel->unsubscribeFromClass($_POST['class_id'])) {
+        $this->teacherModel->setId(htmlspecialchars($_POST['teacher_id']));
+        if ($this->teacherModel->unsubscribeFromClass(htmlspecialchars($_POST['class_id']))) {
             $message = json_encode(array('message' => 'ok'));
         } else {
             $message = json_encode(array('message' => 'error'));
@@ -167,7 +176,7 @@ class TeacherController {
             return;
         }
         
-        $this->teacherModel->setId($_POST['teacher_id']);
+        $this->teacherModel->setId(htmlspecialchars($_POST['teacher_id']));
         $result = $this->teacherModel->getClasses();
         echo json_encode($result);
     }

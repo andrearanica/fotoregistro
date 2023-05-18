@@ -10,6 +10,23 @@ if (window.location.href.includes('?id')) {
 }
 
 $.ajax({
+    url: 'check-token',
+    type: 'POST',
+    data: {
+        token: window.localStorage.getItem('token')
+    },
+    dataType: 'json',
+    success: data => {
+        if (data.message === 'error') {
+            window.location.href = '../public'
+        }
+    },
+    error: data => {
+        console.log(data)
+    }
+})
+
+$.ajax({
     url: 'ajax?request=infoFromJwt&type=teachers',
     type: 'POST',
     headers: {
@@ -22,6 +39,12 @@ $.ajax({
     success: (data) => {
         user = data
         console.log(user)
+
+        try {
+            console.log(user.teacher_id)
+        } catch (exception) {
+            window.location.href = '../public'
+        }
 
         // Fill account form
         document.getElementById('account-name').value = user.name

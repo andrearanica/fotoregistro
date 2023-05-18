@@ -8,6 +8,23 @@ function clean (element) {
     }, 2000)
 }
 
+$.ajax({
+    url: 'check-token',
+    type: 'POST',
+    data: {
+        token: window.localStorage.getItem('token')
+    },
+    dataType: 'json',
+    success: data => {
+        if (data.message === 'error') {
+            window.location.href = '../public'
+        }
+    },
+    error: data => {
+        console.log(data)
+    }
+})
+
 function getClasses () {
     $.ajax({
         url: `teacher-classes`,
@@ -29,6 +46,9 @@ function getClasses () {
                 <div class="col">
                     <center><div class='card my-2' style='width: 18rem; margin: auto; '>
                         <div class='card-body'>
+                            <button type='button' class='btn' data-bs-toggle='modal' data-bs-target='#class-info-modal' onclick='editClass(${ c.class_id })'>
+                                ✏️
+                            </button>
                             <h5 class='card-title'><b>Classe ${ c.class_name }</b></h5>
                             <button onclick="showClass('${ c.class_id }')" class='btn btn-success my-1  ' id='showClassButton'>Visualizza classe</button><br>
                             <button onclick="unsubscribeFromClass('${ c.class_id }')" class='btn btn-warning my-1'>Disiscriviti</button><br>
@@ -42,6 +62,27 @@ function getClasses () {
                 document.getElementById('classes').className = 'alert alert-warning text-center'
                 document.getElementById('classes').innerHTML = 'Non sei iscritto a nessuna classe'
             }
+        },
+        error: data => {
+            console.log(data)
+        }
+    })
+}
+
+function editClass (class_id) {
+    $.ajax({
+        url: 'class-info',
+        type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
+        dataType: 'json',
+        data: {
+            class_id: class_id
+        },
+        success: data => {
+            document.getElementById('edit-class-id').value = data[0].class_id
+            document.getElementById('edit-class-name').value = data[0].class_name
         },
         error: data => {
             console.log(data)
@@ -144,6 +185,12 @@ $.ajax({
     success: (data) => {
         user = data
         console.log(user)
+
+        try {
+            console.log(user.teacher_id)
+        } catch (exception) {
+            window.location.href = '../public'
+        }
 
         document.getElementById('title').innerHTML = 'Benvenuto ' + user.name
         // Fill account form
@@ -298,6 +345,36 @@ document.getElementById('account-password-form').addEventListener('submit', (e) 
         error: data => {
             document.getElementById('account-alert').className = 'alert alert-danger'
             document.getElementById('account-alert').innerHTML = '<b>C\'è stato un errore, riprova più tardi</b>'
+        }
+    })
+})
+
+document.getElementById('edit-class-form').addEventListener('submit', (e) => {
+    e.preventDefault()
+    $.ajax({
+        url: 'edit-class',
+        type: 'POST',
+        headers: {
+            Authorization: `Bearer ${ window.localStorage.getItem('token') }`
+        },
+        data: {
+            class_id: document.getElementById('edit-class-id').value,
+            class_name: document.getElementById('edit-class-name').value
+        },
+        dataType: 'json',
+        success: data => {
+            getClasses()
+            if (data.message === 'ok') {
+                document.getElementById('class-edit-alert').className = 'alert alert-success my-2'
+                document.getElementById('class-edit-alert').innerHTML = '<b>Classe modificata con successo</b>'
+            } else {
+                document.getElementById('class-edit-alert').className = 'alert alert-danger my-2'
+                document.getElementById('class-edit-alert').innerHTML = '<b>C\'è stato un errore, riprova più tardi</b>'
+            }
+        },
+        error: data => {
+            document.getElementById('class-edit-alert').className = 'alert alert-danger my-2'
+                document.getElementById('class-edit-alert').innerHTML = '<b>C\'è stato un errore, riprova più tardi</b>'
         }
     })
 })
