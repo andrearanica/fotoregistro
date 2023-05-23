@@ -5,6 +5,9 @@ namespace App\controllers;
 ini_set('display_errors', 1);
 
 class SiteController {
+    public function HomePage () {
+        require_once '../app/views/index.php';
+    }
     public function LoginAndSignup () {
         require_once '../app/views/home.php';
     }

@@ -17,7 +17,7 @@ $.ajax({
     dataType: 'json',
     success: data => {
         if (data.message === 'error') {
-            window.location.href = '../public'
+            window.location.href = '../public/login'
         }
     },
     error: data => {

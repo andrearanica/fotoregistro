@@ -9,16 +9,16 @@
         <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD' crossorigin='anonymous'>
         <link rel='stylesheet' href=''>
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&display=swap');
+
+            body {
+                font-family: 'Fira Sans', sans-serif;
+            }
             td {
                 border: 2px solid black;
             }
             img {
                 border-radius: 5px;
-            }
-            @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&display=swap');
-
-            body {
-                font-family: 'Fira Sans', sans-serif;
             }
         </style>
     </head>

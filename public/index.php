@@ -20,6 +20,9 @@ $classController   = new ClassController();
 
 switch ($request) {
     case '':
+        $siteController->HomePage();
+        break;
+    case 'login':
         $siteController->LoginAndSignup();
         break;
     case 'student':
