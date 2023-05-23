@@ -173,7 +173,7 @@ function unsubscribeFromClass (class_id) {
 }
 
 $.ajax({
-    url: 'ajax?request=infoFromJwt&type=teachers',
+    url: 'info-from-jwt-teacher',
     type: 'POST',
     headers: {
         Authorization: `Bearer ${ window.localStorage.getItem('token') }`

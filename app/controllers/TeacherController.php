@@ -14,6 +14,14 @@ class TeacherController {
         $this->teacherModel = new TeacherModel();
     }
 
+    public function getInfoFromJwt () {
+        $payload = Jwt::getInfo($_POST['token']);
+        $id = str_replace("\\", "", explode('"', explode('_', $payload)[1])[0]);
+        // echo "tc_$id";
+        $this->teacherModel->setId("tc_$id");
+        echo json_encode($this->teacherModel->getTeacherById());
+    }
+
     public function updateTeacher () {
         $headers = getallheaders();
         $token = explode(' ', $headers['Authorization'])[1];

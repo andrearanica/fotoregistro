@@ -22,7 +22,7 @@ $.ajax({
 
 function getStudentInfo () {
     $.ajax({
-        url: 'ajax?request=infoFromJwt&type=students',
+        url: 'info-from-jwt-student',
         type: 'POST',
         headers: {
             Authorization: `Bearer ${ window.localStorage.getItem('token') }`

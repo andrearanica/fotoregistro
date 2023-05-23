@@ -142,6 +142,31 @@ class TeacherModel {
         return 0;
     }
 
+    public function getTeacherById () {
+        $this->connection->begin_transaction();
+        try {
+            $query = "SELECT * FROM teachers WHERE teacher_id=?;";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('s', $this->teacher_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $return = $row;
+                }
+            } else {
+                $return = array();
+            }
+
+            $this->connection->commit();
+            return $return;
+        } catch (\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return array();
+        }
+    }
+
     public function enableAccount () {
         $this->connection->begin_transaction();
         try {

@@ -36,6 +36,13 @@ class Jwt {
             return 0;
         }
     }
+
+    public static function getInfo ($token) {
+        $tokenParts = explode('.', $token);
+        $payload = $tokenParts[1];
+        $payload = json_encode(base64_decode($payload));
+        return $payload;
+    }
 }
 
 ?>

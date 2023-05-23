@@ -31,6 +31,12 @@ switch ($request) {
     case 'ajax':
         $ajaxController->HandleRequest();
         break;
+    case 'info-from-jwt-student':
+        $studentController->getInfoFromJwt();
+        break;
+    case 'info-from-jwt-teacher':
+        $teacherController->getInfoFromJwt();
+        break;
     case 'upload-photo':
         $studentController->UploadPhoto();
         break;

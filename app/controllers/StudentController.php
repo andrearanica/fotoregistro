@@ -15,6 +15,14 @@ class StudentController {
         $this->studentModel = new StudentModel();
     }
 
+    public function getInfoFromJwt() {
+        $payload = Jwt::getInfo($_POST['token']);
+        $id = str_replace("\\", "", explode('"', explode('_', $payload)[1])[0]);
+        // echo $id;
+        $this->studentModel->setId("st_$id");
+        echo json_encode($this->studentModel->getStudentById());
+    }
+
     public function updateStudent () {
         $headers = getallheaders();
         $token = explode(' ', $headers['Authorization'])[1];
