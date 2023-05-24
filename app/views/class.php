@@ -30,7 +30,9 @@
             <p id='show-teachers'></p>
             <a class='btn btn-primary my-4' data-bs-toggle='collapse' href='#class-info' role='button' aria-expanded='false' aria-controls='collapseExample'>
                 Mostra codice della classe
-            </a>
+            </a>            
+            <?php require('../app/views/components/show-banned-students.php'); ?>
+            <button class='btn btn-primary my-4' data-bs-toggle='modal' data-bs-target='#print-pdf-modal'>Stampa PDF</button>
             <div class='collapse' id='class-info'>
                 <div class='card card-body my-2'>
                     <p class='my-1'>Per iscriverti a questa classe</p>
@@ -44,9 +46,6 @@
                 
             </div>
             <button id='reload-students-info' class='btn btn-success'>Ricarica</button>
-            <hr>
-            <?php require('../app/views/components/show-banned-students.php'); ?>
-            <button class='btn btn-primary my-2' data-bs-toggle='modal' data-bs-target='#exampleModal'>Stampa PDF</button>
             <!--<button class='btn btn-success' data-bs-toggle='modal' data-bs-target='#student-info'>${ student.name } ${ student.surname }</button> <br />-->
 
             <div class='modal fade' id='student-info' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
@@ -69,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+            <div class='modal fade' id='print-pdf-modal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
                 <div class='modal-dialog'>
                     <div class='modal-content'>
                     <div class='modal-header'>

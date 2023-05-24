@@ -41,8 +41,8 @@ $.ajax({
             },
             success: data => {
                 console.log(data)
-                document.getElementById('students-num').innerHTML = `Numero di studenti: ${ data.length }`
-                if (new URLSearchParams(window.location.search).get('display') == 'all') {
+                if (new URLSearchParams(window.location.search).get('display') == 'all') {                
+                    document.getElementById('students-num').innerHTML = `Numero di studenti: ${ data.length }`
                     data.map(student => document.getElementById('students').innerHTML += `
                     <div class='col col-lg my-2' style='width: 18rem;'>
                         <img style='max-height: 150px; width: auto;' src='../app/photos/${ student.photo ? `${student.student_id}.${ student.photo_type }` : 'user.png' }' class='card-img-top'>
@@ -52,8 +52,10 @@ $.ajax({
                     </div>
                     `)
                 } else {
+                    num = 0
                     data.map(student => {
                         if (student.photo) {
+                            num++
                             document.getElementById('students').innerHTML += `
                             <div class='col col-lg my-2' style='width: 18rem;'>
                                 <img style='max-height: 150px; width: auto;' src='../app/photos/${ student.student_id }.${ student.photo_type }' class='card-img-top'>
@@ -63,6 +65,7 @@ $.ajax({
                             </div>
                         `}
                     })
+                    document.getElementById('students-num').innerHTML = `Numero di studenti: ${ num }`
                 }
                 
                 // window.print()
