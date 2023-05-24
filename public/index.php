@@ -122,7 +122,7 @@ switch ($request) {
         $studentController->getStudentById();
         break;
     case 'print-pdf':
-        $classController->printPdf();
+        $siteController->PDF();
         break;
     case 'add-to-blacklist':
         $studentController->addToBlacklist();

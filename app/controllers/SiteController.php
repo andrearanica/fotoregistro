@@ -23,6 +23,9 @@ class SiteController {
     public function NotFound () {
         require_once '../app/views/404.php';
     }
+    public function PDF () {
+        require_once '../app/views/pdf.php';
+    }
 }
 
 ?>
