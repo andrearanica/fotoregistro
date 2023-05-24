@@ -4,6 +4,7 @@
         <meta charset='UTF-8'>
         <meta http-equiv='X-UA-Compatible' content='IE=edge'>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <meta name='description' content='Fotoregistro crea registri fotografici digitali per la tua classe!'>
         <title>Fotoregistro</title>
         <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ' crossorigin='anonymous'>
         <style>
@@ -60,7 +61,7 @@
                         </div>
                         <div class='card col-lg mx-4 my-4'>
                             <h2>Semplice ✨</h2>
-                            <p>Esatto: né tu né i tuoi studenti hai voglia di affrontare tante difficoltà per fare un fotoregistro 😅</p>
+                            <p>Esatto: né tu né i tuoi studenti avete voglia di affrontare tante difficoltà per fare un fotoregistro 😅</p>
                         </div>
                     </div>
                 </div>
