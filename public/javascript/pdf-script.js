@@ -11,7 +11,7 @@ $.ajax({
         }
     },
     error: data => {
-        console.log(data)
+        window.location.href = '../public/login'
     }
 })
 
@@ -75,6 +75,8 @@ $.ajax({
 
 document.getElementById('print').addEventListener('click', () => {
     document.getElementById('print').style = 'display: none;'
+    document.getElementById('warning').style = 'display: none;'
     print()
     document.getElementById('print').style = ''
+    document.getElementById('warning').style = ''
 })
