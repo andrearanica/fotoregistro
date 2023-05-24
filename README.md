@@ -1,31 +1,20 @@
 # 🧑‍🏫 Fotoregistro
-This app allows students and teachers to make a digital photo register for the classes in an easy and quick way
+### Index
+<li><a href='#description'>Description</a></li>
+<li><a href='#technologies'>Technologies</a></li>
 
-### 📚 How and why?
-The teacher that wants to make a photo register has to make an account as a professor and give the access code to his students. The students can make their accounts and upload their photo, and then when they enter into a new class the photo will be shown to the teacher without using mails or messages.
+### <p id='description'>Description 🔎</p>
+This application allows students and teachers to create photo registers of their classes: every student can subscribe to a class and send his photo to the teacher, then the teacher can collect these photos and print the photo register (also called fotoregistro) of the class
 
-### ⚙️ Technologies
-The website is made in HTML, CSS and JavaScript (with jQuery for AJAX) on the frontend, and with PHP on the backend.<br />
-The frontend calls the scripts on the backend to obtain data and write on the database.
+### <p id='technologies'>Technologies ⚙️</p>
+<li>HTML, CSS and JavaScript + jQuery (AJAX)</li>
+<li>PHP with MVC pattern</li>
+<li>MySQL as DBMS</li>
 
-### 🚀 Roadmap
-- [ ] Login and Signup
-    - [X] Login with email and password
-    - [X] Signup with clean data
-    - [X] Enable account with link
-    - [ ] Send email for signup
-    - [X] Send JWT login
-    - [X] Check JWT
-- [ ] Dashboard
-    - [ ] Teacher
-        - [X] Create a class
-        - [ ] Print class PDF
-        - [X] Create QR QR
-    - [ ] Student
-        - [X] Subscribe to a class with QR
-        - [ ] Subscribe to a class with code
-        - [X] Send photo 
-        - [X] Delete photo
-
-### ❤️ Credits
-HTML5-QRCODE, the library for the qr-reading function: <a href="https://github.com/mebjas/html5-qrcode">https://github.com/mebjas/html5-qrcode</a>
+### Credits ❤️
+HTML5-QRCODE, the library for the qr-reading function: <a href="https://github.com/mebjas/html5-qrcode">https://github.com/mebjas/html5-qrcode</a><br>
+<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Smashicons - Flaticon</a><br>
+<a href="https://it.freepik.com/vettori-gratuito/set-di-icone-e-loghi-di-social-media_10490904.htm#query=email&position=0&from_view=search&track=sph">Immagine di myriammira</a> su Freepik<br>
+<a href="https://it.freepik.com/foto-gratuito/busta-marrone-di-manila-con-la-carta-di-lettera-in-bianco_3017552.htm#query=letter&position=10&from_view=search&track=sph">Immagine di kstudio</a> su Freepik<br>
+<a href="https://www.flaticon.com/free-icons/telephone" title="telephone icons">Telephone icons created by Freepik - Flaticon</a><br>
+Immagine di d3images su Freepik<br>
