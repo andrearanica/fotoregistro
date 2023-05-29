@@ -8,7 +8,7 @@ class Database {
     protected static mysqli $connectionIstance;
     
     public function __construct () {
-        self::$connectionIstance = new mysqli('localhost', 'root', '', 'my_andrearanica');
+        self::$connectionIstance = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
     }
 
     public static function getConnection(): mysqli {

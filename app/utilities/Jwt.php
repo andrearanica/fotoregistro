@@ -3,13 +3,12 @@
 namespace App\utilities;
 
 class Jwt {
-    private const SECRET = 'f@t@r3g1str@';
-
     public static function base64url_encode ($str) {
         return rtrim(strtr(base64_encode($str), '+/', '-'), '=');
     }
 
-    public static function createToken ($headers, $payload, $secret = 'f@t@r3g1str@') {
+    public static function createToken ($headers, $payload) {
+        $secret = $_ENV['JWT_SECRET'];
         $headers_encoded = Jwt::base64url_encode(json_encode($headers));
         $payload_encoded = Jwt::base64url_encode(json_encode($payload));
         $signature = hash_hmac('SHA256', "$headers_encoded.$payload_encoded", $secret, true);
@@ -18,7 +17,8 @@ class Jwt {
         return $jwt;
     }
 
-    public static function checkToken ($token, $secret = 'f@t@r3g1str@') : bool {
+    public static function checkToken ($token) : bool {
+        $secret = $_ENV['JWT_SECRET'];
         $tokenParts = explode('.', $token);
         $header = base64_decode($tokenParts[0]);
         $payload = base64_decode($tokenParts[1]);

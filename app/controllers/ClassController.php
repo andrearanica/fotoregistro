@@ -105,13 +105,6 @@ class ClassController {
         echo json_encode($response);
     }
 
-    public function printPdf () {
-        $this->classModel->setId(htmlspecialchars($_GET['id']));
-        $pdf = new Pdf();
-        $pdf->setClassModel($this->classModel);
-        $pdf->print();
-    }
-
     public function getTeachers () {
         $headers = getallheaders();
         $token = explode(' ', $headers['Authorization'])[1];
