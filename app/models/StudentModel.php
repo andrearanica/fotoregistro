@@ -6,16 +6,16 @@ use mysqli_sql_exception;
 use App\core\Model;
 
 class StudentModel extends Model {
-    private string $student_id;
-    private string $name;
-    private string $surname;
-    private string $photo;    
-    private string $photo_type;
-    private string $class_id;
-    private string $email;
-    private string $password;
-    private bool $enabled;
-    private string $activation_code;
+    private $student_id;
+    private $name;
+    private $surname;
+    private $photo;    
+    private $photo_type;
+    private $class_id;
+    private $email;
+    private $password;
+    private $enabled;
+    private $activation_code;
 
     public function getId () {
         return $this->student_id;

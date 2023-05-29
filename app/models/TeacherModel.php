@@ -6,13 +6,13 @@ use mysqli_sql_exception;
 use App\core\Model;
 
 class TeacherModel extends Model {
-    private string $teacher_id;
-    private string $name;
-    private string $surname;
-    private string $email;
-    private string $password;
-    private bool $enabled;
-    private string $activation_code;
+    private $teacher_id;
+    private $name;
+    private $surname;
+    private $email;
+    private $password;
+    private $enabled;
+    private $activation_code;
 
     public function getId () {
         return $this->teacher_id;

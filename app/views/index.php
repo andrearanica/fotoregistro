@@ -39,10 +39,8 @@
             </div>
         </nav>
         <div class='div-blue text-center' style='background-color: rgb(4, 46, 212); color: white;'>
-        &nbsp;
-        <div class='my-5'>
+        <div class='mb-5' style='padding: 70px;'>
                 <h1>Fotoregistro</h1>
-                <img src='./img/OBDKVJ0.jpg' width=500>
             </div>
         </div>
         <div class='my-5' id='features'>

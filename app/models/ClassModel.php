@@ -97,6 +97,7 @@ class ClassModel extends Model {
             while ($row = $result->fetch_assoc()) {
                 $array[$n] = $row;
                 $n++;
+                $this->class_name = $row['class_name'];
             }
             return $array;
         } catch (mysqli_sql_exception $exception) {
