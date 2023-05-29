@@ -2,23 +2,20 @@
 
 namespace App\models;
 
-class StudentModel {
-    private $connection;
+use mysqli_sql_exception;
+use App\core\Model;
 
-    private $student_id;
-    private $name;
-    private $surname;
-    private $photo;    
-    private $photo_type;
-    private $class_id;
-    private $email;
-    private $password;
-    private $enabled;
-    private $activation_code;
-
-    public function __construct () {
-        $this->connection = new \mysqli('127.0.0.1', 'root', '', 'my_andrearanica');
-    }
+class StudentModel extends Model {
+    private string $student_id;
+    private string $name;
+    private string $surname;
+    private string $photo;    
+    private string $photo_type;
+    private string $class_id;
+    private string $email;
+    private string $password;
+    private bool $enabled;
+    private string $activation_code;
 
     public function getId () {
         return $this->student_id;
@@ -108,7 +105,7 @@ class StudentModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return 0;
         }
@@ -124,7 +121,7 @@ class StudentModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return 0;
         }
@@ -141,7 +138,7 @@ class StudentModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return 0;
         }
@@ -188,7 +185,7 @@ class StudentModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return -1;
         }
@@ -203,7 +200,7 @@ class StudentModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return 0;
         }
@@ -218,7 +215,7 @@ class StudentModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return 0;
         }
@@ -233,7 +230,7 @@ class StudentModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return 0;
         }
@@ -249,7 +246,7 @@ class StudentModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             return 0;
         }
     }
@@ -273,7 +270,7 @@ class StudentModel {
 
             $this->connection->commit();
             return $return;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return array();
         }
@@ -294,7 +291,7 @@ class StudentModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return 0;
         }
@@ -312,7 +309,7 @@ class StudentModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             echo $exception;
             $this->connection->rollback();
             return 0;

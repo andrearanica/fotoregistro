@@ -2,15 +2,13 @@
 
 namespace App\models;
 
-class ClassModel {
-    private $connection;
+use mysqli_sql_exception;
+use App\core\Model;
 
-    private $class_id;
-    private $class_name;
+class ClassModel extends Model {
 
-    public function __construct () {
-        $this->connection = new \mysqli('127.0.0.1', 'root', '', 'my_andrearanica');
-    }
+    private string $class_id;
+    private string $class_name;
     
     public function setId ($id) {
         $this->class_id = $id;
@@ -41,7 +39,7 @@ class ClassModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return 0;
         }
@@ -64,7 +62,7 @@ class ClassModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return 0;
         }
@@ -79,7 +77,7 @@ class ClassModel {
             $stmt->execute();
             $this->connection->commit();
             return 1;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return 0;
         }
@@ -101,7 +99,7 @@ class ClassModel {
                 $n++;
             }
             return $array;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             $this->connection->rollback();
             return array('message' => 'class not found');
         }
@@ -123,7 +121,7 @@ class ClassModel {
                 $n++;
             }
             return $array;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             return array();
         }
     }
@@ -144,7 +142,7 @@ class ClassModel {
                 $n++;
             }
             return $array;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             return array();
         }
     }
@@ -165,7 +163,7 @@ class ClassModel {
                 $n++;
             }
             return $array;
-        } catch (\mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             return array();
         }
     }

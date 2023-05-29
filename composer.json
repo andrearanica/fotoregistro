@@ -3,5 +3,8 @@
         "psr-4": {
             "App\\": "app/"
         }
+    },
+    "require": {
+        "dotenv-org/phpdotenv-vault": "^0.1.0"
     }
 }
