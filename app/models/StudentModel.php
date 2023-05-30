@@ -144,6 +144,23 @@ class StudentModel extends Model {
         }
     }
 
+    public function AddStudentWithGoogle (): bool {
+        $this->connection->begin_transaction();
+        try {
+            $id = uniqid('st_');
+            $password = password_hash($this->password, PASSWORD_BCRYPT);
+            $query = "INSERT INTO students (student_id, name, surname, email, password, activation_code, google) VALUES (?, ?, ?, ?, ?, ?, 1);";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ssssss', $this->student_id, $this->name, $this->surname, $this->email, $this->password, $this->activation_code);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
+        }
+    }
+
     public function GetStudentByEmailAndPassword (): bool {
         $query = "SELECT * FROM students WHERE email=?;";
         $stmt = $this->connection->prepare($query);
@@ -314,6 +331,38 @@ class StudentModel extends Model {
             $this->connection->rollback();
             return 0;
         }
+    }
+    
+    public function checkMail () {
+        $query = "SELECT * FROM students WHERE email=? AND google=1;";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('s', $this->email);
+        $stmt->execute();
+        if ($stmt->get_result()->num_rows > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function getStudentByEmailWithGoogle () {
+        $query = "SELECT * FROM students WHERE email=? AND google=1;";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('s', $this->email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $this->student_id = $row['student_id'];
+                $this->name = $row['name'];
+                $this->surname = $row['surname'];
+                $this->email = $row['email'];
+                $this->enabled = $row['enabled'];
+                return 1;
+            }
+        } 
+        return 0;
     }
 }
 

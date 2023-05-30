@@ -30,27 +30,38 @@ class GoogleController {
         // var_dump($data);
 
         $this->studentModel = new StudentModel();
-        $this->studentModel->setId(uniqid('st_'));
-        $this->studentModel->setName($data->name);
-        $this->studentModel->setSurname('Rota');
-        $this->studentModel->setEmail($data->email);
-        $this->studentModel->setPassword('google');
-        $this->studentModel->setEnabled(true);
-        $this->studentModel->setActivationCode(uniqid());        
-
-        $headers = array('alg' => 'HS256', 'typ' => 'JWT');
-        $payload = array('id' => $this->studentModel->getId(), 'name' => $this->studentModel->getName(), 'surname' => '', 'email' => $this->studentModel->getEmail());
-        $jwt = Jwt::createToken($headers, $payload);
-
-        echo $jwt;
-        echo "<script>window.localStorage.setItem('token', '$jwt')</script>";
-
-        $this->studentModel->addStudent();
         
-        echo "<a href='student'>Continua</a>";
+        $this->studentModel->setEmail($data->email);
+
+        if (!$this->studentModel->checkMail()) {
+            $this->studentModel->setId(uniqid('st_'));
+            $this->studentModel->setName($data->name);
+            $this->studentModel->setSurname('Rota'); 
+            $this->studentModel->setPassword('google');
+            $this->studentModel->setEnabled(true);
+            $this->studentModel->setActivationCode(uniqid());        
+    
+            $headers = array('alg' => 'HS256', 'typ' => 'JWT');
+            $payload = array('id' => $this->studentModel->getId(), 'name' => $this->studentModel->getName(), 'surname' => '', 'email' => $this->studentModel->getEmail());
+            $jwt = Jwt::createToken($headers, $payload);
+
+            echo "<script>window.localStorage.setItem('token', '$jwt')</script>";
+
+            $this->studentModel->addStudentWithGoogle();
+        } else {
+            $this->studentModel->getStudentByEmailWithGoogle();
+            $headers = array('alg' => 'HS256', 'typ' => 'JWT');
+            $payload = array('id' => $this->studentModel->getId(), 'name' => $this->studentModel->getName(), 'surname' => '', 'email' => $this->studentModel->getEmail());
+            $jwt = Jwt::createToken($headers, $payload);
+
+            echo "<script>window.localStorage.setItem('token', '$jwt')</script>";
+        }
+
+        // echo $jwt;
+        
+        echo '<script>window.location.href="student"</script>';
     }
-    public function getUrl(): string
-    {
+    public function getUrl(): string {
         return $this->googleClient->createAuthUrl();
     }
 }
