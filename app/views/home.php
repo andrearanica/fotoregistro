@@ -1,3 +1,10 @@
+<?php
+
+use App\controllers\GoogleController;
+
+$googleController = new GoogleController();
+
+?>
 <html>
 	<head>
 		<meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -15,6 +22,7 @@
 					<p class='panelTitle'>Sei uno studente? 📚</p><br />
 					<button id='loginButtonStudent' class='btn' data-bs-target='#loginModalStudent' data-bs-toggle='modal'>Login</button><br />
 					<button id='signupButtonStudent' class='btn' data-bs-target='#signupModalStudent' data-bs-toggle='modal'>Registrati</button><br />
+					<a href=<?=$googleController->getUrl()?>><button class='btn'>Login con Google</button></a>
 				</div>
 				<div class='col my-5 text-center homePanel mx-5' id='teacherDiv'>
 					<p class='panelTitle'>Sei un insegnante? 🧑‍🏫</p><br />

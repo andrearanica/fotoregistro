@@ -5,6 +5,7 @@
         }
     },
     "require": {
-        "dotenv-org/phpdotenv-vault": "^0.1.0"
+        "dotenv-org/phpdotenv-vault": "^0.1.0",
+        "google/apiclient": "^2.0"
     }
 }

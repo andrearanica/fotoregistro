@@ -4,12 +4,13 @@ ini_set('display_errors', 1);
 
 require_once '../vendor/autoload.php';
 use Dotenv\Dotenv;
-use App\controllers\SiteController;
+use App\utilities\Jwt;
 use App\controllers\AjaxController;
+use App\controllers\SiteController;
+use App\controllers\ClassController;
+use App\controllers\GoogleController;
 use App\controllers\StudentController;
 use App\controllers\TeacherController;
-use App\controllers\ClassController;
-use App\utilities\Jwt;
 
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
@@ -21,6 +22,7 @@ $ajaxController    = new AjaxController();
 $studentController = new StudentController();
 $teacherController = new TeacherController();
 $classController   = new ClassController();
+$googleController  = new GoogleController();
 
 switch ($request) {
     case '':
@@ -146,6 +148,9 @@ switch ($request) {
         } else {
             echo json_encode(array('message' => 'error'));
         }
+        break;
+    case 'google-student':
+        $googleController->handleLoginStudent();
         break;
     default: 
         $siteController->NotFound();
