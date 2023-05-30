@@ -35,9 +35,9 @@ class GoogleController {
 
         if (!$this->studentModel->checkMail()) {
             $this->studentModel->setId(uniqid('st_'));
-            $this->studentModel->setName($data->name);
-            $this->studentModel->setSurname('Rota'); 
-            $this->studentModel->setPassword('google');
+            $this->studentModel->setName(explode(' ', $data->name)[0]);
+            $this->studentModel->setSurname(explode(' ', $data->name)[1]); 
+            $this->studentModel->setPassword('');
             $this->studentModel->setEnabled(true);
             $this->studentModel->setActivationCode(uniqid());        
     

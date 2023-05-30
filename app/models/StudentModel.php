@@ -162,7 +162,7 @@ class StudentModel extends Model {
     }
 
     public function GetStudentByEmailAndPassword (): bool {
-        $query = "SELECT * FROM students WHERE email=?;";
+        $query = "SELECT * FROM students WHERE email=? AND google=0;";
         $stmt = $this->connection->prepare($query);
         $stmt->bind_param('s', $this->email);
         $stmt->execute();
