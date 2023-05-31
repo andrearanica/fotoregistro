@@ -64,9 +64,9 @@ class TeacherModel extends User {
     public function AddTeacherWithGoogle (): bool {
         $this->connection->begin_transaction();
         try {
-            $id = uniqid('st_');
+            $id = uniqid('tc_');
             $password = password_hash($this->password, PASSWORD_BCRYPT);
-            $query = "INSERT INTO teachers (teacher_id, name, surname, email, password, activation_code, google) VALUES (?, ?, ?, ?, ?, ?, 1);";
+            $query = "INSERT INTO teachers (teacher_id, name, surname, email, password, enabled, activation_code, google) VALUES (?, ?, ?, ?, ?, 1, ?, 1);";
             $stmt = $this->connection->prepare($query);
             $stmt->bind_param('ssssss', $this->teacher_id, $this->name, $this->surname, $this->email, $this->password, $this->activation_code);
             $stmt->execute();
@@ -215,14 +215,14 @@ class TeacherModel extends User {
         
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $this->teacher_id = $row['student_id'];
+                $this->teacher_id = $row['teacher_id'];
                 $this->name = $row['name'];
                 $this->surname = $row['surname'];
                 $this->email = $row['email'];
                 $this->enabled = $row['enabled'];
                 return 1;
             }
-        } 
+        }
         return 0;
     }
 }

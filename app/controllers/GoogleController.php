@@ -77,7 +77,7 @@ class GoogleController {
         $this->teacherModel->setEmail($data->email);
 
         if (!$this->teacherModel->checkMail()) {
-            $this->teacherModel->setId(uniqid('st_'));
+            $this->teacherModel->setId(uniqid('tc_'));
             $this->teacherModel->setName(explode(' ', $data->name)[0]);
             $this->teacherModel->setSurname(explode(' ', $data->name)[1]); 
             $this->teacherModel->setPassword('');
@@ -92,7 +92,7 @@ class GoogleController {
 
             $this->teacherModel->addTeacherWithGoogle();
         } else {
-            $this->teacherModel->getTeacherByEmailWithGoogle();
+            echo $this->teacherModel->getTeacherByEmailWithGoogle();
             $headers = array('alg' => 'HS256', 'typ' => 'JWT');
             $payload = array('id' => $this->teacherModel->getId(), 'name' => $this->teacherModel->getName(), 'surname' => '', 'email' => $this->teacherModel->getEmail());
             $jwt = Jwt::createToken($headers, $payload);
@@ -102,11 +102,7 @@ class GoogleController {
 
         // echo $jwt;
         
-        if ($this->type == 1) {
-            echo '<script>window.location.href="student"</script>';
-        } else {
-            echo '<script>window.location.href="teacher"</script>';
-        }
+        echo '<script>window.location.href="teacher"</script>';
     }
 
     public function getUrl(): string {
