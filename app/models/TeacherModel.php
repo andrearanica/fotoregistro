@@ -8,15 +8,32 @@ use App\core\User;
 class TeacherModel extends User {
     private $teacher_id;
 
-    public function getId () {
+    /**
+     * Returns the teacher_id of a teacher
+     * 
+     * @return string
+     */
+    public function getId (): string {
         return $this->teacher_id;
     }
-
+    
+    /**
+     * Sets the teacher_id of a teacher
+     * 
+     * @param string $id
+     * @return void
+     */
     public function setId ($id) {
         $this->teacher_id = $id;
     }
 
-    public function updateInfo ($name, $surname) {
+    /**
+     * Updates a teacher's name and surname on the database
+     * 
+     * @param string $name, $surname
+     * @return bool
+     */
+    public function updateInfo ($name, $surname): bool {
         $this->connection->begin_transaction();
         try {
             $query = "UPDATE teachers SET name=?, surname=? WHERE email=?;";
@@ -31,6 +48,11 @@ class TeacherModel extends User {
         }
     }
 
+    /**
+     * Changes the password of a teacher
+     * 
+     * @return bool
+     */
     public function editPassword (): bool {
         $this->connection->begin_transaction();
         try {
@@ -46,6 +68,11 @@ class TeacherModel extends User {
         }
     }
 
+    /**
+     * Inserts a new teacher on the DataBase
+     * 
+     * @return bool
+     */
     public function AddTeacher (): bool {
         $this->connection->begin_transaction();
         try {
@@ -61,6 +88,11 @@ class TeacherModel extends User {
         }
     }
 
+    /**
+     * Inserts a new teacher using Google Auth
+     * 
+     * @return bool
+     */
     public function AddTeacherWithGoogle (): bool {
         $this->connection->begin_transaction();
         try {
@@ -78,6 +110,11 @@ class TeacherModel extends User {
         }
     }
 
+    /**
+     * Sets info after checking if teacher's credentials are right
+     * 
+     * @return bool
+     */
     public function GetTeacherByEmailAndPassword (): bool {
         $query = "SELECT * FROM teachers WHERE email=?;";
         $stmt = $this->connection->prepare($query);
@@ -102,7 +139,12 @@ class TeacherModel extends User {
         return 0;
     }
 
-    public function getTeacherById () {
+    /**
+     * Returns teacher's info by teacher_id
+     * 
+     * @return array
+     */
+    public function getTeacherById (): array {
         $this->connection->begin_transaction();
         try {
             $query = "SELECT * FROM teachers WHERE teacher_id=?;";
@@ -127,6 +169,11 @@ class TeacherModel extends User {
         }
     }
 
+    /**
+     * Sets the enabled field on true
+     * 
+     * @return bool
+     */
     public function enableAccount () {
         $this->connection->begin_transaction();
         try {
@@ -142,6 +189,12 @@ class TeacherModel extends User {
         }
     }
 
+    /**
+     * Adds a classroom to a teacher
+     * 
+     * @param string $class_id
+     * @return bool
+     */
     public function subscribeToClass ($class_id): bool {
         $this->connection->begin_transaction();
         try {
@@ -157,6 +210,12 @@ class TeacherModel extends User {
         }
     }
 
+    /**
+     * Adds a classroom to a teacher
+     * 
+     * @param string $class_id
+     * @return bool
+     */
     public function unsubscribeFromClass ($class_id): bool {
         $this->connection->begin_transaction();
         try {
@@ -172,6 +231,11 @@ class TeacherModel extends User {
         }
     }
 
+    /**
+     * Returns all the teacher's classes
+     * 
+     * @return array
+     */
     public function getClasses (): array {
         $this->connection->begin_transaction();
         try {
@@ -194,6 +258,11 @@ class TeacherModel extends User {
         }
     }
 
+    /**
+     * Check if the email is already used with Google Auth
+     * 
+     * @return bool
+     */
     public function checkMail () {
         $query = "SELECT * FROM teachers WHERE email=? AND google=1;";
         $stmt = $this->connection->prepare($query);
@@ -206,6 +275,11 @@ class TeacherModel extends User {
         }
     }
 
+    /**
+     * Get teacher info with Google Auth setting his info inside the model
+     * 
+     * @return bool
+     */
     public function getTeacherByEmailWithGoogle () {
         $query = "SELECT * FROM teachers WHERE email=? AND google=1;";
         $stmt = $this->connection->prepare($query);

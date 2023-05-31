@@ -11,38 +11,83 @@ class StudentModel extends User {
     private $photo_type;
     private $class_id;
 
+    /**
+     * Returns the student_id of the student
+     * 
+     * @return string
+     */
     public function getId () {
         return $this->student_id;
     }
 
+    /**
+     * Returns if the student has uploaded his photo
+     * 
+     * @return bool
+     */
     public function getPhoto () {
         return $this->photo;
     }
 
+    /**
+     * Get the type of file of the student's image
+     * 
+     * @return string
+     */
     public function getPhotoType () {
         return $this->photo_type;
     }
 
+    /**
+     * Get the class_id of the student
+     * 
+     * @return string
+     */
     public function getClassId () {
         return $this->class_id;
     }
 
+    /**
+     * Sets the student_id of the student
+     * 
+     * @return void
+     */
     public function setId ($id) {
         $this->student_id = $id;
     }
 
+    /**
+     * Sets if the student has uploaded his photo
+     * 
+     * @return void
+     */
     public function setPhoto ($photo) {
         $this->photo = $photo;
     }
 
+    /**
+     * Sets the student's photo type
+     * 
+     * @return void
+     */
     public function setPhotoType ($photo_type) {
         $this->photo_type = $photo_type;
     }
 
+    /**
+     * Sets the class_id of the student
+     * 
+     * @return void
+     */
     public function setClassId ($class_id) {
         $this->class_id = $class_id;
     } 
 
+    /**
+     * Updates the student's info (name and surname)
+     * 
+     * @return bool
+     */
     public function updateInfo ($name, $surname): bool {
         $this->connection->begin_transaction();
         try {
@@ -58,6 +103,11 @@ class StudentModel extends User {
         
     }
 
+    /**
+     * Edits the student's password
+     * 
+     * @return bool
+     */
     public function editPassword (): bool {
         $this->connection->begin_transaction();
         try {
@@ -73,6 +123,11 @@ class StudentModel extends User {
         }
     }
 
+    /**
+     * Inserts a new student in the DataBase
+     * 
+     * @return bool
+     */
     public function AddStudent (): bool {
         $this->connection->begin_transaction();
         try {
@@ -90,6 +145,11 @@ class StudentModel extends User {
         }
     }
 
+    /**
+     * Inserts a new student using Google Auth
+     * 
+     * @return bool
+     */
     public function AddStudentWithGoogle (): bool {
         $this->connection->begin_transaction();
         try {
@@ -107,6 +167,11 @@ class StudentModel extends User {
         }
     }
 
+    /**
+     * Sets model's params by email and password
+     * 
+     * @return bool
+     */
     public function GetStudentByEmailAndPassword (): bool {
         $query = "SELECT * FROM students WHERE email=? AND google=0;";
         $stmt = $this->connection->prepare($query);
@@ -131,6 +196,11 @@ class StudentModel extends User {
         return 0;
     }
 
+    /**
+     * Subscribes the student to a class_id
+     * 
+     * @return bool
+     */
     public function subscribeToClass ($class_id): int {
         $this->connection->begin_transaction();
         try {
@@ -154,6 +224,11 @@ class StudentModel extends User {
         }
     }
 
+    /**
+     * Unsubscribe a student from a class
+     * 
+     * @return bool
+     */
     public function unsubscribeFromClass (): bool {
         $this->connection->begin_transaction();
         try {
@@ -169,6 +244,11 @@ class StudentModel extends User {
         }
     }
 
+    /**
+     * Updates student's photo
+     * 
+     * @return bool
+     */
     public function uploadPhoto () {
         $this->connection->begin_transaction();
         try {
@@ -184,6 +264,11 @@ class StudentModel extends User {
         }
     }
 
+    /**
+     * Remove student's photo
+     * 
+     * @return bool
+     */
     public function removePhoto (): bool {
         $this->connection->begin_transaction();
         try {
@@ -200,6 +285,11 @@ class StudentModel extends User {
         
     }
 
+    /**
+     * Enables a student
+     * 
+     * @return bool
+     */
     public function enableAccount (): bool {
         $this->connection->begin_transaction();
         try {
@@ -214,6 +304,11 @@ class StudentModel extends User {
         }
     }
 
+    /**
+     * Sets model's attributes by student_id
+     * 
+     * @return array
+     */
     public function getStudentById (): array {
         $this->connection->begin_transaction();
         try {

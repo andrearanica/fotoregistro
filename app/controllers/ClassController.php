@@ -13,7 +13,12 @@ class ClassController {
         $this->classModel = new ClassModel();
     }
 
-    public function newClass () {
+    /**
+     * Inserts a new class on the database
+     * 
+     * @return void
+     */
+    public function newClass (): void {
         $headers = getallheaders();
         $token = explode(' ', $headers['Authorization'])[1];
         if (!Jwt::checkToken($token)) {
