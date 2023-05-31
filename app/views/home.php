@@ -2,7 +2,8 @@
 
 use App\controllers\GoogleController;
 
-$googleController = new GoogleController();
+$googleControllerStudent = new GoogleController(1);
+$googleControllerTeacher = new GoogleController(2);
 
 ?>
 <html>
@@ -17,17 +18,18 @@ $googleController = new GoogleController();
 	<body>
 		<div class='container my-5 text-center'>
 			<h1>Fotoregistro</h1>
-			<div class='row'>
+			<div class='row'>	
 				<div class='col my-5 text-center homePanel mx-5' id='studentDiv'>
 					<p class='panelTitle'>Sei uno studente? 📚</p><br />
 					<button id='loginButtonStudent' class='btn' data-bs-target='#loginModalStudent' data-bs-toggle='modal'>Login</button><br />
 					<button id='signupButtonStudent' class='btn' data-bs-target='#signupModalStudent' data-bs-toggle='modal'>Registrati</button><br />
-					<a href=<?=$googleController->getUrl()?>><button class='btn'>Login con Google</button></a>
+					<a href=<?= $googleControllerStudent->getUrl() ?>><button class='btn'>Login con Google</button></a>
 				</div>
 				<div class='col my-5 text-center homePanel mx-5' id='teacherDiv'>
 					<p class='panelTitle'>Sei un insegnante? 🧑‍🏫</p><br />
 					<button id='loginButtonTeacher' class='btn' data-bs-target='#loginModalTeacher' data-bs-toggle='modal'>Login</button><br />
-					<button id='signupButtonTeacher' class='btn' data-bs-target='#signupModalTeacher' data-bs-toggle='modal'>Registrati</button>
+					<button id='signupButtonTeacher' class='btn' data-bs-target='#signupModalTeacher' data-bs-toggle='modal'>Registrati</button><br />	
+					<a href=<?= $googleControllerTeacher->getUrl() ?>><button class='btn'>Login con Google</button></a>
 				</div>
 			</div>
 			<div id='loginModalStudent' class='modal fade' aria-hidden='true' aira-labelledby='loginModal'>

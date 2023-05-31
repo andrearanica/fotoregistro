@@ -3,71 +3,17 @@
 namespace App\models;
 
 use mysqli_sql_exception;
-use App\core\Model;
+use App\core\User;
 
-class TeacherModel extends Model {
+class TeacherModel extends User {
     private $teacher_id;
-    private $name;
-    private $surname;
-    private $email;
-    private $password;
-    private $enabled;
-    private $activation_code;
 
     public function getId () {
         return $this->teacher_id;
     }
 
-    public function getName () {
-        return $this->name;
-    }
-
-    public function getSurname () {
-        return $this->surname;
-    }
-
-    public function getEmail () {
-        return $this->email;
-    }
-
-    public function getPassword () {
-        return $this->password;
-    }
-
-    public function getEnabled () {
-        return $this->enabled;
-    }
-
-    public function getActivationCode () {
-        return $this->activation_code;
-    }
-
     public function setId ($id) {
         $this->teacher_id = $id;
-    }
-
-    public function setName ($name) {
-        $this->name = $name;
-    }
-
-    public function setSurname ($surname) {
-        $this->surname = $surname;
-    }
-
-    public function setEmail ($email) {
-        $this->email = $email;
-    }
-
-    public function setPassword ($password) {
-        $this->password = $password;
-    }
-
-    public function setEnabled ($enabled) {
-        $this->enabled = $enabled;
-    }
-
-    public function setActivationCode ($activation_code) {
-        $this->activation_code = $activation_code;
     }
 
     public function updateInfo ($name, $surname) {
@@ -104,6 +50,23 @@ class TeacherModel extends Model {
         $this->connection->begin_transaction();
         try {
             $query = "INSERT INTO teachers (teacher_id, name, surname, email, password, activation_code) VALUES (?, ?, ?, ?, ?, ?);";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param('ssssss', $this->teacher_id, $this->name, $this->surname, $this->email, $this->password, $this->activation_code);
+            $stmt->execute();
+            $this->connection->commit();
+            return 1;
+        } catch (mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            return 0;
+        }
+    }
+
+    public function AddTeacherWithGoogle (): bool {
+        $this->connection->begin_transaction();
+        try {
+            $id = uniqid('st_');
+            $password = password_hash($this->password, PASSWORD_BCRYPT);
+            $query = "INSERT INTO teachers (teacher_id, name, surname, email, password, activation_code, google) VALUES (?, ?, ?, ?, ?, ?, 1);";
             $stmt = $this->connection->prepare($query);
             $stmt->bind_param('ssssss', $this->teacher_id, $this->name, $this->surname, $this->email, $this->password, $this->activation_code);
             $stmt->execute();
@@ -229,6 +192,38 @@ class TeacherModel extends Model {
             $this->connection->rollback();
             return array();
         }
+    }
+
+    public function checkMail () {
+        $query = "SELECT * FROM teachers WHERE email=? AND google=1;";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('s', $this->email);
+        $stmt->execute();
+        if ($stmt->get_result()->num_rows > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function getTeacherByEmailWithGoogle () {
+        $query = "SELECT * FROM teachers WHERE email=? AND google=1;";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('s', $this->email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $this->teacher_id = $row['student_id'];
+                $this->name = $row['name'];
+                $this->surname = $row['surname'];
+                $this->email = $row['email'];
+                $this->enabled = $row['enabled'];
+                return 1;
+            }
+        } 
+        return 0;
     }
 }
 

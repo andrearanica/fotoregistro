@@ -2,31 +2,17 @@
 
 namespace App\models;
 
+use App\core\User;
 use mysqli_sql_exception;
-use App\core\Model;
 
-class StudentModel extends Model {
+class StudentModel extends User {
     private $student_id;
-    private $name;
-    private $surname;
     private $photo;    
     private $photo_type;
     private $class_id;
-    private $email;
-    private $password;
-    private $enabled;
-    private $activation_code;
 
     public function getId () {
         return $this->student_id;
-    }
-
-    public function getName () {
-        return $this->name;
-    }
-
-    public function getSurname () {
-        return $this->surname;
     }
 
     public function getPhoto () {
@@ -41,32 +27,8 @@ class StudentModel extends Model {
         return $this->class_id;
     }
 
-    public function getEmail () {
-        return $this->email;
-    }
-
-    public function getPassword () {
-        return $this->password;
-    }
-
-    public function getEnabled () {
-        return $this->enabled;
-    }
-
-    public function getActivationCode () {
-        return $this->activation_code;
-    }
-
     public function setId ($id) {
         $this->student_id = $id;
-    }
-
-    public function setName ($name) {
-        $this->name = $name;
-    }
-
-    public function setSurname ($surname) {
-        $this->surname = $surname;
     }
 
     public function setPhoto ($photo) {
@@ -80,22 +42,6 @@ class StudentModel extends Model {
     public function setClassId ($class_id) {
         $this->class_id = $class_id;
     } 
-
-    public function setEmail ($email) {
-        $this->email = $email;
-    }
-
-    public function setPassword ($password) {
-        $this->password = $password;
-    }
-
-    public function setEnabled ($enabled) {
-        $this->enabled = $enabled;
-    }
-
-    public function setActivationCode ($activation_code) {
-        $this->activation_code = $activation_code;
-    }
 
     public function updateInfo ($name, $surname): bool {
         $this->connection->begin_transaction();

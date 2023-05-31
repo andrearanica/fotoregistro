@@ -22,7 +22,8 @@ $ajaxController    = new AjaxController();
 $studentController = new StudentController();
 $teacherController = new TeacherController();
 $classController   = new ClassController();
-$googleController  = new GoogleController();
+$googleControllerStudent = new GoogleController(1);
+$googleControllerTeacher = new GoogleController(2);
 
 switch ($request) {
     case '':
@@ -150,7 +151,10 @@ switch ($request) {
         }
         break;
     case 'google-student':
-        $googleController->handleLoginStudent();
+        $googleControllerStudent->handleLoginStudent();
+        break;
+    case 'google-teacher':
+        $googleControllerTeacher->handleLoginTeacher();
         break;
     default: 
         $siteController->NotFound();
