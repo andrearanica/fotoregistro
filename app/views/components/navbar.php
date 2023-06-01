@@ -22,6 +22,6 @@
 <script>
 document.getElementById('logout').addEventListener('click', () => {
     window.localStorage.setItem('token', '')
-    window.location.href = '../public'
+    window.location.href = '../public/login'
 })
 </script>
