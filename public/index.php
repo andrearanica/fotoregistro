@@ -18,7 +18,6 @@ $dotenv->load();
 $request = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_SPECIAL_CHARS);
 
 $siteController    = new SiteController();
-$ajaxController    = new AjaxController();
 $studentController = new StudentController();
 $teacherController = new TeacherController();
 $classController   = new ClassController();
@@ -37,9 +36,6 @@ switch ($request) {
         break;
     case 'teacher':
         $siteController->TeacherDashboard();
-        break;
-    case 'ajax':
-        $ajaxController->HandleRequest();
         break;
     case 'info-from-jwt-student':
         $studentController->getInfoFromJwt();
