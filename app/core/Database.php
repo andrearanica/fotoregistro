@@ -7,7 +7,7 @@ use mysqli;
 class Database {
     protected static mysqli $connectionIstance;
     
-    public function __construct () {
+    private function __construct () {
         self::$connectionIstance = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
     }
 
