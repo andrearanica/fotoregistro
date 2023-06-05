@@ -2,15 +2,15 @@
 
 ini_set('display_errors', 1);
 
-require_once '../vendor/autoload.php';
 use Dotenv\Dotenv;
-use App\utilities\Jwt;
-use App\controllers\AjaxController;
-use App\controllers\SiteController;
-use App\controllers\ClassController;
-use App\controllers\GoogleController;
-use App\controllers\StudentController;
-use App\controllers\TeacherController;
+use App\Utilities\Jwt;
+use App\Controllers\SiteController;
+use App\Controllers\ClassController;
+use App\Controllers\GoogleController;
+use App\Controllers\StudentController;
+use App\Controllers\TeacherController;
+
+require_once '../vendor/autoload.php';
 
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();

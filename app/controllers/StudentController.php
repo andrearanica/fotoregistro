@@ -1,10 +1,10 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
 
-use App\utilities\Jwt;
-use App\models\StudentModel;
+use App\Utilities\Jwt;
+use App\Models\StudentModel;
 
 ini_set('display_errors', 1);
 
@@ -83,7 +83,7 @@ class StudentController {
         $this->studentModel->setEmail($email);
         $this->studentModel->setPassword($password);
         $this->studentModel->setActivationCode(uniqid());
-        $result = $this->studentModel->AddStudent();
+        $result = $this->studentModel->addStudent();
 
         $activation_code = $this->studentModel->getActivationCode();
 
@@ -111,7 +111,7 @@ class StudentController {
         $this->studentModel->setEmail($email);
         $this->studentModel->setPassword($password);
 
-        if ($this->studentModel->GetStudentByEmailAndPassword()) {
+        if ($this->studentModel->getStudentByEmailAndPassword()) {
             if ($this->studentModel->getEnabled()) {
                 $headers = array('alg' => 'HS256', 'typ' => 'JWT');
                 $payload = array('id' => $this->studentModel->getId(), 'name' => $this->studentModel->getName(), 'surname' => $this->studentModel->getSurname(), 'email' => $this->studentModel->getEmail(), 'photo' => $this->studentModel->getPhoto(), 'class_id' => $this->studentModel->getClassId());

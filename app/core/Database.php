@@ -13,7 +13,7 @@ class Database {
 
     public static function getConnection(): mysqli {
         if (!isset(self::$connectionIstance)) {
-            new Database;
+            new Self;
         }
         return self::$connectionIstance;
     }

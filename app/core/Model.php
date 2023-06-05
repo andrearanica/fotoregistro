@@ -1,6 +1,6 @@
 <?php
 
-namespace App\core;
+namespace App\Core;
 
 class Model {
     protected \mysqli $connection;

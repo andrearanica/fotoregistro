@@ -1,9 +1,9 @@
 <?php
 
-namespace App\models;
+namespace App\Models;
 
 use mysqli_sql_exception;
-use App\core\User;
+use App\Core\User;
 
 class TeacherModel extends User {
     private $teacher_id;
@@ -73,7 +73,7 @@ class TeacherModel extends User {
      * 
      * @return bool
      */
-    public function AddTeacher (): bool {
+    public function addTeacher (): bool {
         $this->connection->begin_transaction();
         try {
             $query = "INSERT INTO teachers (teacher_id, name, surname, email, password, activation_code) VALUES (?, ?, ?, ?, ?, ?);";
@@ -93,7 +93,7 @@ class TeacherModel extends User {
      * 
      * @return bool
      */
-    public function AddTeacherWithGoogle (): bool {
+    public function addTeacherWithGoogle (): bool {
         $this->connection->begin_transaction();
         try {
             $id = uniqid('tc_');
@@ -115,7 +115,7 @@ class TeacherModel extends User {
      * 
      * @return bool
      */
-    public function GetTeacherByEmailAndPassword (): bool {
+    public function getTeacherByEmailAndPassword (): bool {
         $query = "SELECT * FROM teachers WHERE email=?;";
         $stmt = $this->connection->prepare($query);
         $stmt->bind_param('s', $this->email);

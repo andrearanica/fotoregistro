@@ -1,9 +1,9 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
-use App\models\TeacherModel;
-use App\utilities\Jwt;
+use App\Models\TeacherModel;
+use App\Utilities\Jwt;
 
 ini_set('display_errors', 1);
 
@@ -84,7 +84,7 @@ class TeacherController {
         $this->teacherModel->setEmail($email);
         $this->teacherModel->setPassword($password);
         $this->teacherModel->setActivationCode(uniqid());
-        $result = $this->teacherModel->AddTeacher();
+        $result = $this->teacherModel->addTeacher();
         $activation_code = $this->teacherModel->getActivationCode();
 
         $headers = "MIME-Version: 1.0" . "\r\n"; 
@@ -111,7 +111,7 @@ class TeacherController {
         $this->teacherModel->setEmail($email);
         $this->teacherModel->setPassword($password);
 
-        if ($this->teacherModel->GetTeacherByEmailAndPassword()) {
+        if ($this->teacherModel->getTeacherByEmailAndPassword()) {
             if ($this->teacherModel->getEnabled()) {
                 $headers = array('alg' => 'HS256', 'typ' => 'JWT');
                 $payload = array('id' => $this->teacherModel->getId(), 'name' => $this->teacherModel->getName(), 'surname' => $this->teacherModel->getSurname(), 'email' => $this->teacherModel->getEmail());

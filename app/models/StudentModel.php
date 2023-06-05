@@ -1,8 +1,8 @@
 <?php
 
-namespace App\models;
+namespace App\Models;
 
-use App\core\User;
+use App\Core\User;
 use mysqli_sql_exception;
 
 class StudentModel extends User {
@@ -128,7 +128,7 @@ class StudentModel extends User {
      * 
      * @return bool
      */
-    public function AddStudent (): bool {
+    public function addStudent (): bool {
         $this->connection->begin_transaction();
         try {
             $id = uniqid('st_');
@@ -150,7 +150,7 @@ class StudentModel extends User {
      * 
      * @return bool
      */
-    public function AddStudentWithGoogle (): bool {
+    public function addStudentWithGoogle (): bool {
         $this->connection->begin_transaction();
         try {
             $id = uniqid('st_');
@@ -172,7 +172,7 @@ class StudentModel extends User {
      * 
      * @return bool
      */
-    public function GetStudentByEmailAndPassword (): bool {
+    public function getStudentByEmailAndPassword (): bool {
         $query = "SELECT * FROM students WHERE email=? AND google=0;";
         $stmt = $this->connection->prepare($query);
         $stmt->bind_param('s', $this->email);

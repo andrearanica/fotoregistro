@@ -1,10 +1,9 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
-use App\models\ClassModel;
-use App\utilities\Jwt;
-use App\utilities\Pdf;
+use App\Models\ClassModel;
+use App\Utilities\Jwt;
 
 class ClassController {
     private $classModel;

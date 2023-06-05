@@ -1,6 +1,6 @@
 <?php
 
-namespace App\utilities;
+namespace App\Utilities;
 
 class Jwt {
     public static function base64url_encode ($str) {

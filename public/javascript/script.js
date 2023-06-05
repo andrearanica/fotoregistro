@@ -16,7 +16,7 @@ loginFormStudent.addEventListener('submit', (event) => {
             password: document.getElementById('loginPasswordStudent').value
         },
         success: (data) => {
-            console.log(data)
+            // console.log(data)
             if (data.message == 'user not enabled') {
                 document.getElementById('loginAlertStudent').className = 'alert alert-warning text-center'
                 document.getElementById('loginAlertStudent').innerHTML = '<b>Devi abilitare l\'account</b> seguendo la mail che ti è stata inviata'

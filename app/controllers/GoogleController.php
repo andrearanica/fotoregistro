@@ -1,11 +1,11 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
 use Google;
-use App\utilities\Jwt;
-use App\models\StudentModel;
-use App\models\TeacherModel;
+use App\Utilities\Jwt;
+use App\Models\StudentModel;
+use App\Models\TeacherModel;
 
 class GoogleController {
     private Google\client $googleClient;

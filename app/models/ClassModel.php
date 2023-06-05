@@ -1,9 +1,9 @@
 <?php
 
-namespace App\models;
+namespace App\Models;
 
 use mysqli_sql_exception;
-use App\core\Model;
+use App\Core\Model;
 
 class ClassModel extends Model {
 
