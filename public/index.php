@@ -3,6 +3,7 @@
 ini_set('display_errors', 1);
 
 use Dotenv\Dotenv;
+use App\Core\Application;
 use App\Utilities\Jwt;
 use App\Controllers\SiteController;
 use App\Controllers\ClassController;
@@ -12,17 +13,31 @@ use App\Controllers\TeacherController;
 
 require_once '../vendor/autoload.php';
 
-$dotenv = Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
-
-$request = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_SPECIAL_CHARS);
-
-$siteController    = new SiteController();
+/* $siteController    = new SiteController();
 $studentController = new StudentController();
 $teacherController = new TeacherController();
 $classController   = new ClassController();
 $googleControllerStudent = new GoogleController(1);
-$googleControllerTeacher = new GoogleController(2);
+$googleControllerTeacher = new GoogleController(2); */
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
+$app = new Application();
+
+$app->router->get('/', function () {
+    echo 'Home';
+});
+
+$app->router->get('/student', 'student');
+
+$app->run();
+
+/*require_once '../vendor/autoload.php';
+
+
+
+$request = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_SPECIAL_CHARS);
 
 switch ($request) {
     case '':
@@ -154,6 +169,6 @@ switch ($request) {
         break;
     default: 
         $siteController->NotFound();
-}
+}*/
 
 ?>

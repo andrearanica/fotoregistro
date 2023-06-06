@@ -23,13 +23,13 @@ $googleControllerTeacher = new GoogleController(2);
 					<p class='panelTitle'>Sei uno studente? 📚</p><br />
 					<button id='loginButtonStudent' class='btn' data-bs-target='#loginModalStudent' data-bs-toggle='modal'>Login</button><br />
 					<button id='signupButtonStudent' class='btn' data-bs-target='#signupModalStudent' data-bs-toggle='modal'>Registrati</button><br />
-					<a href=<?= $googleControllerStudent->getUrl() ?>><button class='btn'>Login con Google</button></a>
+					<a class='btn btn-lg btn-google btn-block btn-outline' href=<?= $googleControllerStudent->getUrl() ?>><img src='https://img.icons8.com/color/16/000000/google-logo.png'><button class='btn'>Continua con Google</button></a>
 				</div>
 				<div class='col my-5 text-center homePanel mx-5' id='teacherDiv'>
 					<p class='panelTitle'>Sei un insegnante? 🧑‍🏫</p><br />
 					<button id='loginButtonTeacher' class='btn' data-bs-target='#loginModalTeacher' data-bs-toggle='modal'>Login</button><br />
 					<button id='signupButtonTeacher' class='btn' data-bs-target='#signupModalTeacher' data-bs-toggle='modal'>Registrati</button><br />	
-					<a href=<?= $googleControllerTeacher->getUrl() ?>><button class='btn'>Login con Google</button></a>
+					<a class='btn btn-lg btn-google btn-block btn-outline' href=<?= $googleControllerTeacher->getUrl() ?>><img src='https://img.icons8.com/color/16/000000/google-logo.png'><button class='btn'>Continua con Google</button></a>
 				</div>
 			</div>
 			<div id='loginModalStudent' class='modal fade' aria-hidden='true' aira-labelledby='loginModal'>
@@ -127,5 +127,6 @@ $googleControllerTeacher = new GoogleController(2);
 		<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js' integrity='sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN' crossorigin='anonymous'></script>
 		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js'></script>
 		<script src='./javascript/script.js'></script>
+		<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 	</body>
 </html>
